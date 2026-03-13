@@ -1,73 +1,228 @@
-# React + TypeScript + Vite
+Insipired by: [text](https://ddaniel.dev/#projects)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Navbar
+↓
+Hero
+↓
+About
+↓
+Featured Projects
+↓
+Experience
+↓
+Skills
+↓
+Contact
+↓
+Footer
 
-Currently, two official plugins are available:
+# Portfolio
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Navbar
 
-## React Compiler
+- Logo / Name
+- Navigation Links
+  - Home
+  - Projects
+  - Experience
+  - Skills
+  - Contact
+- Resume Button
+- Mobile Menu
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Hero Section
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Layout
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Large heading
+- Short subtitle
+- Primary call-to-action buttons
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Optional Elements
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Social links
+- Background animation
+- Profile illustration / avatar
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### UI Elements
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Heading
+- Subtitle
+- CTA Buttons
+- Background component
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+## About Section
+
+### Layout
+
+- Section heading
+- Short description block
+- Optional highlight items
+
+### Optional Elements
+
+- Education summary
+- Quick stats
+- Interests
+
+### UI Elements
+
+- Text block
+- Feature cards or bullet highlights
+
+---
+
+## Featured Projects Section
+
+### Layout
+
+- Section heading
+- Grid of project cards
+
+### Project Card Structure
+
+- Project title
+- Short description
+- Technology tags
+- Action buttons
+
+### Optional Features
+
+- Hover animation
+- Expandable project details
+- Project filtering
+
+### UI Elements
+
+- Card grid
+- Technology tag badges
+- Links
+
+---
+
+## Project Detail Pages (Optional)
+
+### Layout
+
+- Project title
+- Overview
+- Problem description
+- Solution explanation
+- Architecture section
+- Technology stack
+- Challenges / lessons learned
+- Repository / demo links
+
+### UI Elements
+
+- Section blocks
+- Code snippets
+- Architecture diagrams
+- Screenshots
+
+---
+
+## Experience Section
+
+### Layout
+
+- Section heading
+- Vertical timeline or stacked cards
+
+### Experience Item Structure
+
+- Role title
+- Organization
+- Duration
+- Key points
+
+### UI Elements
+
+- Timeline component
+- Experience cards
+
+---
+
+## Skills Section
+
+### Layout
+
+- Section heading
+- Categorized skill groups
+
+### Skill Category Structure
+
+- Category title
+- Skill list or icons
+
+### Optional Features
+
+- Icon grid
+- Skill tags
+- Hover animations
+
+### UI Elements
+
+- Skill cards
+- Icon grid
+- Tag components
+
+---
+
+## Optional Blog / Writing Section
+
+### Layout
+
+- Section heading
+- Article cards
+
+### Article Card Structure
+
+- Title
+- Summary
+- Date
+- Link
+
+---
+
+## Contact Section
+
+### Layout
+
+- Section heading
+- Contact description
+- Action buttons or form
+
+### Optional Elements
+
+- Contact form
+- Social links
+- Email link
+
+### UI Elements
+
+- Form inputs
+- Buttons
+- Link list
+
+---
+
+## Footer
+
+### Layout
+
+- Name or logo
+- Navigation links
+- Social links
+- Copyright
+
+### UI Elements
+
+- Link group
+- Social icons
+
+
