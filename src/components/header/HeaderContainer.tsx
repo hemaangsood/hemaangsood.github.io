@@ -1,4 +1,9 @@
-import type { ContainerPropsElement } from "./types";
+interface ContainerPropsElement {
+	side?: "left" | "right";
+	children: React.ReactNode;
+	onClick?: () => void;
+	style?: React.CSSProperties;
+};
 
 interface HeaderContainerProps {
 	items?: ContainerPropsElement[];
@@ -7,19 +12,20 @@ interface HeaderContainerProps {
 }
 
 export const HeaderContainerItem = ({
-	title,
+	children,
 	onClick,
 	style,
 }: ContainerPropsElement) => {
 	return (
 		<div
+			className="mt-1 pb-1"
 			onClick={onClick}
 			style={{
 				cursor: onClick ? "pointer" : "default",
 				...style,
 			}}
 		>
-			{title}
+			{children}
 		</div>
 	);
 };
@@ -35,7 +41,7 @@ const HeaderContainer = ({ items, side, style }: HeaderContainerProps) => {
 	};
 	return (
 		<>
-			<div className="m-auto" style={containerStyle}>
+			<div className="m-auto rounded-xl px-2" style={containerStyle}>
 				{items?.map((item, index) => (
 					<HeaderContainerItem key={index} {...item} />
 				))}
