@@ -8,6 +8,7 @@ export default function SkillsSection() {
 				opacity: "50%",
 				backgroundBlendMode: "color-burn",
 			}}
+			id="skills"
 		>
 			<div className="absolute top-0 left-0 w-full h-full">
 				<Dither

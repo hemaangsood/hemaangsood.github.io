@@ -8,6 +8,7 @@ export default function ExperienceSection() {
 				opacity: "50%",
 				backgroundBlendMode: "color-burn",
 			}}
+			id="experience"
 		>
 			<div className="absolute top-0 left-0 w-full h-full">
 				<DarkVeil

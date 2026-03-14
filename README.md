@@ -1,4 +1,4 @@
-Insipired by: [text](https://ddaniel.dev/#projects)
+Inspired by: https://ddaniel.dev/#projects
 
 Navbar
 ↓
@@ -20,9 +20,12 @@ Footer
 
 ## Navbar
 
+### Layout
+
 - Logo / Name
 - Navigation Links
   - Home
+  - About
   - Projects
   - Experience
   - Skills
@@ -30,19 +33,27 @@ Footer
 - Resume Button
 - Mobile Menu
 
+### UI Elements
+
+- Logo / Brand name
+- Navigation link group
+- Resume button (primary action)
+- Mobile hamburger menu
+- Sticky navbar
+
 ---
 
 ## Hero Section
 
 ### Layout
 
-- Large heading
-- Short subtitle
+- Large heading introducing who you are
+- Short technical subtitle
 - Primary call-to-action buttons
 
 ### Optional Elements
 
-- Social links
+- Social links (GitHub, LinkedIn, Email)
 - Background animation
 - Profile illustration / avatar
 
@@ -50,8 +61,9 @@ Footer
 
 - Heading
 - Subtitle
-- CTA Buttons
-- Background component
+- CTA buttons
+- Social icon links
+- Background animation component
 
 ---
 
@@ -72,7 +84,8 @@ Footer
 ### UI Elements
 
 - Text block
-- Feature cards or bullet highlights
+- Feature cards or highlight bullets
+- Small stat components
 
 ---
 
@@ -88,7 +101,7 @@ Footer
 - Project title
 - Short description
 - Technology tags
-- Action buttons
+- Action buttons (GitHub / Demo)
 
 ### Optional Features
 
@@ -100,7 +113,8 @@ Footer
 
 - Card grid
 - Technology tag badges
-- Links
+- Project links
+- Hover interaction
 
 ---
 
@@ -123,6 +137,7 @@ Footer
 - Code snippets
 - Architecture diagrams
 - Screenshots
+- Link buttons
 
 ---
 
@@ -131,7 +146,7 @@ Footer
 ### Layout
 
 - Section heading
-- Vertical timeline or stacked cards
+- Vertical timeline or stacked experience cards
 
 ### Experience Item Structure
 
@@ -144,6 +159,7 @@ Footer
 
 - Timeline component
 - Experience cards
+- Organization logo (optional)
 
 ---
 
@@ -187,6 +203,12 @@ Footer
 - Date
 - Link
 
+### UI Elements
+
+- Article cards
+- Tag labels
+- Read more link
+
 ---
 
 ## Contact Section
@@ -207,7 +229,7 @@ Footer
 
 - Form inputs
 - Buttons
-- Link list
+- Social link list
 
 ---
 
@@ -224,5 +246,4 @@ Footer
 
 - Link group
 - Social icons
-
-
+- Copyright text

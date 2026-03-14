@@ -8,6 +8,7 @@ export default function ContactSection() {
 				opacity: "50%",
 				backgroundBlendMode: "color-burn",
 			}}
+			id="contact"
 		>
 			<div className="absolute top-0 left-0 w-full h-full">
 				<Grainient

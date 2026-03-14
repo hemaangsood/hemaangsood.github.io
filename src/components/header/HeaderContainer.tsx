@@ -3,7 +3,7 @@ interface ContainerPropsElement {
 	children: React.ReactNode;
 	onClick?: () => void;
 	style?: React.CSSProperties;
-};
+}
 
 interface HeaderContainerProps {
 	items?: ContainerPropsElement[];
@@ -40,13 +40,14 @@ const HeaderContainer = ({ items, side, style }: HeaderContainerProps) => {
 		...style,
 	};
 	return (
-		<>
-			<div className="m-auto rounded-xl px-2" style={containerStyle}>
-				{items?.map((item, index) => (
-					<HeaderContainerItem key={index} {...item} />
-				))}
-			</div>
-		</>
+		<div
+			className="flex m-auto rounded-xl px-2 align-baseline"
+			style={containerStyle}
+		>
+			{items?.map((item, index) => (
+				<HeaderContainerItem key={index} {...item} />
+			))}
+		</div>
 	);
 };
 

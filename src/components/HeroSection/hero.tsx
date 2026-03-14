@@ -8,6 +8,7 @@ const HeroSection = () => {
 				opacity: "50%",
 				backgroundBlendMode: "color-burn",
 			}}
+			id="hero"
 		>
 			<div className="absolute top-0 left-0 w-full h-full z-10">
 				<LightPillar

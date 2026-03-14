@@ -4,12 +4,11 @@ body {
 }
 
 .rainbow-text {
-	background: linear-gradient(90deg,
+	background: linear-gradient(45deg,
 			red,
 			orange,
 			yellow,
 			green,
-			blue,
 			indigo,
 			violet);
 
