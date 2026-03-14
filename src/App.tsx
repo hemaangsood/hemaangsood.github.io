@@ -4,6 +4,9 @@ import AboutSection from "./components/about/About";
 import Header from "./components/header/header";
 import HeroSection from "./components/HeroSection/Hero";
 import ProjectsSection from "./components/projects/Projects";
+import ExperienceSection from "./components/Experience/Experience";
+import SkillsSection from "./components/Skills/Skills";
+import ContactSection from "./components/Contact/Contact";
 
 function App() {
 	const scrollRef = useRef<HTMLDivElement>(null);
@@ -15,6 +18,9 @@ function App() {
 				<HeroSection />
 				<AboutSection />
 				<ProjectsSection />
+				<ExperienceSection />
+				<SkillsSection />
+				<ContactSection />
 			</main>
 		</>
 	);
