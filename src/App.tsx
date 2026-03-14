@@ -1,20 +1,14 @@
 import "./App.css";
+import AboutSection from "./components/about/About";
 import Header from "./components/header/header";
+import HeroSection from "./components/HeroSection/hero";
 
 function App() {
 	return (
 		<>
 			<Header />
-			<div className="flex w-full h-screen">
-				<div className="m-auto">
-					<h1>Section 1</h1>
-				</div>
-			</div>
-			<div className="flex w-full h-screen">
-				<div className="m-auto">
-					<h1>Section 2</h1>
-				</div>
-			</div>
+			<HeroSection />
+			<AboutSection />
 		</>
 	);
 }
