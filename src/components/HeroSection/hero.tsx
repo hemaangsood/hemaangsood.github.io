@@ -124,7 +124,7 @@ const HeroSection = () => {
 						</div>
 					</div>
 					<div className="w-[40%] h-full" ref={sphereRef}>
-						{sphereRef && <ParticleSphere parentRef={sphereRef} />}
+						<ParticleSphere parentRef={sphereRef} />
 					</div>
 				</div>
 			</div>

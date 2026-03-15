@@ -5,17 +5,21 @@ import * as THREE from "three";
 export default function ParticleSphere({
 	parentRef,
 }: {
-	parentRef: React.RefObject<HTMLDivElement>;
+	parentRef: React.RefObject<HTMLDivElement | null>;
 }): React.JSX.Element {
 	const mountRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		if(!parentRef.current) {
+		if (!parentRef.current) {
 			console.warn("Parent reference is not available for ParticleSphere");
 			return;
 		}
 		const localMountRef = mountRef.current;
 		const localParentRef = parentRef.current;
+		if (!localMountRef) {
+			return;
+		}
+
 		const scene = new THREE.Scene();
 		const camera = new THREE.PerspectiveCamera(
 			75,
@@ -26,21 +30,17 @@ export default function ParticleSphere({
 		);
 		camera.position.z = 4;
 
-		const renderer = new THREE.WebGLRenderer({ antialias: true,
+		const renderer = new THREE.WebGLRenderer({
+			antialias: true,
 			alpha: true,
 			powerPreference: "high-performance",
-			preserveDrawingBuffer: true, // Enable this if you want to capture screenshots
 		});
 		renderer.setClearColor(0x000000, 0);
 		renderer.setSize(
 			localParentRef?.offsetWidth || window.innerWidth,
 			localParentRef?.offsetHeight || window.innerHeight,
 		);
-		if (localMountRef) {
-			localMountRef.appendChild(renderer.domElement);
-		} else {
-			throw new Error("No mount reference available");
-		}
+		localMountRef.appendChild(renderer.domElement);
 
 		// Make sphere geometry
 		const particleCount = 2500;
@@ -86,9 +86,11 @@ export default function ParticleSphere({
 
 		function handleMouseMove(event: MouseEvent) {
 			if (!localParentRef) {
-				console.warn("Parent reference is not available for mouse move handling");
+				console.warn(
+					"Parent reference is not available for mouse move handling",
+				);
 				return;
-			};
+			}
 
 			const rect = localParentRef.getBoundingClientRect();
 
@@ -103,12 +105,13 @@ export default function ParticleSphere({
 		}
 
 		localParentRef.addEventListener("mousemove", handleMouseMove);
-		const clock = new THREE.Clock();
+		const startTime = performance.now();
+		let animationFrameId = 0;
 
 		function animate() {
-			requestAnimationFrame(animate);
-			const time = clock.getElapsedTime();
-			points.scale.setScalar(1 + Math.sin(time * 1.5) * 0.02);
+			animationFrameId = requestAnimationFrame(animate);
+			const time = (performance.now() - startTime) * 0.001;
+			points.scale.setScalar(1 + Math.sin(time * 1.5) * 0.01);
 
 			currentX += (targetX - currentX) * 0.06;
 			currentY += (targetY - currentY) * 0.06;
@@ -122,20 +125,31 @@ export default function ParticleSphere({
 		animate();
 
 		function handleResize() {
-			camera.aspect = (localParentRef?.offsetWidth || window.innerWidth) / (localParentRef?.offsetHeight || window.innerHeight);
+			camera.aspect =
+				(localParentRef?.offsetWidth || window.innerWidth) /
+				(localParentRef?.offsetHeight || window.innerHeight);
 			camera.updateProjectionMatrix();
-			renderer.setSize(localParentRef?.offsetWidth || window.innerWidth, localParentRef?.offsetHeight || window.innerHeight);
+			renderer.setSize(
+				localParentRef?.offsetWidth || window.innerWidth,
+				localParentRef?.offsetHeight || window.innerHeight,
+			);
 		}
 		window.addEventListener("resize", handleResize);
+
 		return () => {
-			if (localMountRef) {
+			cancelAnimationFrame(animationFrameId);
+			window.removeEventListener("resize", handleResize);
+			localParentRef.removeEventListener("mousemove", handleMouseMove);
+
+			if (localMountRef.contains(renderer.domElement)) {
 				localMountRef.removeChild(renderer.domElement);
 			}
-			window.removeEventListener("resize", handleResize);
-			localParentRef?.removeEventListener("mousemove", handleMouseMove);
+
+			geometry.dispose();
+			material.dispose();
 			renderer.dispose();
 		};
-	}, []);
+	}, [parentRef]);
 
 	return <div ref={mountRef} style={{ width: "100%", height: "100%" }}></div>;
 }
