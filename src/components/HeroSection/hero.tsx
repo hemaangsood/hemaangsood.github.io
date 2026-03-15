@@ -1,7 +1,8 @@
+import { useRef } from "react";
 import LightPillar from "../ui/LightPillar";
-import { ShineBorder } from "../ui/shine-border";
 import { TextAnimate } from "../ui/text-animate";
 import { TypingAnimation } from "../ui/typing-animation";
+import ParticleSphere from "./ParticleSphereThreejs";
 
 function HeroSectionButton({ text, section,link,style,className="" }: { text: string;section?:string; link?: string; style?: React.CSSProperties,className?: string }) {
 	const handleClick = () => {
@@ -36,6 +37,7 @@ const HeroSection = () => {
 		"IOT Enjoyer",
 		"Expert Google Searcher",
 	]
+	const sphereRef = useRef<HTMLDivElement>(null);
 	return (
 		<section
 			className="relative w-screen min-h-screen h-fit snap-start overflow-y-hidden"
@@ -46,33 +48,35 @@ const HeroSection = () => {
 			id="hero"
 		>
 			<div className="absolute top-0 left-0 w-full h-full z-10">
+				{/* topColor="#00ff00"
+					bottomColor="#c210ef" */}
 				<LightPillar
 					topColor="#00ff00"
 					bottomColor="#c210ef"
-					intensity={0.9}
-					rotationSpeed={0.8}
+					intensity={1}
+					rotationSpeed={2}
 					interactive={false}
-					glowAmount={0.002}
+					glowAmount={0.009}
 					pillarWidth={3}
-					pillarHeight={0.4}
-					noiseIntensity={0.8}
+					pillarHeight={1}
+					noiseIntensity={2}
 					pillarRotation={90}
 				/>
 			</div>
 			<div className="absolute top-0 left-0 w-full h-full z-11 flex bg-transparent">
 				{/* Content */}
 				<div
-					className="flex p-10 m-auto text-center font-bold text-white rounded-4xl min-w-[50vw] min-h-[60vh]"
+					className="flex p-10 m-auto text-center font-bold text-white rounded-4xl w-screen h-screen"
 					style={{
-						// paddingTop: "4rem",
 						backdropFilter: "blur(40px)",
 						backgroundColor: "rgba(255, 255, 255, 0.1)",
+						alignItems: "center",
 					}}
 				>
 					<div
-						className="flex flex-col items-start"
+						className="flex flex-col items-start ml-8"
 						style={{
-							alignSelf: "flex-start max-w-[60%]",
+							alignSelf: "flex-start max-w-[50%]",
 							textAlign: "left",
 						}}
 					>
@@ -119,13 +123,9 @@ const HeroSection = () => {
 							/>
 						</div>
 					</div>
-					{/* Fluid simulation */}
-					<div
-						className="w-[40%]"
-						style={{
-							alignSelf: "flex-end",
-						}}
-					></div>
+					<div className="w-[40%] h-full" ref={sphereRef}>
+						{sphereRef && <ParticleSphere parentRef={sphereRef} />}
+					</div>
 				</div>
 			</div>
 		</section>
