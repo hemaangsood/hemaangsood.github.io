@@ -40,7 +40,7 @@ const AboutSection = () => {
 		<section
 			className="relative w-screen min-h-screen h-fit snap-start  overflow-y-hidden"
 			style={{
-				opacity: "50%",
+				backgroundColor: "rgba(0,0,0,0.5)",
 				backgroundBlendMode: "color-burn",
 			}}
 			id="about"
@@ -50,16 +50,22 @@ const AboutSection = () => {
 			</div>
 			<div className="flex absolute top-0 left-0 w-full h-full">
 				<div
-					className="flex m-auto p-8 w-[80vw] h-[80vh]"
+					className="flex m-auto p-4 px-6 w-[80vw] min-h-[80vh]"
 					style={{
 						background: "rgba(100, 100,100, 0.1)",
 						backdropFilter: "blur(40px)",
 						borderRadius: "40px",
 					}}
 				>
-					<div className="w-[50%] flex flex-col">
-						<TerminalGimmick state={terminalState} />
-						<div className="flex w-[80%] justify-around my-auto">
+					<div
+						className="w-[50%] mt-20 flex flex-col mr-0 p-0"
+						id="gimmick"
+					>
+						<TerminalGimmick
+							state={terminalState}
+							className="m-auto  mt-0 "
+						/>
+						<div className="flex w-[80%] justify-center gap-10 m-auto">
 							{[
 								TerminalState.skills,
 								TerminalState.projects,
@@ -86,7 +92,7 @@ const AboutSection = () => {
 							})}
 						</div>
 					</div>
-					<div className="max-w-[50%]">
+					<div className="max-w-[50%] -ml-5">
 						<div className="-ml-1 h-max w-max  cursor-text">
 							<GradientText
 								colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
@@ -98,7 +104,7 @@ const AboutSection = () => {
 								About Me
 							</GradientText>
 						</div>
-						<div className="mt-4 text-justify">
+						<div className="mt-4 text-justify text-lg">
 							I’m a software engineer focused on building scalable
 							backend systems and reliable software
 							infrastructure. My experience includes developing
@@ -112,7 +118,7 @@ const AboutSection = () => {
 							work in backend architecture and intelligent
 							systems.
 						</div>
-						<div className="flex flex-wrap w-full mt-2">
+						<div className="flex flex-wrap w-full mt-2 ml-8">
 							<AboutSectionCard
 								className=""
 								title="Education"

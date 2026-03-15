@@ -3,9 +3,9 @@ import { TerminalState } from "./types";
 
 /* ---------------- SKILLS ---------------- */
 
-function SkillsTerminal() {
+function SkillsTerminal({ className }: { className?: string }) {
 	return (
-		<Terminal className="dark overflow-y-auto overflow-x-hidden">
+		<Terminal className={`dark overflow-y-auto overflow-x-hidden ${className}`}>
 			<TypingAnimation>
 				hemaang@portfolio:~$ skills --stack
 			</TypingAnimation>
@@ -43,9 +43,9 @@ function SkillsTerminal() {
 
 /* ---------------- PROJECTS ---------------- */
 
-function ProjectsTerminal() {
+function ProjectsTerminal({ className }: { className?: string }) {
 	return (
-		<Terminal className="dark">
+		<Terminal className={`dark ${className}`}>
 			<TypingAnimation>hemaang@portfolio:~$ ls projects/</TypingAnimation>
 
 			<AnimatedSpan>📦 routed-travel-matching</AnimatedSpan>
@@ -86,9 +86,9 @@ function ProjectsTerminal() {
 
 /* ---------------- EXPERIENCE ---------------- */
 
-function ExperienceTerminal() {
+function ExperienceTerminal({ className }: { className?: string }) {
 	return (
-		<Terminal className="dark">
+		<Terminal className={`dark ${className}`}>
 			<TypingAnimation>
 				hemaang@portfolio:~$ experience --timeline
 			</TypingAnimation>
@@ -124,14 +124,16 @@ function ExperienceTerminal() {
 
 export default function TerminalComponent({
 	state=TerminalState.skills,
+	className= ""
 }: {
 	state: TerminalState;
+	className?: string;
 }): React.JSX.Element {
 	return (
 		<>
-			{state.valueOf() === TerminalState.skills && <SkillsTerminal />}
-			{state.valueOf() === TerminalState.projects && <ProjectsTerminal />}
-			{state.valueOf() === TerminalState.experience && <ExperienceTerminal />}
+			{state.valueOf() === TerminalState.skills && <SkillsTerminal className={className} />}
+			{state.valueOf() === TerminalState.projects && <ProjectsTerminal className={className} />}
+			{state.valueOf() === TerminalState.experience && <ExperienceTerminal className={className} />}
 		</>
 	);
 }
