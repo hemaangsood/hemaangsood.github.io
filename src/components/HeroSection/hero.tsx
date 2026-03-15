@@ -1,4 +1,5 @@
 import LightPillar from "../ui/LightPillar";
+import { ShineBorder } from "../ui/shine-border";
 import { TextAnimate } from "../ui/text-animate";
 import { TypingAnimation } from "../ui/typing-animation";
 
@@ -59,6 +60,7 @@ const HeroSection = () => {
 				/>
 			</div>
 			<div className="absolute top-0 left-0 w-full h-full z-11 flex bg-transparent">
+				{/* Content */}
 				<div
 					className="flex p-10 m-auto text-center font-bold text-white rounded-4xl min-w-[50vw] min-h-[60vh]"
 					style={{
@@ -119,7 +121,7 @@ const HeroSection = () => {
 					</div>
 					{/* Fluid simulation */}
 					<div
-						className="min-w-[40%]"
+						className="w-[40%]"
 						style={{
 							alignSelf: "flex-end",
 						}}

@@ -82,7 +82,7 @@ export default function Header({ scrollContainer }: Props) {
 									<p className="rainbow-text">Resume</p>
 								</RainbowButton>
 							),
-							onClick: () => {},
+							onClick: () => {window.open("/HemaangRes.pdf", "_blank")},
 						},
 					]}
 				/>
