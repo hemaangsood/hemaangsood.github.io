@@ -50,7 +50,7 @@ const AboutSection = () => {
 			</div>
 			<div className="flex absolute top-0 left-0 w-full h-full">
 				<div
-					className="flex m-auto p-4 px-6 w-[80vw] min-h-[80vh]"
+					className="flex mt-20 mx-auto p-4 px-6 w-[80vw] min-h-[80vh]"
 					style={{
 						background: "rgba(100, 100,100, 0.1)",
 						backdropFilter: "blur(40px)",
