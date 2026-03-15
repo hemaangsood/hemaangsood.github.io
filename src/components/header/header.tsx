@@ -17,7 +17,7 @@ function HeaderSectionRedirectButton({
 }): ContainerPropsElement {
 	return {
 		children:( <div
-			className="rounded-xl bg-transparent text-white hover:text-black py-1 px-2.5 mt-1 hover:bg-white"
+			className="rounded-xl bg-transparent text-white hover:text-black py-1 px-2.5 mt-1 hover:bg-white transition-colors duration-700 cursor-pointer"
 		>{text}</div>),
 		onClick: () => {
 			const destSection = document.getElementById(sectionId);

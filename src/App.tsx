@@ -12,9 +12,13 @@ function App() {
 	const scrollRef = useRef<HTMLDivElement>(null);
 	return (
 		<>
-			<Header scrollContainer={scrollRef as React.RefObject<HTMLDivElement>} />
-			<main className="h-screen overflow-y-scroll snap-y snap-mandatory overflow-x-hidden"
-				ref={scrollRef}>
+			<Header
+				scrollContainer={scrollRef as React.RefObject<HTMLDivElement>}
+			/>
+			<main
+				className="h-screen overflow-y-scroll snap-y snap-mandatory overflow-x-hidden"
+				ref={scrollRef}
+			>
 				<HeroSection />
 				<AboutSection />
 				<ProjectsSection />
