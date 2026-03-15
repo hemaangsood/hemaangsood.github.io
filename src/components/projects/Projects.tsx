@@ -1,4 +1,4 @@
-import { LaserFlow } from "../ui/LaserFlow";
+import Dither from "../ui/Dither";
 
 const ProjectsSection = () => {
 	return (
@@ -11,23 +11,17 @@ const ProjectsSection = () => {
 			id="projects"
 		>
 			<div className="absolute top-0 left-0 w-full h-full">
-				
-					<LaserFlow
-						color="#8000ff"
-						wispDensity={2}
-						flowSpeed={0.35}
-						verticalSizing={5}
-						horizontalSizing={1.2}
-						fogIntensity={0.9}
-						fogScale={0.3}
-						wispSpeed={15}
-						wispIntensity={5}
-						flowStrength={0.25}
-						decay={0.8}
-						horizontalBeamOffset={0}
-						verticalBeamOffset={-0.45}
-					/>
-				
+				<Dither
+					waveColor={[0.25098039215686274, 0, 0.5019607843137255]}
+					disableAnimation={false}
+					enableMouseInteraction
+					mouseRadius={0.2}
+					colorNum={9}
+					pixelSize={3}
+					waveAmplitude={0.35}
+					waveFrequency={4.5}
+					waveSpeed={0.08}
+				/>
 			</div>
 			<div className="absolute" style={{ background: "#fff" }}></div>
 		</section>

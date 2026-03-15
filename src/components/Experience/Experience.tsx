@@ -1,4 +1,5 @@
 import DarkVeil from "../ui/DarkVeil";
+import Silk from "../ui/Silk";
 
 export default function ExperienceSection() {
 	return (
@@ -11,14 +12,12 @@ export default function ExperienceSection() {
 			id="experience"
 		>
 			<div className="absolute top-0 left-0 w-full h-full">
-				<DarkVeil
-					hueShift={-5}
-					noiseIntensity={0.02}
-					scanlineIntensity={0.4}
-					speed={0.8}
-					scanlineFrequency={0}
-					warpAmount={0.05}
-					resolutionScale={1.25}
+				<Silk
+					speed={8.3}
+					scale={1}
+					color="#400080"
+					noiseIntensity={1.5}
+					rotation={0}
 				/>
 			</div>
 			<div className="absolute" style={{ background: "#fff" }}></div>

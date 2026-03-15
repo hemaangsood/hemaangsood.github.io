@@ -58,16 +58,16 @@ export default function Header({ scrollContainer }: Props) {
 							sectionId: "about",
 						}),
 						HeaderSectionRedirectButton({
+							text: "Skills",
+							sectionId: "skills",
+						}),
+						HeaderSectionRedirectButton({
 							text: "Projects",
 							sectionId: "projects",
 						}),
 						HeaderSectionRedirectButton({
 							text: "Experience",
 							sectionId: "experience",
-						}),
-						HeaderSectionRedirectButton({
-							text: "Skills",
-							sectionId: "skills",
 						}),
 						HeaderSectionRedirectButton({
 							text: "Contact",
