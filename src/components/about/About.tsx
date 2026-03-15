@@ -8,7 +8,6 @@ import { PiMagnifyingGlass } from "react-icons/pi";
 import { SiResearchgate } from "react-icons/si";
 import GradientText from "../ui/GradientText";
 import { GiSpectacleLenses } from "react-icons/gi";
-import { List } from "@hugeicons/core-free-icons";
 
 function AboutSectionCard({className, title, description,content,icon}:
 	{className?: string, title: string, description?: string,content?:React.ReactNode,icon?: React.ReactNode}) {

@@ -1,7 +1,7 @@
 import HeaderContainer from "./HeaderContainer";
 import Logo from "../Logo";
 import { RainbowButton } from "../ui/rainbow-button";
-import type { ContainerPropsElement } from ".";
+import type { ContainerPropsElement } from "./HeaderContainer";
 import { useScroll} from "framer-motion";
 
 type Props = {
@@ -30,9 +30,9 @@ function HeaderSectionRedirectButton({
 
 export default function Header({ scrollContainer }: Props) {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { scrollYProgress } = useScroll({
-		container: scrollContainer,
-	});
+	// const { scrollYProgress } = useScroll({
+	// 	container: scrollContainer,
+	// });
 
 	// const gradient = useTransform(
 	// 	scrollYProgress,

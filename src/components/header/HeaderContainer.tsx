@@ -1,11 +1,11 @@
-interface ContainerPropsElement {
+export interface ContainerPropsElement {
 	side?: "left" | "right";
 	children: React.ReactNode;
 	onClick?: () => void;
 	style?: React.CSSProperties;
 }
 
-interface HeaderContainerProps {
+export interface HeaderContainerProps {
 	items?: ContainerPropsElement[];
 	side: "left" | "right";
 	style?: React.CSSProperties;
