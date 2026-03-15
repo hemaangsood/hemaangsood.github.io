@@ -66,7 +66,7 @@ const HeroSection = () => {
 			<div className="absolute top-0 left-0 w-full h-full z-11 flex bg-transparent">
 				{/* Content */}
 				<div
-					className="flex p-10 m-auto text-center font-bold text-white rounded-4xl w-screen h-screen"
+					className="flex p-10 m-auto text-center font-bold text-white w-screen h-screen"
 					style={{
 						backdropFilter: "blur(40px)",
 						backgroundColor: "rgba(255, 255, 255, 0.1)",
