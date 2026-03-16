@@ -70,9 +70,10 @@ const AboutSection = () => {
 			<div className="absolute top-0 left-0 w-full h-full">
 				{shouldMountAboutGraphics && <Aurora amplitude={1.2} />}
 			</div>
-			<div className="flex absolute top-0 left-0 w-full h-full items-center overflow-x-hidden">
+			<div className="flex flex-col absolute top-0 left-0 w-full h-full items-center overflow-x-hidden">
+				<div className="h-12"></div>
 				<div
-					className="flex flex-col 2xl:flex-row gap-6 m-auto py-4 sm:py-6 px-4 sm:px-6 items-stretch w-[95vw] xl:w-[90vw] max-w-[1600px] h-[calc(100vh-5rem)] sm:h-[calc(100vh-7rem)] overflow-hidden"
+					className="flex flex-col 2xl:flex-row gap-6 m-auto py-4 sm:py-6 px-4 sm:px-6 items-stretch w-[95vw] xl:w-[90vw] max-w-400 h-[calc(100vh-5rem)] sm:h-[calc(100vh-7rem)] overflow-hidden"
 					style={{
 						background: "rgba(100, 100,100, 0.1)",
 						backdropFilter: "blur(24px)",
@@ -86,7 +87,7 @@ const AboutSection = () => {
 						{shouldMountAboutGraphics && (
 							<TerminalGimmick
 								state={terminalState}
-								className="w-full h-[30vh] sm:h-[34vh] lg:h-[38vh] xl:h-[42vh] 2xl:h-[46vh] mx-auto mt-2"
+								className="w-full flex-1 mx-auto mt-2"
 							/>
 						)}
 						<div className="flex flex-wrap w-full justify-center gap-3 sm:gap-4 m-auto mt-3 mb-2">
