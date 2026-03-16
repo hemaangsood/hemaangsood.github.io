@@ -8,6 +8,7 @@ import { PiMagnifyingGlass } from "react-icons/pi";
 import { SiResearchgate } from "react-icons/si";
 import GradientText from "../ui/GradientText";
 import { GiSpectacleLenses } from "react-icons/gi";
+import {motion} from "motion/react";
 
 function AboutSectionCard({className, title, description,content,icon}:
 	{className?: string, title: string, description?: string,content?:React.ReactNode,icon?: React.ReactNode}) {
@@ -104,7 +105,11 @@ const AboutSection = () => {
 								About Me
 							</GradientText>
 						</div>
-						<div className="mt-4 text-justify text-lg">
+						<motion.div className="mt-4 text-justify text-lg"
+							initial={{x:100,opacity:0}}
+							whileInView={{x:0,opacity:1}}
+							transition={{duration:0.5}}
+						>
 							I’m a software engineer focused on building scalable
 							backend systems and reliable software
 							infrastructure. My experience includes developing
@@ -117,8 +122,12 @@ const AboutSection = () => {
 							University of Waterloo while continuing to expand my
 							work in backend architecture and intelligent
 							systems.
-						</div>
-						<div className="flex flex-wrap w-full mt-2 ml-8">
+						</motion.div>
+						<motion.div
+						initial={{y:100,opacity:0}}
+						whileInView={{y:0,opacity:1}}
+						transition={{duration:0.5,delay:0.2}}
+						className="flex flex-wrap w-full mt-2 ml-8">
 							<AboutSectionCard
 								className=""
 								title="Education"
@@ -151,7 +160,7 @@ const AboutSection = () => {
 									</ul>
 								}
 							/>
-						</div>
+						</motion.div>
 					</div>
 				</div>
 			</div>

@@ -3,6 +3,7 @@ import LightPillar from "../ui/LightPillar";
 import { TextAnimate } from "../ui/text-animate";
 import { TypingAnimation } from "../ui/typing-animation";
 import ParticleSphere from "./ParticleSphereThreejs";
+import { motion } from "motion/react";
 
 function HeroSectionButton({ text, section,link,style,className="" }: { text: string;section?:string; link?: string; style?: React.CSSProperties,className?: string }) {
 	const handleClick = () => {
@@ -106,7 +107,11 @@ const HeroSection = () => {
 						>
 							{`Software engineer focused on building reliable backend systems, machine learning applications, and clean developer-first tools.`}
 						</TextAnimate>
-						<div className="flex align-baseline mt-10">
+						<motion.div 
+							initial={{y:100,opacity:0}}
+							whileInView={{y:0,opacity:1}}
+							transition={{duration:0.5}}
+							className="flex align-baseline mt-10">
 							<HeroSectionButton
 								text="View Projects"
 								section="projects"
@@ -121,7 +126,7 @@ const HeroSection = () => {
 									color: "white",
 								}}
 							/>
-						</div>
+						</motion.div>
 					</div>
 					<div className="w-[40%] h-full" ref={sphereRef}>
 						<ParticleSphere parentRef={sphereRef} />
