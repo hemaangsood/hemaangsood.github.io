@@ -2,7 +2,7 @@ import { useRef } from "react";
 import "./App.css";
 import AboutSection from "./components/about/About";
 import Header from "./components/header/header";
-import HeroSection from "./components/HeroSection/Hero";
+import HeroSection from "./components/HeroSection/hero";
 import ProjectsSection from "./components/projects/Projects";
 import ExperienceSection from "./components/Experience/Experience";
 import SkillsSection from "./components/Skills/Skills";
