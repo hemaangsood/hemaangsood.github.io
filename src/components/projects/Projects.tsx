@@ -29,7 +29,7 @@ const ProjectsSection = () => {
 			</div>
 			<div
 				className="flex absolute top-0 left-0 w-full h-full"
-				style={{ background: "#fff" }}
+				// style={{ background: "#fff" }}
 			>
 				<div className="m-auto flex flex-col">
 					
