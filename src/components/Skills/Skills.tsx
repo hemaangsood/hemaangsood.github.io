@@ -96,7 +96,7 @@ export default function SkillsSection() {
 				/>
 			</div>
 			<div
-				className="flex absolute top-0 left-0 w-screen h-screen overflow-hidden px-10 pt-10"
+				className="flex absolute top-25 lg:top-10 xl:top-0 left-0 w-screen h-screen overflow-hidden px-10 pt-10"
 				style={{
 					alignItems: "center",
 					justifyContent: "space-between",

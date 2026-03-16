@@ -19,7 +19,7 @@ function HeaderSectionRedirectButton({
 }): ContainerPropsElement {
 	return {
 		children:( <div
-			className={`rounded-xl py-1 px-2.5 mt-1 transition-colors duration-700 cursor-pointer ${
+			className={`rounded-xl hidden lg:block py-1 px-2.5 mt-1 transition-colors duration-700 cursor-pointer ${
 				isActive
 					? "bg-white text-black"
 					: "bg-transparent text-white hover:text-black hover:bg-white"

@@ -69,7 +69,7 @@ const HeroSection = () => {
 			<div className="absolute top-0 left-0 w-full h-full z-11 flex bg-transparent">
 				{/* Content */}
 				<div
-					className="flex flex-col lg:flex-row p-4 sm:p-8 lg:p-10 m-auto text-center font-bold text-white w-screen min-h-screen"
+					className="flex flex-col lg:flex-row p-4 pt-20 sm:p-8 lg:p-10 m-auto text-center font-bold text-white w-screen min-h-screen"
 					style={{
 						backdropFilter: "blur(20px)",
 						backgroundColor: "rgba(255, 255, 255, 0.1)",

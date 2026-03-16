@@ -35,7 +35,7 @@ function AboutSectionCard({
 			className={
 				className +
 				" " +
-				"w-full md:basis-[calc(50%-0.75rem)] md:max-w-[calc(50%-0.75rem)] hover:scale-[1.03] transition-transform duration-300 ease-in-out border-2 border-gray-300 backdrop-blur-sm text-white"
+				"w-full hover:scale-[1.03] transition-transform duration-300 ease-in-out border-2 border-gray-300 backdrop-blur-sm text-white"
 			}
 			style={{
 				background: "rgb(255,255,255,0.2)",
@@ -70,10 +70,11 @@ const AboutSection = () => {
 			<div className="absolute top-0 left-0 w-full h-full">
 				{shouldMountAboutGraphics && <Aurora amplitude={1.2} />}
 			</div>
-			<div className="flex flex-col absolute top-0 left-0 w-full h-full items-center overflow-x-hidden">
-				<div className="h-12"></div>
+			<div className="flex flex-col absolute top-0 left-0 w-full h-full items-center overflow-x-hidden pt-20 lg:pt-10 xl:pt-0">
+				{/* <div className="h-25 invisible"></div> */}
 				<div
-					className="flex flex-col 2xl:flex-row gap-6 m-auto py-4 sm:py-6 px-4 sm:px-6 items-stretch w-[95vw] xl:w-[90vw] max-w-400 h-[calc(100vh-5rem)] sm:h-[calc(100vh-7rem)] overflow-hidden"
+					className={`flex flex-col 2xl:pb-10 lg:flex-row gap-6 m-auto pt-1 pb-4 sm:py-6 px-4 sm:px-6 items-stretch 
+					w-[92vw] max-w-350 h-max min-h-[50%]`}
 					style={{
 						background: "rgba(100, 100,100, 0.1)",
 						backdropFilter: "blur(24px)",
@@ -87,7 +88,7 @@ const AboutSection = () => {
 						{shouldMountAboutGraphics && (
 							<TerminalGimmick
 								state={terminalState}
-								className="w-full flex-1 mx-auto mt-2"
+								className="w-full flex-1 mx-auto mt-2 min-h-65"
 							/>
 						)}
 						<div className="flex flex-wrap w-full justify-center gap-3 sm:gap-4 m-auto mt-3 mb-2">
@@ -117,7 +118,7 @@ const AboutSection = () => {
 							})}
 						</div>
 					</div>
-					<div className="w-full h-full 2xl:w-[54%] min-w-0 overflow-y-auto overflow-x-hidden pr-1">
+					<div className="w-full h-full 2xl:w-[54%] min-w-0 lg:overflow-y-auto overflow-x-hidden pr-1">
 						<div className="h-max w-max cursor-text bg-transparent">
 							<GradientText
 								colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
@@ -149,7 +150,7 @@ const AboutSection = () => {
 							initial={{ y: 100, opacity: 0 }}
 							whileInView={{ y: 0, opacity: 1 }}
 							transition={{ duration: 0.5, delay: 0.2 }}
-							className="flex flex-wrap w-full max-w-full gap-3 sm:gap-4 mt-2 sm:mt-4 overflow-x-hidden p-2"
+							className="grid grid-cols-1 sm:grid-cols-2 w-full max-w-full gap-3 sm:gap-4 mt-2 sm:mt-4 overflow-x-hidden p-2"
 						>
 							<AboutSectionCard
 								className=""
