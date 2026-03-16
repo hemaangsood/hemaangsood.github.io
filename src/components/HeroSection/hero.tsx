@@ -21,7 +21,7 @@ function HeroSectionButton({ text, section,link,style,className="" }: { text: st
 	return (
 		<div
 			onClick={handleClick}
-			className={className+" "+"px-4 py-2 m-2 text-3xl font-semibold text-white cursor-pointer"}
+			className={className+" "+"px-4 py-2 m-2 text-base sm:text-xl md:text-2xl font-semibold text-white cursor-pointer text-center"}
 			style={style}
 		>
 			<div>{text}</div>
@@ -67,35 +67,35 @@ const HeroSection = () => {
 			<div className="absolute top-0 left-0 w-full h-full z-11 flex bg-transparent">
 				{/* Content */}
 				<div
-					className="flex p-10 m-auto text-center font-bold text-white w-screen h-screen"
+					className="flex flex-col lg:flex-row p-4 sm:p-8 lg:p-10 m-auto text-center font-bold text-white w-screen min-h-screen"
 					style={{
-						backdropFilter: "blur(40px)",
+						backdropFilter: "blur(20px)",
 						backgroundColor: "rgba(255, 255, 255, 0.1)",
 						alignItems: "center",
 					}}
 				>
 					<div
-						className="flex flex-col items-start ml-8"
+						className="flex flex-col items-start w-full lg:w-[60%] mt-6 sm:mt-10 lg:mt-0 px-2 sm:px-4 lg:pl-8"
 						style={{
-							alignSelf: "flex-start max-w-[50%]",
+							alignSelf: "center",
 							textAlign: "left",
 						}}
 					>
-						<div className="text-4xl">
+						<div className="text-2xl sm:text-3xl lg:text-4xl leading-tight">
 							Hi, I'm{" "}
-							<span className="text-5xl text-yellow-300">
+							<span className="text-3xl sm:text-4xl lg:text-5xl text-yellow-300">
 								Hemaang
 							</span>
 						</div>
 						<TypingAnimation
 							words={meThingsList}
-							className="text-4xl mt-3"
+							className="text-xl sm:text-2xl lg:text-4xl mt-3"
 							loop={true}
 						/>
 						<br />
 						<TextAnimate
 							animation="scaleUp"
-							className="text-2xl mt-5"
+							className="text-lg sm:text-xl lg:text-2xl mt-2 sm:mt-4"
 						>
 							MEng ECE @ University of Waterloo
 						</TextAnimate>
@@ -103,7 +103,7 @@ const HeroSection = () => {
 							animation="slideLeft"
 							by="word"
 							as="p"
-							className="text-xl mt-3 max-w-[80%]"
+							className="text-base sm:text-lg lg:text-xl mt-3 max-w-full lg:max-w-[80%]"
 						>
 							{`Software engineer focused on building reliable backend systems, machine learning applications, and clean developer-first tools.`}
 						</TextAnimate>
@@ -111,24 +111,24 @@ const HeroSection = () => {
 							initial={{y:100,opacity:0}}
 							whileInView={{y:0,opacity:1}}
 							transition={{duration:0.5}}
-							className="flex align-baseline mt-10">
+							className="flex flex-col sm:flex-row sm:items-center mt-6 sm:mt-10 w-full">
 							<HeroSectionButton
 								text="View Projects"
 								section="projects"
 								// Hover must be light purple
-								className="bg-purple-800 rounded-xl transition duration-300 hover:shadow-[0_0_10px_#c084fc,0_0_40px_#c084fc]"
+								className="w-full sm:w-auto bg-purple-800 rounded-xl transition duration-300 hover:shadow-[0_0_10px_#c084fc,0_0_40px_#c084fc]"
 							/>
 							<HeroSectionButton
 								text="Contact Me &rarr;"
 								section="contact"
-								className="bg-transparent border-purple-800 border-2 rounded-xl transition duration-300 hover:shadow-[0_0_10px_#c084fc,0_0_40px_#c084fc]"
+								className="w-full sm:w-auto bg-transparent border-purple-800 border-2 rounded-xl transition duration-300 hover:shadow-[0_0_10px_#c084fc,0_0_40px_#c084fc]"
 								style={{
 									color: "white",
 								}}
 							/>
 						</motion.div>
 					</div>
-					<div className="w-[40%] h-full" ref={sphereRef}>
+					<div className="w-full lg:w-[40%] h-[35vh] sm:h-[45vh] lg:h-full mt-6 lg:mt-0" ref={sphereRef}>
 						<ParticleSphere parentRef={sphereRef} />
 					</div>
 				</div>
