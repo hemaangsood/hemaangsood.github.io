@@ -51,7 +51,7 @@ const AboutSection = () => {
 			</div>
 			<div className="flex absolute top-0 left-0 w-full h-full">
 				<div
-					className="flex mt-20 mx-auto p-4 px-6 w-[80vw] min-h-[80vh]"
+					className="flex mt-20 mx-auto py-4 px-6 w-[80vw] h-[83vh]"
 					style={{
 						background: "rgba(100, 100,100, 0.1)",
 						backdropFilter: "blur(40px)",
@@ -64,9 +64,9 @@ const AboutSection = () => {
 					>
 						<TerminalGimmick
 							state={terminalState}
-							className="m-auto  mt-0 "
+							className="m-auto mt-0"
 						/>
-						<div className="flex w-[80%] justify-center gap-10 m-auto">
+						<div className="flex w-[80%] justify-center gap-10 m-auto mt-0 mb-auto">
 							{[
 								TerminalState.skills,
 								TerminalState.projects,
@@ -94,7 +94,7 @@ const AboutSection = () => {
 						</div>
 					</div>
 					<div className="max-w-[50%] -ml-5">
-						<div className="-ml-1 h-max w-max  cursor-text">
+						<div className="-ml-1 h-max w-max cursor-text">
 							<GradientText
 								colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
 								animationSpeed={8}
@@ -114,10 +114,8 @@ const AboutSection = () => {
 							backend systems and reliable software
 							infrastructure. My experience includes developing
 							APIs, working with distributed systems, and
-							designing efficient data-driven applications. I
-							enjoy solving complex engineering problems and
-							building systems that are both performant and
-							maintainable. Currently, I’m pursuing a Master’s in
+							designing efficient data-driven applications.
+							Currently, I’m pursuing a Master’s in
 							Electrical and Computer Engineering at the
 							University of Waterloo while continuing to expand my
 							work in backend architecture and intelligent
