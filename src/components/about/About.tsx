@@ -15,6 +15,7 @@ import { SiResearchgate } from "react-icons/si";
 import GradientText from "../ui/GradientText";
 import { GiSpectacleLenses } from "react-icons/gi";
 import { motion } from "motion/react";
+import { useSectionHasBeenInViewport } from "../viewport/viewportHooks";
 
 function AboutSectionCard({
 	className,
@@ -55,6 +56,7 @@ function AboutSectionCard({
 }
 
 const AboutSection = () => {
+	const shouldMountAboutGraphics = useSectionHasBeenInViewport("about");
 	const [terminalState, setterminalState] = useState(TerminalState.skills);
 	return (
 		<section
@@ -66,11 +68,11 @@ const AboutSection = () => {
 			id="about"
 		>
 			<div className="absolute top-0 left-0 w-full h-full">
-				<Aurora amplitude={1.2} />
+				{shouldMountAboutGraphics && <Aurora amplitude={1.2} />}
 			</div>
 			<div className="flex absolute top-0 left-0 w-full h-full items-center overflow-x-hidden">
 				<div
-					className="flex flex-col 2xl:flex-row gap-6 mx-auto py-4 sm:py-6 px-4 sm:px-6 w-[95vw] xl:w-[90vw] max-w-[1600px] h-[calc(100vh-5rem)] sm:h-[calc(100vh-7rem)] max-h-[860px] overflow-hidden"
+					className="flex flex-col 2xl:flex-row gap-6 m-auto py-4 sm:py-6 px-4 sm:px-6 items-stretch w-[95vw] xl:w-[90vw] max-w-[1600px] h-[calc(100vh-5rem)] sm:h-[calc(100vh-7rem)] overflow-hidden"
 					style={{
 						background: "rgba(100, 100,100, 0.1)",
 						backdropFilter: "blur(24px)",
@@ -78,13 +80,15 @@ const AboutSection = () => {
 					}}
 				>
 					<div
-						className="w-full 2xl:w-[46%] mt-2 sm:mt-4 2xl:mt-8 flex flex-col mr-0 p-0 min-h-0 min-w-0"
+						className="w-full h-full 2xl:w-[46%] mt-2 sm:mt-4 2xl:mt-8 flex flex-col mr-0 p-0 min-h-0 min-w-0"
 						id="gimmick"
 					>
-						<TerminalGimmick
-							state={terminalState}
-							className="w-full h-[30vh] sm:h-[34vh] lg:h-[38vh] xl:h-[42vh] 2xl:h-[46vh] mx-auto mt-2"
-						/>
+						{shouldMountAboutGraphics && (
+							<TerminalGimmick
+								state={terminalState}
+								className="w-full h-[30vh] sm:h-[34vh] lg:h-[38vh] xl:h-[42vh] 2xl:h-[46vh] mx-auto mt-2"
+							/>
+						)}
 						<div className="flex flex-wrap w-full justify-center gap-3 sm:gap-4 m-auto mt-3 mb-2">
 							{[
 								TerminalState.skills,
@@ -112,7 +116,7 @@ const AboutSection = () => {
 							})}
 						</div>
 					</div>
-					<div className="w-full 2xl:w-[54%] min-w-0 overflow-y-auto overflow-x-hidden pr-1">
+					<div className="w-full h-full 2xl:w-[54%] min-w-0 overflow-y-auto overflow-x-hidden pr-1">
 						<div className="h-max w-max cursor-text bg-transparent">
 							<GradientText
 								colors={["#5227FF", "#FF9FFC", "#B19EEF"]}

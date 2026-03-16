@@ -9,6 +9,7 @@ import { FaGitlab, FaJava,FaReact,FaGit, FaAws } from "react-icons/fa";
 import { DiNodejs } from "react-icons/di";
 import Icon from "../icon";
 import ShinyText from "../ui/ShinyText";
+import { useSectionHasBeenInViewport } from "../viewport/viewportHooks";
 
 const iconSize = 40;
 
@@ -51,6 +52,7 @@ const rightCol: SkillsMarqueeCapsuleProps[] = [
 ];
 
 export default function SkillsSection() {
+	const shouldMountSkillsGraphics = useSectionHasBeenInViewport("skills");
 	return (
 		<section
 			className="relative w-screen min-h-screen h-fit snap-start overflow-y-hidden"
@@ -61,21 +63,23 @@ export default function SkillsSection() {
 			id="skills"
 		>
 			<div className="absolute top-0 left-0 w-screen h-screen">
-				<LaserFlow
-					color="#8000ff"
-					wispDensity={2}
-					flowSpeed={0.35}
-					verticalSizing={5}
-					horizontalSizing={1.2}
-					fogIntensity={0.9}
-					fogScale={0.3}
-					wispSpeed={15}
-					wispIntensity={5}
-					flowStrength={0.25}
-					decay={0.8}
-					horizontalBeamOffset={0}
-					verticalBeamOffset={-0.45}
-				/>
+				{shouldMountSkillsGraphics && (
+					<LaserFlow
+						color="#8000ff"
+						wispDensity={2}
+						flowSpeed={0.35}
+						verticalSizing={5}
+						horizontalSizing={1.2}
+						fogIntensity={0.9}
+						fogScale={0.3}
+						wispSpeed={15}
+						wispIntensity={5}
+						flowStrength={0.25}
+						decay={0.8}
+						horizontalBeamOffset={0}
+						verticalBeamOffset={-0.45}
+					/>
+				)}
 			</div>
 			<div className="w-full text-center mt-30 text-5xl font-bold">
 				<ShinyText
@@ -99,10 +103,14 @@ export default function SkillsSection() {
 				}}
 			>
 				<div className="overflow-hidden w-[48%] h-[75vh] rounded-xl">
-					<SkillsMarquee items={leftCol} />
+					{shouldMountSkillsGraphics && (
+						<SkillsMarquee items={leftCol} />
+					)}
 				</div>
 				<div className="w-[48%] h-[75vh] rounded-xl overflow-hidden">
-					<SkillsMarquee items={rightCol} direction="up" />
+					{shouldMountSkillsGraphics && (
+						<SkillsMarquee items={rightCol} direction="up" />
+					)}
 				</div>
 			</div>
 		</section>

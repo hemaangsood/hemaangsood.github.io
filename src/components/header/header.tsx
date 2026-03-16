@@ -2,7 +2,7 @@ import HeaderContainer from "./HeaderContainer";
 import Logo from "../Logo";
 import { RainbowButton } from "../ui/rainbow-button";
 import type { ContainerPropsElement } from "./HeaderContainer";
-import { useScroll} from "framer-motion";
+import { useSectionViewport } from "../viewport/viewportHooks";
 
 type Props = {
 	scrollContainer: React.RefObject<HTMLDivElement>;
@@ -11,13 +11,19 @@ type Props = {
 function HeaderSectionRedirectButton({
 	text,
 	sectionId,
+	isActive = false,
 }: {
 	text: string;
 	sectionId: string;
+	isActive?: boolean;
 }): ContainerPropsElement {
 	return {
 		children:( <div
-			className="rounded-xl bg-transparent text-white hover:text-black py-1 px-2.5 mt-1 hover:bg-white transition-colors duration-700 cursor-pointer"
+			className={`rounded-xl py-1 px-2.5 mt-1 transition-colors duration-700 cursor-pointer ${
+				isActive
+					? "bg-white text-black"
+					: "bg-transparent text-white hover:text-black hover:bg-white"
+			}`}
 		>{text}</div>),
 		onClick: () => {
 			const destSection = document.getElementById(sectionId);
@@ -29,10 +35,8 @@ function HeaderSectionRedirectButton({
 }
 
 export default function Header({ scrollContainer }: Props) {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	// const { scrollYProgress } = useScroll({
-	// 	container: scrollContainer,
-	// });
+	void scrollContainer;
+	const { activeSection } = useSectionViewport();
 
 	// const gradient = useTransform(
 	// 	scrollYProgress,
@@ -52,26 +56,32 @@ export default function Header({ scrollContainer }: Props) {
 						HeaderSectionRedirectButton({
 							text: "Home",
 							sectionId: "hero",
+							isActive: activeSection === "hero",
 						}),
 						HeaderSectionRedirectButton({
 							text: "About",
 							sectionId: "about",
+							isActive: activeSection === "about",
 						}),
 						HeaderSectionRedirectButton({
 							text: "Skills",
 							sectionId: "skills",
+							isActive: activeSection === "skills",
 						}),
 						HeaderSectionRedirectButton({
 							text: "Projects",
 							sectionId: "projects",
+							isActive: activeSection === "projects",
 						}),
 						HeaderSectionRedirectButton({
 							text: "Experience",
 							sectionId: "experience",
+							isActive: activeSection === "experience",
 						}),
 						HeaderSectionRedirectButton({
 							text: "Contact",
 							sectionId: "contact",
+							isActive: activeSection === "contact",
 						}),
 						{
 							children: (

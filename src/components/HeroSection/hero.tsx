@@ -4,6 +4,7 @@ import { TextAnimate } from "../ui/text-animate";
 import { TypingAnimation } from "../ui/typing-animation";
 import ParticleSphere from "./ParticleSphereThreejs";
 import { motion } from "motion/react";
+import { useSectionHasBeenInViewport } from "../viewport/viewportHooks";
 
 function HeroSectionButton({ text, section,link,style,className="" }: { text: string;section?:string; link?: string; style?: React.CSSProperties,className?: string }) {
 	const handleClick = () => {
@@ -29,6 +30,7 @@ function HeroSectionButton({ text, section,link,style,className="" }: { text: st
 	);}
 
 const HeroSection = () => {
+	const shouldMountHeroGraphics = useSectionHasBeenInViewport("hero", true);
 	const meThingsList = [
 		"Software Engineer",
 		"Full Stack Developer",
@@ -49,20 +51,20 @@ const HeroSection = () => {
 			id="hero"
 		>
 			<div className="absolute top-0 left-0 w-full h-full z-10">
-				{/* topColor="#00ff00"
-					bottomColor="#c210ef" */}
-				<LightPillar
-					topColor="#00ff00"
-					bottomColor="#c210ef"
-					intensity={1}
-					rotationSpeed={2}
-					interactive={false}
-					glowAmount={0.009}
-					pillarWidth={3}
-					pillarHeight={1}
-					noiseIntensity={2}
-					pillarRotation={90}
-				/>
+				{shouldMountHeroGraphics && (
+					<LightPillar
+						topColor="#00ff00"
+						bottomColor="#c210ef"
+						intensity={1}
+						rotationSpeed={2}
+						interactive={false}
+						glowAmount={0.009}
+						pillarWidth={3}
+						pillarHeight={1}
+						noiseIntensity={2}
+						pillarRotation={90}
+					/>
+				)}
 			</div>
 			<div className="absolute top-0 left-0 w-full h-full z-11 flex bg-transparent">
 				{/* Content */}
@@ -129,7 +131,9 @@ const HeroSection = () => {
 						</motion.div>
 					</div>
 					<div className="w-full lg:w-[40%] h-[35vh] sm:h-[45vh] lg:h-full mt-6 lg:mt-0" ref={sphereRef}>
-						<ParticleSphere parentRef={sphereRef} />
+						{shouldMountHeroGraphics && (
+							<ParticleSphere parentRef={sphereRef} />
+						)}
 					</div>
 				</div>
 			</div>

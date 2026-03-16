@@ -7,11 +7,23 @@ import ProjectsSection from "./components/projects/Projects";
 import ExperienceSection from "./components/Experience/Experience";
 import SkillsSection from "./components/Skills/Skills";
 import ContactSection from "./components/Contact/Contact";
+import { SectionViewportProvider } from "./components/viewport/SectionViewportContext";
 
 function App() {
 	const scrollRef = useRef<HTMLDivElement>(null);
+	const sectionIds = [
+		"hero",
+		"about",
+		"skills",
+		"projects",
+		"experience",
+		"contact",
+	];
 	return (
-		<>
+		<SectionViewportProvider
+			rootRef={scrollRef}
+			sectionIds={sectionIds}
+		>
 			<Header
 				scrollContainer={scrollRef as React.RefObject<HTMLDivElement>}
 			/>
@@ -26,7 +38,7 @@ function App() {
 				<ExperienceSection />
 				<ContactSection />
 			</main>
-		</>
+		</SectionViewportProvider>
 	);
 }
 
