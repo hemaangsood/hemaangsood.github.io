@@ -1,6 +1,6 @@
 import { useState } from "react";
-import TerminalGimmick from "../HeroSection/TerminalComponent";
-import { TerminalState } from "../HeroSection/types";
+import TerminalGimmick from "./TerminalComponent";
+import { TerminalState } from "./types";
 import Aurora from "../ui/Aurora";
 import {
 	Card,
@@ -70,11 +70,11 @@ const AboutSection = () => {
 			<div className="absolute top-0 left-0 w-full h-full">
 				{shouldMountAboutGraphics && <Aurora amplitude={1.2} />}
 			</div>
-			<div className="flex flex-col absolute top-0 left-0 w-full h-full items-center overflow-x-hidden pt-20 lg:pt-10 xl:pt-0">
+			<div className="flex flex-col absolute top-0 left-0 w-full h-full items-center overflow-x-hidden pt-20 xl:pt-18">
 				{/* <div className="h-25 invisible"></div> */}
 				<div
-					className={`flex flex-col 2xl:pb-10 lg:flex-row gap-6 m-auto pt-1 pb-4 sm:py-6 px-4 sm:px-6 items-stretch 
-					w-[92vw] max-w-350 h-max min-h-[50%]`}
+					className={`flex flex-col 2xl:pb-10 lg:flex-row gap-6 m-auto pt-1 pb-2 sm:py-6 px-4 sm:px-6 items-stretch 
+					w-[92vw] max-w-350 h-max min-h-[50%] lg:min-h-[76vh]`}
 					style={{
 						background: "rgba(100, 100,100, 0.1)",
 						backdropFilter: "blur(24px)",
@@ -82,16 +82,16 @@ const AboutSection = () => {
 					}}
 				>
 					<div
-						className="w-full h-full 2xl:w-[46%] mt-2 sm:mt-4 2xl:mt-8 flex flex-col mr-0 p-0 min-h-0 min-w-0"
+						className="w-full 2xl:w-[46%] mt-2 sm:mt-4 2xl:mt-8 flex  min-h-0 flex-col mr-0 p-0 min-w-0"
 						id="gimmick"
 					>
 						{shouldMountAboutGraphics && (
 							<TerminalGimmick
 								state={terminalState}
-								className="w-full flex-1 mx-auto mt-2 min-h-65"
+								className="w-full flex-1 mx-auto mt-2 h-[70%]"
 							/>
 						)}
-						<div className="flex flex-wrap w-full justify-center gap-3 sm:gap-4 m-auto mt-3 mb-2">
+						<div className="flex flex-wrap w-full justify-center gap-3 sm:gap-4 mx-auto mt-3 mb-2 shrink-0">
 							{[
 								TerminalState.skills,
 								TerminalState.projects,
@@ -118,7 +118,7 @@ const AboutSection = () => {
 							})}
 						</div>
 					</div>
-					<div className="w-full h-full 2xl:w-[54%] min-w-0 lg:overflow-y-auto overflow-x-hidden pr-1">
+					<div className="w-full h-full min-h-0 2xl:w-[54%] min-w-0 lg:overflow-y-auto overflow-x-hidden pr-1">
 						<div className="h-max w-max cursor-text bg-transparent">
 							<GradientText
 								colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
