@@ -73,8 +73,8 @@ const AboutSection = () => {
 			<div className="flex flex-col absolute top-0 left-0 w-full h-full items-center overflow-x-hidden pt-20 xl:pt-18">
 				{/* <div className="h-25 invisible"></div> */}
 				<div
-					className={`flex flex-col 2xl:pb-10 lg:flex-row gap-6 m-auto pt-1 pb-2 sm:py-6 px-4 sm:px-6 items-stretch 
-					w-[92vw] max-w-350 h-max min-h-[50%] lg:min-h-[76vh]`}
+					className={`flex flex-col h-min 2xl:pb-10 lg:flex-row gap-6 m-auto pt-1 pb-2 sm:py-6 px-4 sm:px-6 items-stretch 
+					w-[92vw] max-w-350 min-h-[50%] lg:min-h-[76vh]`}
 					style={{
 						background: "rgba(100, 100,100, 0.1)",
 						backdropFilter: "blur(24px)",
@@ -82,13 +82,13 @@ const AboutSection = () => {
 					}}
 				>
 					<div
-						className="w-full 2xl:w-[46%] mt-2 sm:mt-4 2xl:mt-8 flex  min-h-0 flex-col mr-0 p-0 min-w-0"
+						className="w-full 2xl:w-[46%] mt-2 sm:mt-4 2xl:mt-8 flex overflow-scroll min-h-0 flex-col mr-0 p-0 min-w-0"
 						id="gimmick"
 					>
 						{shouldMountAboutGraphics && (
 							<TerminalGimmick
 								state={terminalState}
-								className="w-full flex-1 mx-auto mt-2 h-[70%]"
+								className="w-full mx-auto mt-2 h-[90%]"
 							/>
 						)}
 						<div className="flex flex-wrap w-full justify-center gap-3 sm:gap-4 mx-auto mt-3 mb-2 shrink-0">
@@ -136,7 +136,7 @@ const AboutSection = () => {
 							whileInView={{ x: 0, opacity: 1 }}
 							transition={{ duration: 0.5 }}
 						>
-							I’m a software engineer focused on building scalable
+							I&apos;m a software engineer focused on building scalable
 							backend systems and reliable software
 							infrastructure. My experience includes developing
 							APIs, working with distributed systems, and
