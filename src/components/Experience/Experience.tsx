@@ -1,5 +1,4 @@
 import { useRef } from "react";
-import Silk from "../ui/Silk";
 import { useSectionHasBeenInViewport } from "../viewport/viewportHooks";
 import WaveGrid from "./WaveGrid";
 

@@ -109,28 +109,29 @@ const HeroSection = () => {
 						>
 							{`Software engineer focused on building reliable backend systems, machine learning applications, and clean developer-first tools.`}
 						</TextAnimate>
-						<motion.div 
-							initial={{y:100,opacity:0}}
-							whileInView={{y:0,opacity:1}}
-							transition={{duration:0.5}}
-							className="flex flex-col sm:flex-row sm:items-center mt-6 sm:mt-10 w-full">
+						<motion.div
+							initial={{ y: 100, opacity: 0 }}
+							whileInView={{ y: 0, opacity: 1 }}
+							transition={{ duration: 0.5 }}
+							className="flex flex-col sm:flex-row sm:items-center mt-6 sm:mt-10 w-full"
+						>
 							<HeroSectionButton
 								text="View Projects"
 								section="projects"
 								// Hover must be light purple
-								className="w-full sm:w-auto bg-purple-800 rounded-xl transition duration-300 hover:shadow-[0_0_10px_#c084fc,0_0_40px_#c084fc]"
+								className="w-full sm:w-auto bg-purple-800 rounded-xl transition duration-300 hover:text-yellow-400 hover:shadow-[0_0_10px_#c084fc,0_0_40px_#c084fc]"
 							/>
 							<HeroSectionButton
 								text="Contact Me &rarr;"
 								section="contact"
-								className="w-full sm:w-auto bg-transparent border-purple-800 border-2 rounded-xl transition duration-300 hover:shadow-[0_0_10px_#c084fc,0_0_40px_#c084fc]"
-								style={{
-									color: "white",
-								}}
+								className="w-full sm:w-auto bg-transparent border-purple-800 border-2 rounded-xl transition duration-300 text-white hover:text-yellow-400 hover:shadow-[0_0_10px_#c084fc,0_0_40px_#c084fc]"
 							/>
 						</motion.div>
 					</div>
-					<div className="w-full lg:w-[40%] h-[35vh] sm:h-[45vh] lg:h-full mt-6 lg:mt-0" ref={sphereRef}>
+					<div
+						className="w-full lg:w-[40%] h-[35vh] sm:h-[45vh] lg:h-full mt-6 lg:mt-0"
+						ref={sphereRef}
+					>
 						{shouldMountHeroGraphics && (
 							<ParticleSphere parentRef={sphereRef} />
 						)}
