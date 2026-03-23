@@ -2,11 +2,13 @@ import type React from "react";
 export interface SkillsMarqueeCapsuleProps {
 	icon: React.ReactNode;
 	text: string;
+	side?: "left" | "right";
 }
 
 export default function SkillsMarqueeCapsule({
 	icon,
 	text,
+	side="left"
 }: SkillsMarqueeCapsuleProps) {
 	return (
 		<div
@@ -24,8 +26,9 @@ export default function SkillsMarqueeCapsule({
             whitespace-nowrap
             transition-all duration-300
             hover:bg-white/10
-            hover:shadow-[0_0_20px_rgba(168,85,247,0.5)]`}
+            hover:shadow-[0_0_20px_rgba(168,85,247,0.5)]`+ " " + (side === "left" ? "" : "flex-row-reverse")}
 			aria-label={`Skill: ${text}`}
+
 		>
 			<span className="flex items-center justify-center shrink-0 w-16 h-16">
 				{icon}

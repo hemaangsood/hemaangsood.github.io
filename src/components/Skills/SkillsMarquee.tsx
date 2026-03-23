@@ -9,7 +9,7 @@ export default function SkillsMarquee({items,direction="down"}:
 	return (
 		<div className="relative flex w-full flex-row items-center overflow-hidden justify-center overflow-hidden">
 			<Marquee pauseOnHover={true} reverse={direction === "down"} vertical={true} className="[--duration:25s]">
-				{items.map((item, index) => (<SkillsMarqueeCapsule key={index} {...item} />))}
+				{items.map((item, index) => (<SkillsMarqueeCapsule key={index} {...item} side={direction==="up"?"right":"left"} />))}
 			</Marquee>
 		</div>
 	);
