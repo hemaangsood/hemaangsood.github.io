@@ -1,5 +1,6 @@
 import Dither from "../ui/Dither";
 import { useSectionHasBeenInViewport } from "../viewport/viewportHooks";
+import Solar from "./Solar";
 
 const ProjectsSection = () => {
 	const shouldMountProjectsGraphics = useSectionHasBeenInViewport("projects");
@@ -14,26 +15,24 @@ const ProjectsSection = () => {
 		>
 			<div className="absolute top-0 left-0 w-full h-full">
 				{shouldMountProjectsGraphics && (
-					<Dither
-						waveColor={[0.25098039215686274, 0, 0.5019607843137255]}
-						disableAnimation={false}
-						enableMouseInteraction={false}
-						mouseRadius={0.2}
-						colorNum={9}
-						pixelSize={3}
-						waveAmplitude={0.35}
-						waveFrequency={4.5}
-						waveSpeed={0.08}
-					/>
+					// <Dither
+					// 	waveColor={[0.25098039215686274, 0, 0.5019607843137255]}
+					// 	disableAnimation={false}
+					// 	enableMouseInteraction={false}
+					// 	mouseRadius={0.2}
+					// 	colorNum={9}
+					// 	pixelSize={3}
+					// 	waveAmplitude={0.35}
+					// 	waveFrequency={4.5}
+					// 	waveSpeed={0.08}
+					// />
+					<></> 
 				)}
 			</div>
 			<div
 				className="flex absolute top-0 left-0 w-full h-full"
-				// style={{ background: "#fff" }}
 			>
-				<div className="m-auto flex flex-col">
-					
-				</div>
+				<Solar />
 			</div>
 		</section>
 	);
