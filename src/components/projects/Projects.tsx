@@ -1,4 +1,3 @@
-import Dither from "../ui/Dither";
 import { useSectionHasBeenInViewport } from "../viewport/viewportHooks";
 import Solar from "./Solar";
 
