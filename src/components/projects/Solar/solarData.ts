@@ -9,7 +9,8 @@ export const solarElements: SolarElementConfig[] = [
 		},
 		planet: {
 			size: 0.5,
-			color: "green",
+			// color: "",
+			textureMap:"/projects/green-water.jpg",
 		},
 	},
 	{
@@ -61,4 +62,18 @@ export const solarElements: SolarElementConfig[] = [
 			color: "yellow",
 		},
 	},
+	{
+		orbit: {
+			orbitRadius: 20,
+			rotationSpeed: -0.005,
+			orbitSegments: 160,
+			eccentricity: -0.1,
+			orbitOffsetPlaneRotationOffset: -10,
+		},
+		planet: {
+			size: 0.3,
+			color: "gray",
+			textureMap: "/projects/gray-bubble.jpg",
+		},
+	}
 ];

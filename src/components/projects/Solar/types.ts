@@ -21,6 +21,7 @@ export interface PlanetProps {
 	useAtmosphere?: boolean;
 	atmosphereColor?: THREE.ColorRepresentation;
 	atmosphereIntensity?: number;
+	onClick?: () => void;
 }
 
 export interface SolarElementConfig {
