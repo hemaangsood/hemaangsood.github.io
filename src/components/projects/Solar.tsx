@@ -341,17 +341,17 @@ void main() {
 
 	float t = abs(vUv.y - 0.5);
 
-	float coreK = 8.0;   // core sharpness
-	float haloK = 5.0;   // halo spread
-	float coreWeight = 0.7;
-	float haloWeight = 0.3;
+	float coreK = 2.0;   // core sharpness
+	float haloK = 6.0;   // halo spread
+	float coreWeight = 0.2;
+	float haloWeight = 0.2;
 
 	float core = exp(-coreK * t * t);
 	float halo = exp(-haloK * t * t);
 
 	float density = core * coreWeight + halo * haloWeight;
 	density *= smoothstep(0.5, 0.0, t);
-	density *= exp(-1.5 * t);
+	density *= exp(-2.0 * t);
 
 	float angle = vUv.x * 6.2832;
 	float band1 = sin(angle * 3.0 + uTime * 0.08) * 0.5 + 0.5;
@@ -365,7 +365,7 @@ void main() {
 	vec3 finalColor = col * density * 1.5;
 	finalColor = clamp(finalColor, 0.0, 1.0);
 
-	float alpha = density * 0.6;
+	float alpha = density * 1.1;
 	alpha = clamp(alpha, 0.0, 0.6);
 
 	gl_FragColor = vec4(finalColor, alpha);
@@ -388,7 +388,7 @@ void main() {
 		}
 	});
 	const radius = 100;
-	const height = 100;
+	const height = 150;
 	return (
 		<mesh
 			ref={mesh}
@@ -397,17 +397,7 @@ void main() {
 			material={material}
 			rotation={[0*radian, 0*radian, 30*radian]}
 		>
-			{/* How to set inner radius??
-				In order to set the inner radius, we would need to modify the torus geometry to have a larger tube radius and then use the shader to create a hollow effect. However, Three.js's built-in torus geometry does not support separate inner and outer radii directly.
-				But what do the numbers do then
-					The args for torusGeometry are [radius, tube, radialSegments, tubularSegments]. The 'radius' is the distance from the center of the torus to the center of the tube, and 'tube' is the radius of the tube itself. So by increasing the 'tube' value, we can make the ring thicker, which gives the appearance of a larger inner radius. However, this will also increase the overall size of the torus, so it's a bit of a balancing act to achieve the desired look.
-			*/}
-			{/* <torusGeometry args={[100, 40, 48, 128]} /> */}
-			{/* The args for cylinderGeometry are [radiusTop, radiusBottom, height, radialSegments, heightSegments, openEnded] */}
-
 			<cylinderGeometry args={[radius, radius, height, 128, 4, true]} />
-			{/* <sphereGeometry args={[radius, 32, 32]} /> */}
-
 		</mesh>
 	);
 }
