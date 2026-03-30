@@ -135,6 +135,10 @@ export default function Aurora(props: AuroraProps) {
 			premultipliedAlpha: true,
 			antialias: true,
 		});
+		(renderer as unknown as { dpr: number }).dpr = Math.min(
+			window.devicePixelRatio || 1,
+			1.5,
+		);
 		const gl = renderer.gl;
 		gl.clearColor(0, 0, 0, 0);
 		gl.enable(gl.BLEND);
@@ -146,6 +150,10 @@ export default function Aurora(props: AuroraProps) {
 
 		function resize() {
 			if (!ctn) return;
+			(renderer as unknown as { dpr: number }).dpr = Math.min(
+				window.devicePixelRatio || 1,
+				1.5,
+			);
 			const width = ctn.offsetWidth;
 			const height = ctn.offsetHeight;
 			renderer.setSize(width, height);

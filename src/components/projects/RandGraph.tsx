@@ -64,6 +64,7 @@ export default function RandGraph({seed="n3og3",speed="10",parentRef,radius=0.1}
 					powerPreference: "high-performance",
 				});
 				renderer.setClearColor(0x000000, 0);
+				renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
 				renderer.setSize(
 					localParentRef?.offsetWidth || window.innerWidth,
 					localParentRef?.offsetHeight || window.innerHeight,

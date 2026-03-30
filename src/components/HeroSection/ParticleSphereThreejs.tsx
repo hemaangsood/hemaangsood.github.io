@@ -36,6 +36,7 @@ export default function ParticleSphere({
 			powerPreference: "high-performance",
 		});
 		renderer.setClearColor(0x000000, 0);
+		renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
 		renderer.setSize(
 			localParentRef?.offsetWidth || window.innerWidth,
 			localParentRef?.offsetHeight || window.innerHeight,
@@ -107,9 +108,20 @@ export default function ParticleSphere({
 		localParentRef.addEventListener("mousemove", handleMouseMove);
 		const startTime = performance.now();
 		let animationFrameId = 0;
+		let isVisible = true;
+
+		const io = new IntersectionObserver(
+			([entry]) => {
+				isVisible = entry.isIntersecting;
+			},
+			{ threshold: 0.01 },
+		);
+
+		io.observe(localParentRef);
 
 		function animate() {
 			animationFrameId = requestAnimationFrame(animate);
+			if (!isVisible) return;
 			const time = (performance.now() - startTime) * 0.001;
 			points.scale.setScalar(1 + Math.sin(time * 1.5) * 0.01);
 
@@ -129,6 +141,7 @@ export default function ParticleSphere({
 				(localParentRef?.offsetWidth || window.innerWidth) /
 				(localParentRef?.offsetHeight || window.innerHeight);
 			camera.updateProjectionMatrix();
+			renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
 			renderer.setSize(
 				localParentRef?.offsetWidth || window.innerWidth,
 				localParentRef?.offsetHeight || window.innerHeight,
@@ -138,6 +151,7 @@ export default function ParticleSphere({
 
 		return () => {
 			cancelAnimationFrame(animationFrameId);
+			io.disconnect();
 			window.removeEventListener("resize", handleResize);
 			localParentRef.removeEventListener("mousemove", handleMouseMove);
 

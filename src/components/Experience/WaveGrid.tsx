@@ -65,7 +65,7 @@ export default function WaveGrid({
 			alpha: true,
 		});
 
-		renderer.setPixelRatio(window.devicePixelRatio);
+		renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
 		renderer.setSize(container.offsetWidth, container.offsetHeight);
 
 		mount.appendChild(renderer.domElement);
@@ -222,9 +222,20 @@ void main(){
 
 		const clock = new THREE.Clock();
 		let rafId: number;
+		let isVisible = true;
+
+		const io = new IntersectionObserver(
+			([entry]) => {
+				isVisible = entry.isIntersecting;
+			},
+			{ threshold: 0.01 },
+		);
+
+		io.observe(container);
 
 		const animate = () => {
 			rafId = requestAnimationFrame(animate);
+			if (!isVisible) return;
 
 			const time = clock.getElapsedTime();
 
@@ -258,6 +269,7 @@ void main(){
 			camera.updateProjectionMatrix();
 
 			renderer.setSize(w, h);
+			renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
 		});
 
 		ro.observe(container);
@@ -265,6 +277,7 @@ void main(){
 		// Cleanup
 		return () => {
 			cancelAnimationFrame(rafId);
+			io.disconnect();
 			ro.disconnect();
 
 			if (mount.contains(renderer.domElement)) {

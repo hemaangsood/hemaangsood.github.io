@@ -13,7 +13,12 @@ const ProjectsSection = () => {
 			}}
 			id="projects"
 		>
-			<div className="absolute top-0 left-0 w-full h-full">
+			<div
+				className="absolute top-0 left-0 w-full h-full"
+				style={{
+					background: "#080d1a",
+				}}
+			>
 				{shouldMountProjectsGraphics && (
 					// <Dither
 					// 	waveColor={[0.25098039215686274, 0, 0.5019607843137255]}
@@ -26,12 +31,10 @@ const ProjectsSection = () => {
 					// 	waveFrequency={4.5}
 					// 	waveSpeed={0.08}
 					// />
-					<></> 
+					<></>
 				)}
 			</div>
-			<div
-				className="flex absolute top-0 left-0 w-full h-full"
-			>
+			<div className="flex absolute top-0 left-0 w-full h-full">
 				<Solar />
 			</div>
 		</section>
