@@ -37,23 +37,26 @@ varying vec3 vNormal;
 varying vec3 vPosition;
 
 void main() {
+    vec3 normalDir = normalize(vNormal);
     vec3 viewDir = normalize(cameraPosition - vPosition);
 
     // Fresnel (edge glow)
-    float fresnel = pow(1.0 - dot(vNormal, viewDir), 3.0);
+    float fresnelBase = clamp(1.0 - dot(normalDir, viewDir), 0.0, 1.0);
+    float fresnel = pow(fresnelBase, 3.0);
 
     // Light influence
     vec3 lightDir = normalize(uSunPosition - vPosition);
-    float daylight = clamp(dot(vNormal, lightDir), 0.0, 1.0);
+    float daylight = clamp(dot(normalDir, lightDir), 0.0, 1.0);
 
     // Combine
-    float glow = fresnel * (0.3 + 0.7 * daylight);
+    float glow = clamp(fresnel * (0.3 + 0.7 * daylight), 0.0, 1.0);
 
     // FINAL COLOR (subtle)
-    vec3 color = uAtmosphereColor * glow * uIntensity;
+    vec3 color = uAtmosphereColor * glow * min(uIntensity, 3.0);
+    color = clamp(color, 0.0, 1.0);
 
     // IMPORTANT: alpha mostly from fresnel (edge only)
-    float alpha = fresnel * 0.4;
+    float alpha = clamp(fresnel * 0.35, 0.0, 0.35);
 
     gl_FragColor = vec4(color, alpha);
 }

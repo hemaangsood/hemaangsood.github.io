@@ -31,7 +31,7 @@ export default function Solar(): React.JSX.Element {
 			/>
 			{solarElements.map((element, idx) => (
 				<SolarObject key={idx} {...element.orbit}>
-					<Planet {...element.planet} />
+					<Planet {...element.planet} useAtmosphere={true} />
 				</SolarObject>
 			))}
 			<NebulaRing />
@@ -39,9 +39,9 @@ export default function Solar(): React.JSX.Element {
 			<BackgroundStars count={2000} />
 			<EffectComposer>
 				<Bloom
-					intensity={1.0}
-					luminanceThreshold={0.05}
-					luminanceSmoothing={0.9}
+					intensity={0.65}
+					luminanceThreshold={0.24}
+					luminanceSmoothing={0.2}
 					mipmapBlur
 				/>
 			</EffectComposer>

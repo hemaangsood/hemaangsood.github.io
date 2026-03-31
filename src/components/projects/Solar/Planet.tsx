@@ -23,6 +23,14 @@ export function Planet({
 			if (!textureMap) return null;
 			const texture = textureLoader.load(textureMap);
 			texture.colorSpace = THREE.SRGBColorSpace;
+			texture.wrapS = THREE.RepeatWrapping;
+			texture.wrapT = THREE.ClampToEdgeWrapping;
+			texture.repeat.set(0.9995, 1);
+			texture.offset.set(0.00025, 0);
+			texture.minFilter = THREE.LinearMipmapLinearFilter;
+			texture.magFilter = THREE.LinearFilter;
+			texture.generateMipmaps = true;
+			texture.needsUpdate = true;
 			return texture;
 		},
 		[textureMap],
@@ -30,17 +38,18 @@ export function Planet({
 	const hasTexture = Boolean(map);
 
 	const resolvedSurfaceColor = color ?? (hasTexture ? "white" : "blue");
-	const resolvedEmissiveColor = hasTexture ? "black" : resolvedSurfaceColor;
+	const resolvedEmissiveColor = hasTexture ? "#4c79c9" : resolvedSurfaceColor;
 	const shouldRenderAtmosphere =
-		useAtmosphere && (!hasTexture || atmosphereColor !== undefined || color !== undefined);
+		useAtmosphere &&
+		(!hasTexture || atmosphereColor !== undefined || color !== undefined || isHovered || isSelected);
 
 	const resolvedAtmosphereColor =
 		atmosphereColor ?? (color ?? (hasTexture ? "#9ac7ff" : "blue"));
 	const emissiveIntensity = hasTexture
 		? isHovered
-			? 0.25
+			? 0.5
 			: isSelected
-				? 0.12
+				? 0.25
 				: 0
 		: isHovered
 			? 7

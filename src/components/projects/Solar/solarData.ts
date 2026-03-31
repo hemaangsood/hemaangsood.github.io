@@ -9,8 +9,8 @@ export const solarElements: SolarElementConfig[] = [
 		},
 		planet: {
 			size: 0.5,
-			// color: "",
-			textureMap:"/projects/green-water.jpg",
+			color: "orange",
+			textureMap:"/projects/2k_venus_surface.jpg",
 		},
 	},
 	{
@@ -21,7 +21,7 @@ export const solarElements: SolarElementConfig[] = [
 		},
 		planet: {
 			size: 0.3,
-			color: "red",
+			textureMap:"/projects/red-rock.jpg",
 		},
 	},
 	{
@@ -46,7 +46,7 @@ export const solarElements: SolarElementConfig[] = [
 		},
 		planet: {
 			size: 0.4,
-			color: "blue",
+			textureMap:"/projects/2k_jupiter.jpg",
 		},
 	},
 	{
