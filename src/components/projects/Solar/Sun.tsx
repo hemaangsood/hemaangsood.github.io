@@ -1,21 +1,30 @@
 import { useTexture } from "@react-three/drei";
-import React from "react";
+import { Bloom, EffectComposer, SelectiveBloom } from "@react-three/postprocessing";
+import React, { useState } from "react";
 import { SUN_POINT } from "./constants";
 import * as THREE from "three";
+import { BackgroundStars } from "./BackgroundStars";
+import AsteroidBelt from "./AsteroidBelt";
+import { Planet } from "./Planet";
+import { solarElements } from "./solarData";
+import { SolarObject } from "./SolarObject";
 
 type SunProps = {
-	sunMeshRef?: React.Ref<THREE.Mesh>;
-	sunLightRef?: React.Ref<THREE.PointLight>;
+	shouldMountHeavyEffects?: boolean;
 };
 
-export function Sun({ sunMeshRef, sunLightRef }: SunProps) {
+export function Sun({
+	shouldMountHeavyEffects = false,
+}: SunProps) {
 	const sunTexture = useTexture("/projects/sun.png");
+	const [sunMesh, setSunMesh] = useState<THREE.Mesh | null>(null);
+	const [sunLight, setSunLight] = useState<THREE.PointLight | null>(null);
 	const SunSize = 2;
 	const coronaMultiplier = 1.01;
 	return (
 		<>
 			{/* Core sun */}
-			<mesh ref={sunMeshRef} position={SUN_POINT}>
+			<mesh ref={setSunMesh} position={SUN_POINT}>
 				<sphereGeometry args={[SunSize, 32, 32]} />
 				<meshStandardMaterial
 					color="#fff4cc"
@@ -26,28 +35,35 @@ export function Sun({ sunMeshRef, sunLightRef }: SunProps) {
 				/>
 			</mesh>
 
-			{/* Light */}
-			<pointLight
-				ref={sunLightRef}
-				color="#fff5e0"
-				position={SUN_POINT}
-				intensity={1000}
-				distance={80}
-				decay={2}
-			/>
+      {shouldMountHeavyEffects && (
+				<>
+					{/* Light */}
+					<pointLight
+						ref={setSunLight}
+						color="#fff5e0"
+						position={SUN_POINT}
+						intensity={1000}
+						distance={80}
+						decay={2}
+						castShadow
+						shadow-mapSize-width={2048}
+						shadow-mapSize-height={2048}
+						shadow-camera-near={0.1}
+						shadow-camera-far={200}
+						shadow-bias={-0.001}
+					/>
 
-			{/* Corona shell */}
-			<mesh position={SUN_POINT}>
-				<sphereGeometry args={[SunSize * coronaMultiplier, 64, 64]} />
-				<shaderMaterial
-					transparent
-					depthWrite={false}
-					blending={THREE.AdditiveBlending}
-					uniforms={{
-						uCenter: { value: new THREE.Vector3(...SUN_POINT) },
-						uIntensity: { value: 1.5 },
-					}}
-					vertexShader={`
+					<mesh position={SUN_POINT}>
+						<sphereGeometry args={[SunSize * coronaMultiplier, 64, 64]} />
+						<shaderMaterial
+							transparent
+							depthWrite={false}
+							blending={THREE.AdditiveBlending}
+							uniforms={{
+								uCenter: { value: new THREE.Vector3(...SUN_POINT) },
+								uIntensity: { value: 1.5 },
+							}}
+							vertexShader={`
       varying vec3 vWorldPosition;
 
       void main() {
@@ -119,8 +135,58 @@ void main() {
   gl_FragColor = vec4(vec3(1.0, 0.6, 0.1), alpha);
 }
     `}
-				/>
-			</mesh>
+						/>
+					</mesh>
+
+					<AsteroidBelt orbitRadius={10.0} count={1000} />
+					<AsteroidBelt
+						orbitRadius={22.0}
+						count={1500}
+						height={1.0}
+						size={0.15}
+						thickness={0.3}
+					/>
+
+					{solarElements.map((element, idx) => {
+						const orbitConfig = Array.isArray(element.orbit)
+							? element.orbit[0]
+							: element.orbit;
+
+						return (
+							<SolarObject key={idx} {...orbitConfig}>
+								<Planet {...element.planet} useAtmosphere={true} />
+								{element.asteroidBelts?.map((belt, beltIndex) => (
+									<AsteroidBelt
+										key={`belt-${idx}-${beltIndex}`}
+										{...belt}
+									/>
+								))}
+							</SolarObject>
+						);
+					})}
+					<BackgroundStars count={320} />
+					<EffectComposer>
+						<Bloom
+							intensity={1.2}
+							luminanceThreshold={0.2}
+							luminanceSmoothing={0.9}
+							mipmapBlur
+						/>
+						{sunMesh && sunLight ? (
+							<SelectiveBloom
+								selection={[sunMesh]}
+								lights={[sunLight]}
+								intensity={2.5}
+								luminanceThreshold={0.5}
+								luminanceSmoothing={0.2}
+								mipmapBlur
+							/>
+						) : (
+							<></>
+						)}
+					</EffectComposer>
+				</>
+			)}
 		</>
 	);
 }

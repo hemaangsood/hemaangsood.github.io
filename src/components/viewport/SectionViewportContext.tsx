@@ -23,20 +23,59 @@ export function SectionViewportProvider({
 	const switchTimerRef = useRef<number | null>(null);
 
 	useEffect(() => {
-		const root = rootRef.current;
-		if (!root || sectionIds.length === 0) {
-			return;
-		}
+		let frameId = 0;
+		let observer: IntersectionObserver | null = null;
+		let preloadObserver: IntersectionObserver | null = null;
 
-		const sections = sectionIds
-			.map((id) => document.getElementById(id))
-			.filter((el): el is HTMLElement => Boolean(el));
+		const setupObservers = () => {
+			const root = rootRef.current;
+			if (!root || sectionIds.length === 0) {
+				frameId = window.requestAnimationFrame(setupObservers);
+				return;
+			}
 
-		if (sections.length === 0) {
-			return;
-		}
+			const sections = sectionIds
+				.map((id) => document.getElementById(id))
+				.filter((el): el is HTMLElement => Boolean(el));
 
-		const observer = new IntersectionObserver(
+			if (sections.length === 0) {
+				frameId = window.requestAnimationFrame(setupObservers);
+				return;
+			}
+
+		const syncViewportStateFromLayout = () => {
+			const rootRect = root.getBoundingClientRect();
+			const nextRatios: Record<string, number> = {};
+			const nextSeen: Record<string, boolean> = {};
+			let bestId: string | null = null;
+			let bestRatio = 0;
+
+			for (const section of sections) {
+				const rect = section.getBoundingClientRect();
+				const overlapTop = Math.max(rect.top, rootRect.top);
+				const overlapBottom = Math.min(rect.bottom, rootRect.bottom);
+				const overlapHeight = Math.max(0, overlapBottom - overlapTop);
+				const ratio =
+					rect.height > 0 ? Math.min(1, overlapHeight / rect.height) : 0;
+
+				nextRatios[section.id] = ratio;
+				nextSeen[section.id] = ratio > 0;
+
+				if (ratio > bestRatio) {
+					bestRatio = ratio;
+					bestId = section.id;
+				}
+			}
+
+			setSectionRatios(nextRatios);
+			setSeenSections((prevSeen) => ({ ...prevSeen, ...nextSeen }));
+
+			const nextActiveSection = bestRatio > 0 ? bestId : null;
+			activeSectionRef.current = nextActiveSection;
+			setActiveSection(nextActiveSection);
+		};
+
+			observer = new IntersectionObserver(
 			(entries) => {
 				setSectionRatios((prev) => {
 					const next = { ...prev };
@@ -131,7 +170,7 @@ export function SectionViewportProvider({
 			},
 		);
 
-		const preloadObserver = new IntersectionObserver(
+			preloadObserver = new IntersectionObserver(
 			(entries) => {
 				const preloadedIds: string[] = [];
 
@@ -166,18 +205,25 @@ export function SectionViewportProvider({
 			},
 		);
 
-		for (const section of sections) {
-			observer.observe(section);
-			preloadObserver.observe(section);
-		}
+			for (const section of sections) {
+				observer.observe(section);
+				preloadObserver.observe(section);
+			}
+
+			syncViewportStateFromLayout();
+			frameId = window.requestAnimationFrame(syncViewportStateFromLayout);
+		};
+
+		setupObservers();
 
 		return () => {
+			window.cancelAnimationFrame(frameId);
 			if (switchTimerRef.current !== null) {
 				window.clearTimeout(switchTimerRef.current);
 				switchTimerRef.current = null;
 			}
-			observer.disconnect();
-			preloadObserver.disconnect();
+			observer?.disconnect();
+			preloadObserver?.disconnect();
 		};
 	}, [rootRef, sectionIds]);
 

@@ -95,6 +95,7 @@ export function Planet({
 				emissive={resolvedEmissiveColor}
 				emissiveIntensity={emissiveIntensity}
 				toneMapped
+				// castShadow={true}
 				map={map}
 			/>
 			{shouldRenderAtmosphere && (
