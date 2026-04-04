@@ -1,8 +1,14 @@
-import { useSectionHasBeenInViewport } from "../viewport/viewportHooks";
+import {
+	useIsSectionInViewport,
+	useSectionHasBeenInViewport,
+} from "../viewport/viewportHooks";
 import Solar from "./Solar";
 
 const ProjectsSection = () => {
-	const shouldMountProjectsGraphics = useSectionHasBeenInViewport("projects");
+	const isProjectsVisible = useIsSectionInViewport("projects", false, 0.08);
+	const hasMountedProjectsGraphics = useSectionHasBeenInViewport("projects");
+	const shouldMountProjectsGraphics =
+		isProjectsVisible || hasMountedProjectsGraphics;
 	return (
 		<section
 			className="relative w-screen min-h-screen h-fit snap-start overflow-y-hidden"
@@ -18,7 +24,6 @@ const ProjectsSection = () => {
 					background: "#080d1a",
 				}}
 			>
-				{shouldMountProjectsGraphics && <></>}
 			</div>
 			<div className="flex absolute top-0 left-0 w-full h-full">
 				{shouldMountProjectsGraphics && <Solar />}

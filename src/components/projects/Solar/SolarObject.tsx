@@ -1,6 +1,6 @@
 import { useFrame } from "@react-three/fiber";
 import type { Mesh } from "three";
-import React, { useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import { randFloat } from "three/src/math/MathUtils.js";
 import { PI, RADIAN, SUN_POINT } from "./constants";
 import { OrbitEllipse } from "./OrbitEllipse";
@@ -19,15 +19,18 @@ export function SolarObject({
 	selfRotationSpeed = 0.3,
 	children,
 }: SolarObjectProps) {
-	if (eccentricity >= 1) eccentricity = 0.99;
+	const normalizedEccentricity = Math.min(eccentricity, 0.99);
 
-	const absE = Math.abs(eccentricity);
+	const absE = Math.abs(normalizedEccentricity);
 	const a = orbitRadius;
 	const b = a * Math.sqrt(1 - absE ** 2);
 
-	const [majorX, majorZ] = eccentricity < 0 ? [a, b] : [b, a];
-	const startAngle = randFloat(0, 2 * PI);
-	const orbitingObjectStartPos = getPosition(majorX, majorZ, startAngle);
+	const [majorX, majorZ] = normalizedEccentricity < 0 ? [a, b] : [b, a];
+	const startAngle = useMemo(() => randFloat(0, 2 * PI), []);
+	const orbitingObjectStartPos = useMemo(
+		() => getPosition(majorX, majorZ, startAngle),
+		[majorX, majorZ, startAngle],
+	);
 	const orbitingObjectPosition = useRef({ majorX, majorZ, angle: startAngle });
 	const orbitingObject = useRef<Mesh>(null);
 	const orbitThickness = 0.5;

@@ -1,4 +1,5 @@
 import { Line } from "@react-three/drei";
+import { useMemo } from "react";
 import { getOrbitPoint } from "./orbit";
 
 interface OrbitEllipseProps {
@@ -14,8 +15,12 @@ export function OrbitEllipse({
 	segments = 128,
 	lineWidth = 0.5,
 }: OrbitEllipseProps) {
-	const points = Array.from({ length: segments + 1 }, (_, i) =>
-		getOrbitPoint(majorX, majorZ, (i / segments) * 2 * Math.PI),
+	const points = useMemo(
+		() =>
+			Array.from({ length: segments + 1 }, (_, i) =>
+				getOrbitPoint(majorX, majorZ, (i / segments) * 2 * Math.PI),
+			),
+		[majorX, majorZ, segments],
 	);
 
 	return (
