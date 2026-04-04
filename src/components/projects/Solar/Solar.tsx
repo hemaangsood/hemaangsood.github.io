@@ -1,4 +1,4 @@
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import React, { useEffect, useState } from "react";
 import { Bloom, EffectComposer, SelectiveBloom } from "@react-three/postprocessing";
 import { BackgroundStars } from "./BackgroundStars";
@@ -10,7 +10,33 @@ import { solarElements } from "./solarData";
 import { Sun } from "./Sun";
 import * as THREE from "three";
 import { OrbitControls } from "@react-three/drei";
+import Stats from "stats.js";
 import AsteroidBelt from "./AsteroidBelt";
+
+function StatsPanel({ enabled }: { enabled: boolean }) {
+	const statsRef = React.useRef<Stats | null>(null);
+
+	useEffect(() => {
+		if (!enabled) return;
+
+		const stats = new Stats();
+		stats.showPanel(0);
+		document.body.appendChild(stats.dom);
+		statsRef.current = stats;
+
+		return () => {
+			document.body.removeChild(stats.dom);
+		};
+	}, [enabled]);
+
+	useFrame(() => {
+		if (!statsRef.current) return;
+		statsRef.current.begin();
+		statsRef.current.end();
+	});
+
+	return null;
+}
 
 export default function Solar(): React.JSX.Element {
 	const [sunMesh, setSunMesh] = React.useState<THREE.Mesh | null>(null);
@@ -24,7 +50,6 @@ export default function Solar(): React.JSX.Element {
 
 		return () => window.cancelAnimationFrame(frame);
 	}, []);
-
 	return (
 		<Canvas
 			id="solar-canvas"
@@ -48,10 +73,17 @@ export default function Solar(): React.JSX.Element {
 			<Sun sunMeshRef={setSunMesh} sunLightRef={setSunLight} />
 			{shouldMountHeavyEffects && (
 				<>
-					<AsteroidBelt orbitRadius={10.0} count={1000}/>
-					<AsteroidBelt orbitRadius={22.0} count={2500} height={1.0} size={0.1} />
+					<AsteroidBelt orbitRadius={10.0} count={1000} />
+					<AsteroidBelt
+						orbitRadius={22.0}
+						count={1500}
+						height={1.0}
+						size={0.15}
+						thickness={0.3}
+					/>
 				</>
 			)}
+			{/* {shouldMountHeavyEffects && <StatsPanel enabled />} */}
 			<ambientLight color="#404040" intensity={1.0} />
 			{solarElements.map((element, idx) => {
 				const orbitConfig = Array.isArray(element.orbit)
@@ -86,7 +118,7 @@ export default function Solar(): React.JSX.Element {
 							<SelectiveBloom
 								selection={[sunMesh]}
 								lights={[sunLight]}
-								intensity={1.5}
+								intensity={2.5}
 								luminanceThreshold={0.5}
 								luminanceSmoothing={0.2}
 								mipmapBlur

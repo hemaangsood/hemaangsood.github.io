@@ -16,7 +16,7 @@ export function NebulaRing() {
 					uGlowColor2: { value: new THREE.Color("#72e6d6") },
 				},
 
-			vertexShader: `
+				vertexShader: `
       varying vec2 vUv;
 
       void main() {
@@ -25,7 +25,7 @@ export function NebulaRing() {
       }
     `,
 
-			fragmentShader: `
+				fragmentShader: `
   precision highp float;
 
 uniform float uTime;
@@ -34,53 +34,51 @@ uniform vec3 uGlowColor2;
 
 varying vec2 vUv;
 
-float noise(vec2 p) {
-  return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
-}
-
 void main() {
-	vec2 flowUv = vUv;
-	flowUv.x += uTime * 0.018;
-	flowUv.y += sin(vUv.x * 6.2832 + uTime * 0.5) * 0.022;
 
-	float t = abs(flowUv.y - 0.5);
+    // --- Stable circular domain ---
+    float baseAngle = vUv.x * 6.28318530718;   // [0, 2π]
+    float angle = baseAngle + uTime * 0.18;    // animate in angular space
 
-	float coreK = 1.5;
-	float haloK = 4.2;
-	float coreWeight = 0.18;
-	float haloWeight = 0.24;
+    // --- Vertical coordinate (centered band) ---
+    float y = vUv.y;
 
-	float core = exp(-coreK * t * t);
-	float halo = exp(-haloK * t * t);
+    // Flow distortion (now angle-based, seamless)
+    y += sin(angle + uTime * 0.5) * 0.022;
 
-	float density = core * coreWeight + halo * haloWeight;
-	density *= smoothstep(0.5, 0.0, t);
-	density *= exp(-1.55 * t);
+    float t = abs(y - 0.5);
 
-	float angle = flowUv.x * 6.2832;
-	float band1 = sin(angle * 4.5 + uTime * 0.2) * 0.5 + 0.5;
-	float band2 = sin(angle * 7.2 - uTime * 0.16 + 1.2) * 0.5 + 0.5;
-	float pulse = 0.94 + 0.06 * sin(uTime * 0.9 + angle * 2.8);
+    // --- Density profile ---
+    float core = exp(-1.5 * t * t);
+    float halo = exp(-4.2 * t * t);
 
-	vec3 col = mix(uGlowColor1, uGlowColor2, band1 * 0.55 + band2 * 0.45);
+    float density = core * 0.18 + halo * 0.24;
+    density *= smoothstep(0.5, 0.0, t);
+    density *= exp(-1.55 * t);
 
-	float n = noise(flowUv * 12.0 + vec2(uTime * 0.09, -uTime * 0.08));
-	col *= (0.9 + n * 0.2);
+    // --- Angular banding (fully periodic now) ---
+    float band1 = sin(angle * 4.5 + uTime * 0.2) * 0.5 + 0.5;
+    float band2 = sin(angle * 7.2 - uTime * 0.16 + 1.2) * 0.5 + 0.5;
 
-	density *= pulse;
-	vec3 finalColor = col * density * 1.22;
-	finalColor = clamp(finalColor, 0.0, 1.0);
+    float pulse = 0.94 + 0.06 * sin(uTime * 0.9 + angle * 2.8);
 
-	float alpha = density * 0.85;
-	alpha = clamp(alpha, 0.0, 0.65);
+    vec3 col = mix(uGlowColor1, uGlowColor2, band1 * 0.55 + band2 * 0.45);
 
-	gl_FragColor = vec4(finalColor, alpha);
+    density *= pulse;
+
+    vec3 finalColor = col * density * 1.22;
+    finalColor = clamp(finalColor, 0.0, 1.0);
+
+    float alpha = density * 0.85;
+    alpha = clamp(alpha, 0.0, 0.65);
+
+    gl_FragColor = vec4(finalColor, alpha);
 }
 `,
 				toneMapped: false,
 				transparent: true,
 				depthWrite: false,
-				depthTest: true,
+				depthTest: false,
 				blending: THREE.AdditiveBlending,
 				side: THREE.BackSide,
 			}),

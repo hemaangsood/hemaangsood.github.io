@@ -4,108 +4,143 @@ import React, { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import type { AsteroidBeltProps } from "./types";
 
+type AsteroidTemplate = {
+	geometry: THREE.BufferGeometry;
+	material: THREE.Material;
+};
+
+function seededRandom(seed: number): number {
+	const value = Math.sin(seed * 12.9898) * 43758.5453;
+	return value - Math.floor(value);
+}
+
 export default function AsteroidBelt({
 	count = 1000,
 	orbitRadius = 11.0,
 	eccentricity = 0,
-	thickness = 1.6, // radial spread
-	height = 0.5, // vertical spread
+	thickness = 1.6,
+	height = 0.5,
 	size = 0.06,
 }: AsteroidBeltProps) {
 	const { scene } = useGLTF("/projects/asteroidPack.glb");
 	const groupRef = useRef<THREE.Group>(null);
+	const instancedMeshRefs = useRef<Array<THREE.InstancedMesh | null>>([]);
 
-	// extract meshes once (optimized)
-	const asteroidMeshes = useMemo(() => {
-		const meshes: THREE.Mesh[] = [];
+	const asteroidTemplates = useMemo(() => {
+		const templates: AsteroidTemplate[] = [];
 
 		scene.traverse((child) => {
-			if ((child as THREE.Mesh).isMesh) {
-				const mesh = child as THREE.Mesh;
+			if (!(child as THREE.Mesh).isMesh) return;
 
-				// clone material so we don't mutate original GLTF
-				const mat = (
-					mesh.material as THREE.MeshStandardMaterial
-				).clone();
+			const mesh = child as THREE.Mesh;
+			if (!mesh.geometry) return;
 
-				mat.metalness = 0.6; // rocks are not metal
-				mat.roughness = 0.4;
-				mat.envMapIntensity = 0.7; // ignore environment reflections
+			const sourceMaterial = Array.isArray(mesh.material)
+				? mesh.material[0]
+				: mesh.material;
+			if (!sourceMaterial) return;
 
-				// optional: darken slightly (space rocks are dark)
-				mat.color.multiplyScalar(1.0);
+			const material = sourceMaterial.clone();
+			const asStandardMaterial = material as THREE.MeshStandardMaterial;
+			asStandardMaterial.metalness = 0.6;
+			asStandardMaterial.roughness = 0.4;
+			asStandardMaterial.envMapIntensity = 0.7;
+			asStandardMaterial.needsUpdate = true;
 
-				mesh.material = mat;
-
-				mesh.castShadow = false; // asteroids don't cast shadows for performance
-				mesh.receiveShadow = true;
-
-				meshes.push(mesh);
-			}
+			templates.push({
+				geometry: mesh.geometry,
+				material,
+			});
 		});
 
-		return meshes;
+		return templates;
 	}, [scene]);
 
-	// ellipse params
-	const a = orbitRadius;
-	const b = a * Math.sqrt(1 - eccentricity * eccentricity);
+	const matricesByTemplate = useMemo(() => {
+		if (asteroidTemplates.length === 0 || count <= 0) {
+			return [] as THREE.Matrix4[][];
+		}
 
-	useEffect(() => {
-		if (!groupRef.current || asteroidMeshes.length === 0) return;
-
-		const group = groupRef.current;
-		group.clear();
+		const a = orbitRadius;
+		const b = a * Math.sqrt(1 - eccentricity * eccentricity);
+		const buckets = Array.from(
+			{ length: asteroidTemplates.length },
+			() => [] as THREE.Matrix4[],
+		);
+		const dummy = new THREE.Object3D();
 
 		for (let i = 0; i < count; i++) {
-			const base =
-				asteroidMeshes[
-					Math.floor(Math.random() * asteroidMeshes.length)
-				];
-
-			const asteroid = base.clone();
-
-			// --- placement ---
-			const angle = Math.random() * Math.PI * 2;
-
+			const baseSeed = i + count * 101 + a * 29 + b * 17;
+			const templateIndex = Math.floor(
+				seededRandom(baseSeed + 1) * asteroidTemplates.length,
+			);
+			const angle = seededRandom(baseSeed + 2) * Math.PI * 2;
 			const radialOffset =
-				(Math.random() - 0.5) * thickness * Math.random();
+				(seededRandom(baseSeed + 3) - 0.5) *
+				thickness *
+				seededRandom(baseSeed + 4);
 
 			const baseX = a * Math.cos(angle);
 			const baseZ = b * Math.sin(angle);
+			const direction = new THREE.Vector2(baseX, baseZ).normalize();
 
-			const dir = new THREE.Vector2(baseX, baseZ).normalize();
-
-			const x = baseX + dir.x * radialOffset;
-			const z = baseZ + dir.y * radialOffset;
-			const y = THREE.MathUtils.randFloatSpread(height);
-
-			asteroid.position.set(x, y, z);
-
-			// rotation
-			asteroid.rotation.set(
-				Math.random() * Math.PI,
-				Math.random() * Math.PI,
-				Math.random() * Math.PI,
+			dummy.position.set(
+				baseX + direction.x * radialOffset,
+				(seededRandom(baseSeed + 5) - 0.5) * height,
+				baseZ + direction.y * radialOffset,
 			);
+			dummy.rotation.set(
+				seededRandom(baseSeed + 6) * Math.PI,
+				seededRandom(baseSeed + 7) * Math.PI,
+				seededRandom(baseSeed + 8) * Math.PI,
+			);
+			dummy.scale.setScalar(size * (0.6 + seededRandom(baseSeed + 9) * 0.8));
+			dummy.updateMatrix();
 
-			// scale around average size
-			const scale = size * THREE.MathUtils.randFloat(0.6, 1.4);
-			asteroid.scale.setScalar(scale);
-
-			// 🔥 performance critical
-			asteroid.updateMatrix();
-			asteroid.matrixAutoUpdate = false;
-
-			group.add(asteroid);
+			buckets[templateIndex].push(dummy.matrix.clone());
 		}
-	}, [asteroidMeshes, count, a, b, thickness, height, size]);
 
-	// orbit rotation
+		return buckets;
+	}, [asteroidTemplates.length, count, orbitRadius, eccentricity, thickness, height, size]);
+
+	useEffect(() => {
+		matricesByTemplate.forEach((matrices, templateIndex) => {
+			const mesh = instancedMeshRefs.current[templateIndex];
+			if (!mesh) return;
+
+			for (let matrixIndex = 0; matrixIndex < matrices.length; matrixIndex++) {
+				mesh.setMatrixAt(matrixIndex, matrices[matrixIndex]);
+			}
+
+			mesh.count = matrices.length;
+			mesh.instanceMatrix.needsUpdate = true;
+			mesh.castShadow = false;
+			mesh.receiveShadow = true;
+		});
+	}, [matricesByTemplate]);
+
 	useFrame(() => {
 		if (!groupRef.current) return;
 		groupRef.current.rotation.y += 0.0003;
 	});
 
-	return <group ref={groupRef} />;
+	return (
+		<group ref={groupRef}>
+			{asteroidTemplates.map((template, templateIndex) => {
+				const templateCount = Math.max(matricesByTemplate[templateIndex]?.length ?? 0, 1);
+
+				return (
+					<instancedMesh
+						key={`asteroid-instanced-${templateIndex}`}
+						ref={(mesh) => {
+							instancedMeshRefs.current[templateIndex] = mesh;
+						}}
+						args={[template.geometry, template.material, templateCount]}
+					/>
+				);
+			})}
+		</group>
+	);
 }
+
+useGLTF.preload("/projects/asteroidPack.glb");
