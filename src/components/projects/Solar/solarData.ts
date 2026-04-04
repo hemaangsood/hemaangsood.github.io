@@ -20,7 +20,7 @@ export const solarElements: SolarElementConfig[] = [
 		orbit: {
 			orbitRadius: 8.55,
 			rotationSpeed: 0.07,
-			orbitSegments: 72,
+			orbitSegments: 48,
 			orbitOffsetPlaneRotationOffset: -2,
 			selfRotationSpeed: 0.33,
 		},
@@ -36,7 +36,7 @@ export const solarElements: SolarElementConfig[] = [
 		orbit: {
 			orbitRadius: 12.15,
 			rotationSpeed: 0.05,
-			orbitSegments: 96,
+			orbitSegments: 64,
 			eccentricity: 0.06,
 			orbitOffsetPlaneRotationOffset: 0,
 			selfRotationSpeed: 0.22,
@@ -51,7 +51,7 @@ export const solarElements: SolarElementConfig[] = [
 		asteroidBelts: [
 			{
 				orbitRadius: 0.6,
-				count: 500,
+				count: 300,
 				height: 0,
 				size: 0.015,
 				thickness: 0.1,
@@ -63,7 +63,7 @@ export const solarElements: SolarElementConfig[] = [
 		orbit: {
 			orbitRadius: 15.75,
 			rotationSpeed: 0.035,
-			orbitSegments: 112,
+			orbitSegments: 80,
 			eccentricity: -0.1,
 			orbitOffsetPlaneRotationOffset: 1.8,
 			selfRotationSpeed: 0.38,
@@ -78,7 +78,7 @@ export const solarElements: SolarElementConfig[] = [
 		asteroidBelts: [
 			{
 				orbitRadius: 1.5,
-				count: 500,
+				count: 300,
 				height: 0.01,
 				size: 0.02,
 				thickness: 0.5,
@@ -90,7 +90,7 @@ export const solarElements: SolarElementConfig[] = [
 		orbit: {
 			orbitRadius: 19.8,
 			rotationSpeed: 0.024,
-			orbitSegments: 140,
+			orbitSegments: 96,
 			eccentricity: 0.08,
 			orbitOffsetPlaneRotationOffset: 4,
 			selfRotationSpeed: 0.19,
@@ -107,7 +107,7 @@ export const solarElements: SolarElementConfig[] = [
 		orbit: {
 			orbitRadius: 18,
 			rotationSpeed: 0.015,
-			orbitSegments: 176,
+			orbitSegments: 120,
 			eccentricity: -0.04,
 			orbitOffsetPlaneRotationOffset: -3,
 			selfRotationSpeed: 0.16,

@@ -1,16 +1,19 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
+import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { randFloat } from "three/src/math/MathUtils.js";
 import { SUN_POINT } from "./constants";
 
 interface BackgroundStarsProps {
 	count?: number;
-	sunPosition?:THREE.Vector3;
+	sunPosition?: THREE.Vector3;
 }
 
 export function BackgroundStars({ count = 300, sunPosition }: BackgroundStarsProps) {
 	const minDist = 25;
 	const maxDist = 50;
+	const materialRef = useRef<THREE.ShaderMaterial | null>(null);
+	const { camera } = useThree();
 
 	const { positions, colors, sizes } = useMemo(() => {
 		const positions = new Float32Array(count * 3);
@@ -41,6 +44,13 @@ export function BackgroundStars({ count = 300, sunPosition }: BackgroundStarsPro
 		return { positions, colors, sizes };
 	}, [count]);
 
+	// Update camera position uniform every frame for star fade effect
+	useFrame(() => {
+		if (materialRef.current && materialRef.current.uniforms) {
+			materialRef.current.uniforms.uCameraPosition.value.copy(camera.position);
+		}
+	});
+
 	return (
 		<points>
 			<bufferGeometry>
@@ -53,6 +63,7 @@ export function BackgroundStars({ count = 300, sunPosition }: BackgroundStarsPro
 			</bufferGeometry>
 
 			<shaderMaterial
+				ref={materialRef}
 				transparent
 				depthWrite={false}
 				blending={THREE.AdditiveBlending}

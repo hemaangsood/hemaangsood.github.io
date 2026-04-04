@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { SUN_POINT } from "./constants";
 import * as THREE from "three";
 import { BackgroundStars } from "./BackgroundStars";
-import AsteroidBelt from "./AsteroidBelt";
+import { AsteroidBeltLOD } from "./AsteroidBeltLOD";
 import { Planet } from "./Planet";
 import { solarElements } from "./solarData";
 import { SolarObject } from "./SolarObject";
@@ -45,25 +45,19 @@ export function Sun({
 						intensity={1000}
 						distance={80}
 						decay={2}
-						castShadow
-						shadow-mapSize-width={2048}
-						shadow-mapSize-height={2048}
-						shadow-camera-near={0.1}
-						shadow-camera-far={200}
-						shadow-bias={-0.001}
-					/>
+				/>
 
-					<mesh position={SUN_POINT}>
-						<sphereGeometry args={[SunSize * coronaMultiplier, 64, 64]} />
-						<shaderMaterial
-							transparent
-							depthWrite={false}
-							blending={THREE.AdditiveBlending}
-							uniforms={{
-								uCenter: { value: new THREE.Vector3(...SUN_POINT) },
-								uIntensity: { value: 1.5 },
-							}}
-							vertexShader={`
+				<mesh position={SUN_POINT}>
+					<sphereGeometry args={[SunSize * coronaMultiplier, 64, 64]} />
+					<shaderMaterial
+						transparent
+						depthWrite={false}
+						blending={THREE.AdditiveBlending}
+						uniforms={{
+							uCenter: { value: new THREE.Vector3(...SUN_POINT) },
+							uIntensity: { value: 1.5 },
+						}}
+						vertexShader={`
       varying vec3 vWorldPosition;
 
       void main() {
@@ -72,15 +66,7 @@ export function Sun({
         gl_Position = projectionMatrix * viewMatrix * worldPos;
       }
     `}
-					fragmentShader={`
-      precision highp float;
-
-uniform vec3 uCenter;
-uniform float uIntensity;
-
-varying vec3 vWorldPosition;
-
-// --------------------
+						fragmentShader={`
 // simple noise (stable)
 // --------------------
 float hash(vec2 p) {
@@ -138,13 +124,14 @@ void main() {
 						/>
 					</mesh>
 
-					<AsteroidBelt orbitRadius={10.0} count={1000} />
-					<AsteroidBelt
+					<AsteroidBeltLOD orbitRadius={10.0} count={1000} centerPosition={SUN_POINT} />
+					<AsteroidBeltLOD
 						orbitRadius={22.0}
 						count={1500}
 						height={1.0}
 						size={0.15}
 						thickness={0.3}
+						centerPosition={SUN_POINT}
 					/>
 
 					{solarElements.map((element, idx) => {
@@ -156,9 +143,10 @@ void main() {
 							<SolarObject key={idx} {...orbitConfig}>
 								<Planet {...element.planet} useAtmosphere={true} />
 								{element.asteroidBelts?.map((belt, beltIndex) => (
-									<AsteroidBelt
+									<AsteroidBeltLOD
 										key={`belt-${idx}-${beltIndex}`}
 										{...belt}
+										centerPosition={SUN_POINT}
 									/>
 								))}
 							</SolarObject>

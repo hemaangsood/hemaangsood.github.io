@@ -34,6 +34,17 @@ function StatsPanel({ enabled }: { enabled: boolean }) {
 	return null;
 }
 
+function OrbitControlsComponent() {
+	return (
+		<OrbitControls
+			enablePan={true}
+			enableZoom={true}
+			maxDistance={50}
+			minDistance={5}
+		/>
+	);
+}
+
 for (const texturePath of solarElements
 	.map((element) => element.planet.textureMap)
 	.filter((texturePath): texturePath is string => Boolean(texturePath))) {
@@ -58,7 +69,7 @@ export default function Solar(): React.JSX.Element {
 			className="block h-full w-full"
 			style={{ background: "black" }}
 			camera={{ position: [24, 15, 0], fov: 80 }}
-			dpr={[1, 1.5]}
+			dpr={[1, 1.2]}
 			frameloop="always"
 			fallback={<div>Sorry no WebGL supported!</div>}
 			gl={{
@@ -67,15 +78,10 @@ export default function Solar(): React.JSX.Element {
 			}}
 		>
 			<CameraSetup />
-			<OrbitControls
-				enablePan={true}
-				enableZoom={true}
-				maxDistance={50}
-				minDistance={5}
-			/>
+			<OrbitControlsComponent />
 			<fogExp2 attach="fog" args={["#0d0825", 0.004]} />
 			<Sun shouldMountHeavyEffects={shouldMountHeavyEffects} />
-			<StatsPanel enabled />
+			<StatsPanel enabled={true} />
 			<ambientLight color="#404040" intensity={1.0} />
 			<NebulaRing />
 		</Canvas>

@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useFrame, useThree } from "@react-three/fiber";
 import type { Mesh } from "three";
 import * as THREE from "three";
 import "./AtmosphereMaterial";
@@ -16,8 +17,23 @@ export function Planet({
 	onClick,
 }: PlanetProps) {
 	const meshRef = useRef<Mesh>(null);
+	const worldPosRef = useRef(new THREE.Vector3());
+	const { camera } = useThree();
 	const [isHovered, setIsHovered] = useState(false);
 	const [isSelected, setIsSelected] = useState(false);
+	const [atmosphereSegments, setAtmosphereSegments] = useState(32);
+
+	useFrame(() => {
+		if (!meshRef.current) return;
+		meshRef.current.getWorldPosition(worldPosRef.current);
+		const distance = camera.position.distanceTo(worldPosRef.current);
+
+		const nextSegments = distance > 30 ? 16 : distance > 15 ? 32 : 64;
+		if (nextSegments !== atmosphereSegments) {
+			setAtmosphereSegments(nextSegments);
+		}
+	});
+
 	const map = useMemo(
 		() => {
 			if (!textureMap) return null;
@@ -45,6 +61,13 @@ export function Planet({
 
 	const resolvedAtmosphereColor =
 		atmosphereColor ?? (color ?? (hasTexture ? "#9ac7ff" : "blue"));
+	
+	// Pre-compute atmosphere color vector to avoid creating in JSX
+	const atmosphereColorVector = useMemo(
+		() => new THREE.Vector3(...new THREE.Color(resolvedAtmosphereColor).toArray()),
+		[resolvedAtmosphereColor],
+	);
+
 	const emissiveIntensity = hasTexture
 		? isHovered
 			? 0.5
@@ -100,20 +123,14 @@ export function Planet({
 			/>
 			{shouldRenderAtmosphere && (
 				<mesh scale={1.05}>
-					<sphereGeometry args={[size, 64, 64]} />
+					<sphereGeometry args={[size, atmosphereSegments, atmosphereSegments]} />
 					<atmosphereMaterial
 						transparent
 						depthWrite={false}
 						fog={false}
 						side={THREE.FrontSide}
 						blending={THREE.AdditiveBlending}
-						uAtmosphereColor={
-							new THREE.Vector3(
-								...new THREE.Color(
-									resolvedAtmosphereColor,
-								).toArray(),
-							)
-						}
+						uAtmosphereColor={atmosphereColorVector}
 						uIntensity={atmosphereGlowIntensity}
 					/>
 				</mesh>
