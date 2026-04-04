@@ -1,9 +1,10 @@
 import { Terminal, TypingAnimation, AnimatedSpan } from "../ui/terminal";
+import React from "react";
 import { TerminalState } from "./types";
 
 /* ---------------- SKILLS ---------------- */
 
-function SkillsTerminal({ className }: { className?: string }) {
+const SkillsTerminal = React.memo(function SkillsTerminal({ className }: { className?: string }) {
 	return (
 		<Terminal className={`dark overflow-y-auto overflow-x-hidden ${className}`}>
 			<TypingAnimation>
@@ -39,11 +40,11 @@ function SkillsTerminal({ className }: { className?: string }) {
 			</TypingAnimation>
 		</Terminal>
 	);
-}
+});
 
 /* ---------------- PROJECTS ---------------- */
 
-function ProjectsTerminal({ className }: { className?: string }) {
+const ProjectsTerminal = React.memo(function ProjectsTerminal({ className }: { className?: string }) {
 	return (
 		<Terminal className={`dark ${className}`}>
 			<TypingAnimation>hemaang@portfolio:~$ ls projects/</TypingAnimation>
@@ -82,11 +83,11 @@ function ProjectsTerminal({ className }: { className?: string }) {
 			<TypingAnimation>4 repositories indexed.</TypingAnimation>
 		</Terminal>
 	);
-}
+});
 
 /* ---------------- EXPERIENCE ---------------- */
 
-function ExperienceTerminal({ className }: { className?: string }) {
+const ExperienceTerminal = React.memo(function ExperienceTerminal({ className }: { className?: string }) {
 	return (
 		<Terminal className={`dark ${className}`}>
 			<TypingAnimation>
@@ -118,7 +119,7 @@ function ExperienceTerminal({ className }: { className?: string }) {
 			<TypingAnimation>Query completed.</TypingAnimation>
 		</Terminal>
 	);
-}
+});
 
 /* ---------------- MAIN TERMINAL ---------------- */
 
@@ -131,9 +132,9 @@ export default function TerminalComponent({
 }): React.JSX.Element {
 	return (
 		<>
-			{state.valueOf() === TerminalState.skills && <SkillsTerminal className={className} />}
-			{state.valueOf() === TerminalState.projects && <ProjectsTerminal className={className} />}
-			{state.valueOf() === TerminalState.experience && <ExperienceTerminal className={className} />}
+			{state === TerminalState.skills && <SkillsTerminal className={className} />}
+			{state === TerminalState.projects && <ProjectsTerminal className={className} />}
+			{state === TerminalState.experience && <ExperienceTerminal className={className} />}
 		</>
 	);
 }

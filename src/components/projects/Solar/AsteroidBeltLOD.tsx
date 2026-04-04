@@ -1,9 +1,9 @@
 import React from "react";
-import { useThree } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import AsteroidBelt from "./AsteroidBelt";
 import type { AsteroidBeltProps } from "./types";
 import { SUN_POINT } from "./constants";
-import { useMemo } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
 interface AsteroidBeltLODProps extends AsteroidBeltProps {
@@ -20,23 +20,32 @@ export function AsteroidBeltLOD({
 	...props
 }: AsteroidBeltLODProps) {
 	const { camera } = useThree();
+ 	const [lodCount, setLodCount] = useState(count);
+ 	const lodTierRef = useRef<number>(0);
+ 	const checkCooldownRef = useRef(0);
+ 	const centerRef = useRef(new THREE.Vector3(...centerPosition));
 
-	const lodCount = useMemo(() => {
-		const cameraPos = new THREE.Vector3(...camera.position);
-		const beltCenter = new THREE.Vector3(...centerPosition);
-		const distance = cameraPos.distanceTo(beltCenter);
+	useEffect(() => {
+		centerRef.current.set(...centerPosition);
+	}, [centerPosition]);
 
-		let multiplier = 1.0;
-		if (distance > 50) {
-			multiplier = 0.1;
-		} else if (distance > 30) {
-			multiplier = 0.3;
-		} else if (distance > 15) {
-			multiplier = 0.6;
-		}
+	useEffect(() => {
+		setLodCount(count);
+	}, [count]);
 
-		return Math.max(1, Math.floor(count * multiplier));
-	}, [camera.position, centerPosition, count]);
+ 	useFrame((_, delta) => {
+		checkCooldownRef.current -= delta;
+		if (checkCooldownRef.current > 0) return;
+		checkCooldownRef.current = 0.25;
+
+		const distance = camera.position.distanceTo(centerRef.current);
+		const nextTier = distance > 50 ? 3 : distance > 30 ? 2 : distance > 15 ? 1 : 0;
+		if (nextTier === lodTierRef.current) return;
+
+		lodTierRef.current = nextTier;
+		const multiplier = nextTier === 3 ? 0.1 : nextTier === 2 ? 0.3 : nextTier === 1 ? 0.6 : 1;
+		setLodCount(Math.max(1, Math.floor(count * multiplier)));
+	});
 
 	return <AsteroidBelt {...props} count={lodCount} />;
 }

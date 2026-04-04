@@ -45,7 +45,7 @@ export function Sun({
 						intensity={1000}
 						distance={80}
 						decay={2}
-				/>
+					/>
 
 				<mesh position={SUN_POINT}>
 					<sphereGeometry args={[SunSize * coronaMultiplier, 64, 64]} />
@@ -67,6 +67,13 @@ export function Sun({
       }
     `}
 						fragmentShader={`
+      precision highp float;
+
+uniform vec3 uCenter;
+uniform float uIntensity;
+
+varying vec3 vWorldPosition;
+
 // simple noise (stable)
 // --------------------
 float hash(vec2 p) {
@@ -153,7 +160,7 @@ void main() {
 						);
 					})}
 					<BackgroundStars count={320} />
-					<EffectComposer>
+					<EffectComposer multisampling={0} enableNormalPass={false}>
 						<Bloom
 							intensity={1.2}
 							luminanceThreshold={0.2}

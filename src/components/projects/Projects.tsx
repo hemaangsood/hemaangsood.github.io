@@ -26,7 +26,7 @@ const ProjectsSection = () => {
 			>
 			</div>
 			<div className="flex absolute top-0 left-0 w-full h-full">
-				{shouldMountProjectsGraphics && <Solar />}
+				{shouldMountProjectsGraphics && <Solar isActive={isProjectsVisible} />}
 				<div
 					className="absolute top-25 left-19/20 transform -translate-x-1/2 cursor-pointer text-4xl animate-bounce"
 					onClick={() => {

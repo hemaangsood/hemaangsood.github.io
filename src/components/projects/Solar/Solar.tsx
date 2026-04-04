@@ -53,7 +53,11 @@ for (const texturePath of solarElements
 
 useTexture.preload("/projects/sun.png");
 
-export default function Solar(): React.JSX.Element {
+type SolarProps = {
+	isActive?: boolean;
+};
+
+export default function Solar({ isActive = true }: SolarProps): React.JSX.Element {
 	const [shouldMountHeavyEffects, setShouldMountHeavyEffects] = useState(false);
 
 	useEffect(() => {
@@ -70,7 +74,7 @@ export default function Solar(): React.JSX.Element {
 			style={{ background: "black" }}
 			camera={{ position: [24, 15, 0], fov: 80 }}
 			dpr={[1, 1.2]}
-			frameloop="always"
+			frameloop={isActive ? "always" : "never"}
 			fallback={<div>Sorry no WebGL supported!</div>}
 			gl={{
 				logarithmicDepthBuffer: true,
@@ -81,7 +85,7 @@ export default function Solar(): React.JSX.Element {
 			<OrbitControlsComponent />
 			<fogExp2 attach="fog" args={["#0d0825", 0.004]} />
 			<Sun shouldMountHeavyEffects={shouldMountHeavyEffects} />
-			<StatsPanel enabled={true} />
+			<StatsPanel enabled={false} />
 			<ambientLight color="#404040" intensity={1.0} />
 			<NebulaRing />
 		</Canvas>

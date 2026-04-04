@@ -82,12 +82,14 @@ export default function AsteroidBelt({
 
 			const baseX = a * Math.cos(angle);
 			const baseZ = b * Math.sin(angle);
-			const direction = new THREE.Vector2(baseX, baseZ).normalize();
+			const len = Math.hypot(baseX, baseZ) || 1;
+			const dirX = baseX / len;
+			const dirZ = baseZ / len;
 
 			dummy.position.set(
-				baseX + direction.x * radialOffset,
+				baseX + dirX * radialOffset,
 				(seededRandom(baseSeed + 5) - 0.5) * height,
-				baseZ + direction.y * radialOffset,
+				baseZ + dirZ * radialOffset,
 			);
 			dummy.rotation.set(
 				seededRandom(baseSeed + 6) * Math.PI,
@@ -115,7 +117,7 @@ export default function AsteroidBelt({
 			mesh.count = matrices.length;
 			mesh.instanceMatrix.needsUpdate = true;
 			mesh.castShadow = false;
-			mesh.receiveShadow = true;
+			mesh.receiveShadow = false;
 		});
 	}, [matricesByTemplate]);
 

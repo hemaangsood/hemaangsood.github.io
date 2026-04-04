@@ -18,17 +18,27 @@ export function Planet({
 }: PlanetProps) {
 	const meshRef = useRef<Mesh>(null);
 	const worldPosRef = useRef(new THREE.Vector3());
+	const lodTierRef = useRef<number>(1);
+	const checkCooldownRef = useRef(0);
 	const { camera } = useThree();
 	const [isHovered, setIsHovered] = useState(false);
 	const [isSelected, setIsSelected] = useState(false);
 	const [atmosphereSegments, setAtmosphereSegments] = useState(32);
 
-	useFrame(() => {
+	useFrame((_, delta) => {
+		checkCooldownRef.current -= delta;
+		if (checkCooldownRef.current > 0) return;
+		checkCooldownRef.current = 0.2;
+
 		if (!meshRef.current) return;
 		meshRef.current.getWorldPosition(worldPosRef.current);
 		const distance = camera.position.distanceTo(worldPosRef.current);
 
-		const nextSegments = distance > 30 ? 16 : distance > 15 ? 32 : 64;
+		const nextTier = distance > 32 ? 2 : distance > 16 ? 1 : 0;
+		if (nextTier === lodTierRef.current) return;
+		lodTierRef.current = nextTier;
+
+		const nextSegments = nextTier === 2 ? 16 : nextTier === 1 ? 32 : 64;
 		if (nextSegments !== atmosphereSegments) {
 			setAtmosphereSegments(nextSegments);
 		}

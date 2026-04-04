@@ -15,7 +15,7 @@ import { SiResearchgate } from "react-icons/si";
 import GradientText from "../ui/GradientText";
 import { GiSpectacleLenses } from "react-icons/gi";
 import { motion } from "motion/react";
-import { useSectionHasBeenInViewport } from "../viewport/viewportHooks";
+import { useIsSectionInViewport } from "../viewport/viewportHooks";
 
 function AboutSectionCard({
 	className,
@@ -56,7 +56,8 @@ function AboutSectionCard({
 }
 
 const AboutSection = () => {
-	const shouldMountAboutGraphics = useSectionHasBeenInViewport("about");
+	const isAboutVisible = useIsSectionInViewport("about", false, 0.08);
+	const shouldRunAboutGraphics = isAboutVisible;
 	const [terminalState, setterminalState] = useState(TerminalState.skills);
 	return (
 		<section
@@ -68,7 +69,7 @@ const AboutSection = () => {
 			id="about"
 		>
 			<div className="absolute top-0 left-0 w-full h-full">
-				{shouldMountAboutGraphics && <Aurora amplitude={1.2} />}
+				{shouldRunAboutGraphics && <Aurora amplitude={1.2} />}
 			</div>
 			<div className="flex flex-col absolute top-0 left-0 w-full h-full items-center overflow-x-hidden pt-20 xl:pt-18">
 				{/* <div className="h-25 invisible"></div> */}
@@ -82,10 +83,10 @@ const AboutSection = () => {
 					}}
 				>
 					<div
-						className="w-full 2xl:w-[46%] mt-2 sm:mt-4 2xl:mt-8 flex overflow-scroll min-h-0 flex-col mr-0 p-0 min-w-0"
+						className="w-full 2xl:w-[46%] mt-2 sm:mt-4 2xl:mt-8 flex overflow-y-auto overflow-x-hidden thin-scrollbar min-h-0 flex-col mr-0 p-0 min-w-0"
 						id="gimmick"
 					>
-						{shouldMountAboutGraphics && (
+						{shouldRunAboutGraphics && (
 							<TerminalGimmick
 								state={terminalState}
 								className="w-full mx-auto mt-2 h-[90%]"
@@ -134,6 +135,7 @@ const AboutSection = () => {
 							className="mt-3 ml-2 sm:mt-4 text-justify text-base sm:text-lg"
 							initial={{ x: 100, opacity: 0 }}
 							whileInView={{ x: 0, opacity: 1 }}
+							viewport={{ once: true, amount: 0.2 }}
 							transition={{ duration: 0.5 }}
 						>
 							I&apos;m a software engineer focused on building scalable
@@ -149,6 +151,7 @@ const AboutSection = () => {
 						<motion.div
 							initial={{ y: 100, opacity: 0 }}
 							whileInView={{ y: 0, opacity: 1 }}
+							viewport={{ once: true, amount: 0.2 }}
 							transition={{ duration: 0.5, delay: 0.2 }}
 							className="grid grid-cols-1 sm:grid-cols-2 w-full max-w-full gap-3 sm:gap-4 mt-2 sm:mt-4 overflow-x-hidden p-2"
 						>
