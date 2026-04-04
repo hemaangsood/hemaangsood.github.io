@@ -48,6 +48,16 @@ export const solarElements: SolarElementConfig[] = [
 			atmosphereColor: "#89c9ff",
 			atmosphereIntensity: 1.22,
 		},
+		asteroidBelts: [
+			{
+				orbitRadius: 0.6,
+				count: 500,
+				height: 0,
+				size: 0.015,
+				thickness: 0.1,
+				eccentricity: 0.2,
+			},
+		],
 	},
 	{
 		orbit: {
@@ -65,6 +75,16 @@ export const solarElements: SolarElementConfig[] = [
 			atmosphereColor: "#e6c49f",
 			atmosphereIntensity: 1.5,
 		},
+		asteroidBelts: [
+			{
+				orbitRadius: 1.5,
+				count: 500,
+				height: 0.01,
+				size: 0.02,
+				thickness: 0.5,
+				eccentricity: 0,
+			},
+		],
 	},
 	{
 		orbit: {
@@ -99,5 +119,5 @@ export const solarElements: SolarElementConfig[] = [
 			atmosphereColor: "#b9d7ef",
 			atmosphereIntensity: 1.08,
 		},
-	}
+	},
 ];

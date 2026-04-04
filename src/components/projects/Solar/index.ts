@@ -10,4 +10,4 @@ export { OrbitEllipse } from "./OrbitEllipse";
 export { solarElements } from "./solarData";
 export { PI, RADIAN, SUN_POINT } from "./constants";
 export { getOrbitPoint, getPosition } from "./orbit";
-export type { PlanetProps, SolarElementConfig, SolarObjectProps } from "./types";
+export type { AsteroidBeltProps, OrbitConfig, PlanetProps, SolarElementConfig, SolarObjectProps } from "./types";
