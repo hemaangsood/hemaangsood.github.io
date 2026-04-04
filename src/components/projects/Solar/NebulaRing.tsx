@@ -17,12 +17,20 @@ export function NebulaRing() {
 				},
 
 				vertexShader: `
-      varying vec2 vUv;
+    // Vertex shader
+varying vec2 vUv;
+varying vec2 vAngleVec;  // encode angle as a unit vector, not a scalar
 
-      void main() {
-        vUv = uv;
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-      }
+void main() {
+    vUv = uv;
+    
+    // Normalize position to get a unit vector in the XZ plane.
+    // This interpolates smoothly across ALL triangles with no discontinuity.
+    float len = length(position.xz);
+    vAngleVec = position.xz / len;  // vec2(cos θ, sin θ)
+    
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+}
     `,
 
 				fragmentShader: `
@@ -33,12 +41,12 @@ uniform vec3 uGlowColor1;
 uniform vec3 uGlowColor2;
 
 varying vec2 vUv;
+varying float vAngle;
+varying vec2 vAngleVec;
 
 void main() {
-
-    // --- Stable circular domain ---
-    float baseAngle = vUv.x * 6.28318530718;   // [0, 2π]
-    float angle = baseAngle + uTime * 0.18;    // animate in angular space
+	float baseAngle = atan(vAngleVec.y, vAngleVec.x) + 3.14159265359;
+    float angle = baseAngle + uTime * 0.18;
 
     // --- Vertical coordinate (centered band) ---
     float y = vUv.y;
@@ -57,13 +65,13 @@ void main() {
     density *= exp(-1.55 * t);
 
     // --- Angular banding (fully periodic now) ---
-    float band1 = sin(angle * 4.5 + uTime * 0.2) * 0.5 + 0.5;
-    float band2 = sin(angle * 7.2 - uTime * 0.16 + 1.2) * 0.5 + 0.5;
+    float band1 = sin(angle * 5.0 + uTime * 0.2) * 0.5 + 0.5;
+    float band2 = sin(angle * 7.0 - uTime * 0.16 + 1.2) * 0.5 + 0.5;
 
     float pulse = 0.94 + 0.06 * sin(uTime * 0.9 + angle * 2.8);
 
     vec3 col = mix(uGlowColor1, uGlowColor2, band1 * 0.55 + band2 * 0.45);
-
+	// vec3 col = uGlowColor1;
     density *= pulse;
 
     vec3 finalColor = col * density * 1.22;
