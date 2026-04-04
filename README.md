@@ -1,4 +1,5 @@
 Inspired by: https://ddaniel.dev/#projects
+https://github.com/N3rson/Solar-System-3D/
 
 Navbar
 ↓

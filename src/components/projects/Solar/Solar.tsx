@@ -1,33 +1,45 @@
 import { Canvas } from "@react-three/fiber";
 import React from "react";
-import { Bloom, EffectComposer } from "@react-three/postprocessing";
+import { Bloom, EffectComposer, SelectiveBloom } from "@react-three/postprocessing";
 import { BackgroundStars } from "./BackgroundStars";
 import { CameraSetup } from "./CameraSetup";
 import { NebulaRing } from "./NebulaRing";
 import { Planet } from "./Planet";
 import { SolarObject } from "./SolarObject";
-import { SUN_POINT } from "./constants";
 import { solarElements } from "./solarData";
 import { Sun } from "./Sun";
+import * as THREE from "three";
+import { OrbitControls } from "@react-three/drei";
+import { AmbientLight } from "three";
 
 export default function Solar(): React.JSX.Element {
+	const [sunMesh, setSunMesh] = React.useState<THREE.Mesh | null>(null);
+	const [sunLight, setSunLight] = React.useState<THREE.PointLight | null>(null);
+
 	return (
 		<Canvas
+			id="solar-canvas"
 			style={{ background: "black", height: "100vh" }}
-			camera={{ position: [20, 20, 0], fov: 80 }}
+			camera={{ position: [24, 15, 0], fov: 80 }}
 			dpr={[1, 1.5]}
 			fallback={<div>Sorry no WebGL supported!</div>}
-			gl={{ logarithmicDepthBuffer: true }}
+			gl={{
+				logarithmicDepthBuffer: true,
+				toneMapping: THREE.ACESFilmicToneMapping,
+			}}
 		>
 			<CameraSetup />
-			<ambientLight intensity={0.5} position={[0, 20, 0]} />
-			<Sun />
-			<pointLight
-				color="#fff5e0"
-				position={SUN_POINT}
-				intensity={50}
-				distance={80}
-				decay={2}
+			<OrbitControls
+				enablePan={true}
+				enableZoom={true}
+				maxDistance={50}
+				minDistance={5}
+			/>
+			<fogExp2 attach="fog" args={["#0d0825", 0.004]} />
+			<Sun sunMeshRef={setSunMesh} sunLightRef={setSunLight} />
+			<ambientLight
+				color="#404040"
+				intensity={6.0}
 			/>
 			{solarElements.map((element, idx) => (
 				<SolarObject key={idx} {...element.orbit}>
@@ -35,15 +47,24 @@ export default function Solar(): React.JSX.Element {
 				</SolarObject>
 			))}
 			<NebulaRing />
-			<fogExp2 attach="fog" args={["#0d0825", 0.008]} />
-			<BackgroundStars count={2000} />
+			<BackgroundStars count={500} />
 			<EffectComposer>
 				<Bloom
-					intensity={0.65}
-					luminanceThreshold={0.24}
-					luminanceSmoothing={0.2}
+					intensity={1.2}
+					luminanceThreshold={0.2}
+					luminanceSmoothing={0.9}
 					mipmapBlur
 				/>
+				{sunMesh && sunLight ? (
+					<SelectiveBloom
+						selection={[sunMesh]}
+						lights={[sunLight]}
+						intensity={2.5}
+						luminanceThreshold={0.05}
+						luminanceSmoothing={0.9}
+						mipmapBlur
+					/>
+				) : <></>}
 			</EffectComposer>
 		</Canvas>
 	);

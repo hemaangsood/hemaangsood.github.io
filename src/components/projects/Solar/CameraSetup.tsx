@@ -4,11 +4,12 @@ import * as THREE from "three";
 import { SUN_POINT } from "./constants";
 
 export function CameraSetup() {
-	const { camera } = useThree();
+	const { camera,set } = useThree();
 
 	useEffect(() => {
+		set({camera})
 		camera.lookAt(new THREE.Vector3(...SUN_POINT));
-	}, [camera]);
+	}, [camera,set]);
 
 	return null;
 }

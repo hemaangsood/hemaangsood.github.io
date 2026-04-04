@@ -18,23 +18,34 @@ const ProjectsSection = () => {
 					background: "#080d1a",
 				}}
 			>
-				{shouldMountProjectsGraphics && (
-					// <Dither
-					// 	waveColor={[0.25098039215686274, 0, 0.5019607843137255]}
-					// 	disableAnimation={false}
-					// 	enableMouseInteraction={false}
-					// 	mouseRadius={0.2}
-					// 	colorNum={9}
-					// 	pixelSize={3}
-					// 	waveAmplitude={0.35}
-					// 	waveFrequency={4.5}
-					// 	waveSpeed={0.08}
-					// />
-					<></>
-				)}
+				{shouldMountProjectsGraphics && <></>}
 			</div>
 			<div className="flex absolute top-0 left-0 w-full h-full">
-				<Solar />
+				{shouldMountProjectsGraphics && <Solar />}
+				<div
+					className="absolute top-25 left-19/20 transform -translate-x-1/2 cursor-pointer text-4xl animate-bounce"
+					onClick={() => {
+						const destSection =
+							document.getElementById("skills");
+						if (destSection) {
+							destSection.scrollIntoView({ behavior: "smooth" });
+						}
+					}}
+				>
+					↑
+				</div>
+				<div
+					className="absolute bottom-4 left-19/20 transform -translate-x-1/2 cursor-pointer text-4xl animate-bounce"
+					onClick={() => {
+						const destSection =
+							document.getElementById("experience");
+						if (destSection) {
+							destSection.scrollIntoView({ behavior: "smooth" });
+						}
+					}}
+				>
+					↓
+				</div>
 			</div>
 		</section>
 	);
