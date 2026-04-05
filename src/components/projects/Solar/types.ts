@@ -17,11 +17,11 @@ export interface SolarObjectProps {
 	renderOrbit?: boolean;
 	orbitRadius: number;
 	rotationSpeed?: number;
+	orbitFrameRotationSpeed?: number;
 	rotation?: [number, number, number];
 	orbitSegments?: number;
 	eccentricity?: number;
 	orbitOffsetPlaneRotationOffset?: number;
-	selfRotationSpeed?: number;
 	children?: React.ReactNode;
 	fixedChildren?: React.ReactNode;
 }
@@ -33,12 +33,15 @@ export interface PlanetProps {
 	useAtmosphere?: boolean;
 	atmosphereColor?: THREE.ColorRepresentation;
 	atmosphereIntensity?: number;
+	selfRotationSpeed?: number;
 	onClick?: () => void;
 	moons?: OrbitingElementConfig[];
+	asteroidBelts?: AsteroidBeltProps[];
 }
 
 export interface OrbitingElementConfig {
 	orbit: OrbitConfig;
 	planet: PlanetProps;
+	moonSelfRotationSpeed?: number;
 	asteroidBelts?: AsteroidBeltProps[];
 }

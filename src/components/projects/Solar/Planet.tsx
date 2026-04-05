@@ -1,8 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
-import type { Mesh } from "three";
+import type { Group, Mesh } from "three";
 import * as THREE from "three";
 import "./AtmosphereMaterial";
+import { OrbitalObject } from "./OrbitingObject";
+import { AsteroidBeltLOD } from "./AsteroidBeltLOD";
 import type { PlanetProps } from "./types";
 
 const textureLoader = new THREE.TextureLoader();
@@ -14,9 +16,13 @@ export function Planet({
 	useAtmosphere = true,
 	atmosphereColor,
 	atmosphereIntensity = 1.2,
+	selfRotationSpeed = 0.3,
 	onClick,
+	moons,
+	asteroidBelts,
 }: PlanetProps) {
-	const meshRef = useRef<Mesh>(null);
+	const planetGroupRef = useRef<Group>(null);
+	const planetMeshRef = useRef<Mesh>(null);
 	const worldPosRef = useRef(new THREE.Vector3());
 	const lodTierRef = useRef<number>(1);
 	const checkCooldownRef = useRef(0);
@@ -26,12 +32,16 @@ export function Planet({
 	const [atmosphereSegments, setAtmosphereSegments] = useState(32);
 
 	useFrame((_, delta) => {
+		if (planetMeshRef.current) {
+			planetMeshRef.current.rotation.y += delta * selfRotationSpeed;
+		}
+
 		checkCooldownRef.current -= delta;
 		if (checkCooldownRef.current > 0) return;
 		checkCooldownRef.current = 0.2;
 
-		if (!meshRef.current) return;
-		meshRef.current.getWorldPosition(worldPosRef.current);
+		if (!planetGroupRef.current) return;
+		planetGroupRef.current.getWorldPosition(worldPosRef.current);
 		const distance = camera.position.distanceTo(worldPosRef.current);
 
 		const nextTier = distance > 32 ? 2 : distance > 16 ? 1 : 0;
@@ -103,8 +113,9 @@ export function Planet({
 	}, [isHovered]);
 
 	return (
-		<group ref={meshRef}>
+		<group ref={planetGroupRef}>
 			<mesh
+				ref={planetMeshRef}
 				onPointerOver={(event) => {
 					event.stopPropagation();
 					setIsHovered(true);
@@ -152,6 +163,24 @@ export function Planet({
 					</mesh>
 				)}
 			</mesh>
+			{moons?.map((moonConfig, moonIndex) => (
+				<OrbitalObject
+					key={`moon-${moonIndex}`}
+					{...moonConfig.orbit}
+				>
+					<Planet
+						{...moonConfig.planet}
+						asteroidBelts={moonConfig.asteroidBelts}
+						selfRotationSpeed={
+							moonConfig.moonSelfRotationSpeed
+							?? moonConfig.planet.selfRotationSpeed
+						}
+					/>
+				</OrbitalObject>
+			))}
+			{asteroidBelts?.map((belt, beltIndex) => (
+				<AsteroidBeltLOD key={`planet-belt-${beltIndex}`} {...belt} />
+			))}
 		</group>
 	);
 }

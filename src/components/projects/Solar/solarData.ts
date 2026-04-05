@@ -6,7 +6,6 @@ export const solarElements: OrbitingElementConfig[] = [
 			orbitRadius: 5.4,
 			rotationSpeed: 0.12,
 			orbitOffsetPlaneRotationOffset: 3,
-			selfRotationSpeed: 0.45,
 		},
 		planet: {
 			size: 0.44,
@@ -14,6 +13,7 @@ export const solarElements: OrbitingElementConfig[] = [
 			textureMap: "/projects/2k_venus_surface.jpg",
 			atmosphereColor: "#edd0aa",
 			atmosphereIntensity: 1.3,
+			selfRotationSpeed: 0.45,
 		},
 	},
 	{
@@ -22,7 +22,6 @@ export const solarElements: OrbitingElementConfig[] = [
 			rotationSpeed: 0.07,
 			orbitSegments: 48,
 			orbitOffsetPlaneRotationOffset: -2,
-			selfRotationSpeed: 0.33,
 		},
 		planet: {
 			size: 0.24,
@@ -30,6 +29,7 @@ export const solarElements: OrbitingElementConfig[] = [
 			textureMap: "/projects/red-rock.jpg",
 			atmosphereColor: "#d77a63",
 			atmosphereIntensity: 1.05,
+			selfRotationSpeed: 0.33,
 			moons: [
 				{
 					orbit: {
@@ -38,9 +38,9 @@ export const solarElements: OrbitingElementConfig[] = [
 						orbitSegments: 16,
 						eccentricity: 0.3,
 						orbitOffsetPlaneRotationOffset: 0,
-						selfRotationSpeed: 0.1,
 						renderOrbit: true,
 					},
+					moonSelfRotationSpeed: 0.1,
 					planet: {
 						size: 0.1,
 						color: "#888888",
@@ -58,7 +58,6 @@ export const solarElements: OrbitingElementConfig[] = [
 			orbitSegments: 64,
 			eccentricity: 0.06,
 			orbitOffsetPlaneRotationOffset: 0,
-			selfRotationSpeed: 0.22,
 		},
 		planet: {
 			size: 0.46,
@@ -66,6 +65,7 @@ export const solarElements: OrbitingElementConfig[] = [
 			textureMap: "/projects/green-water.jpg",
 			atmosphereColor: "#89c9ff",
 			atmosphereIntensity: 1.22,
+			selfRotationSpeed: 0.22,
 		},
 		asteroidBelts: [
 			{
@@ -85,7 +85,6 @@ export const solarElements: OrbitingElementConfig[] = [
 			orbitSegments: 80,
 			eccentricity: -0.1,
 			orbitOffsetPlaneRotationOffset: 1.8,
-			selfRotationSpeed: 0.38,
 		},
 		planet: {
 			size: 1.0,
@@ -93,6 +92,7 @@ export const solarElements: OrbitingElementConfig[] = [
 			textureMap: "/projects/2k_jupiter.jpg",
 			atmosphereColor: "#e6c49f",
 			atmosphereIntensity: 1.5,
+			selfRotationSpeed: 0.38,
 		},
 		asteroidBelts: [
 			{
@@ -112,7 +112,6 @@ export const solarElements: OrbitingElementConfig[] = [
 			orbitSegments: 120,
 			eccentricity: -0.04,
 			orbitOffsetPlaneRotationOffset: -3,
-			selfRotationSpeed: 0.16,
 		},
 		planet: {
 			size: 0.64,
@@ -120,6 +119,7 @@ export const solarElements: OrbitingElementConfig[] = [
 			textureMap: "/projects/gray-bubble.jpg",
 			atmosphereColor: "#b9d7ef",
 			atmosphereIntensity: 1.08,
+			selfRotationSpeed: 0.16,
 		},
 	},
 	{
@@ -129,7 +129,6 @@ export const solarElements: OrbitingElementConfig[] = [
 			orbitSegments: 96,
 			eccentricity: 0.08,
 			orbitOffsetPlaneRotationOffset: 4,
-			selfRotationSpeed: 0.19,
 		},
 		planet: {
 			size: 0.82,
@@ -137,6 +136,7 @@ export const solarElements: OrbitingElementConfig[] = [
 			textureMap: "/projects/orange-details-moon-texture-concept.jpg",
 			atmosphereColor: "#f1e2a9",
 			atmosphereIntensity: 1.2,
+			selfRotationSpeed: 0.19,
 			moons: [
 				{
 					orbit: {
@@ -144,9 +144,9 @@ export const solarElements: OrbitingElementConfig[] = [
 						rotationSpeed: 0.18,
 						eccentricity: 0.1,
 						orbitOffsetPlaneRotationOffset: 0,
-						selfRotationSpeed: 0.12,
 						renderOrbit: true,
 					},
+					moonSelfRotationSpeed: 0.12,
 					planet: {
 						size: 0.15,
 						color: "#aaaaaa",
@@ -160,9 +160,9 @@ export const solarElements: OrbitingElementConfig[] = [
 						rotationSpeed: 0.18,
 						eccentricity: 0.1,
 						orbitOffsetPlaneRotationOffset: 90,
-						selfRotationSpeed: 0.12,
 						renderOrbit: true,
 					},
+					moonSelfRotationSpeed: 0.12,
 					planet: {
 						size: 0.1,
 						color: "#aaaaaa",

@@ -12,11 +12,11 @@ export function OrbitalObject({
 	renderOrbit = true,
 	orbitRadius,
 	rotationSpeed = 0.01,
+	orbitFrameRotationSpeed = 0,
 	rotation = [0, 0, 0],
 	orbitSegments = 50,
 	eccentricity = 0.5,
 	orbitOffsetPlaneRotationOffset = 0,
-	selfRotationSpeed = 0.3,
 	fixedChildren,
 	children,
 }: OrbitingObjectProps) {
@@ -33,11 +33,15 @@ export function OrbitalObject({
 		[majorX, majorZ, startAngle],
 	);
 	const orbitingObjectPosition = useRef({ majorX, majorZ, angle: startAngle });
+	const orbitFrameRef = useRef<Group>(null);
 	const orbitingObject = useRef<Mesh>(null);
-	const spinningContent = useRef<Group>(null);
 	const orbitThickness = 0.5;
 
 	useFrame((_, delta) => {
+		if (orbitFrameRef.current && orbitFrameRotationSpeed !== 0) {
+			orbitFrameRef.current.rotation.y += delta * orbitFrameRotationSpeed;
+		}
+
 		orbitingObjectPosition.current.angle += rotationSpeed * delta;
 		const newPos = getPosition(
 			orbitingObjectPosition.current.majorX,
@@ -46,10 +50,6 @@ export function OrbitalObject({
 		);
 		if (orbitingObject.current) {
 			orbitingObject.current.position.set(newPos[0], newPos[1], newPos[2]);
-		}
-
-		if (spinningContent.current) {
-			spinningContent.current.rotation.y += delta * selfRotationSpeed;
 		}
 	});
 
@@ -64,18 +64,20 @@ export function OrbitalObject({
 				] as [number, number, number]
 			}
 		>
-			{renderOrbit && (
-				<OrbitEllipse
-					majorX={majorX}
-					majorZ={majorZ}
-					segments={orbitSegments}
-					lineWidth={orbitThickness}
-				/>
-			)}
-			<mesh position={orbitingObjectStartPos} ref={orbitingObject}>
-				<group ref={spinningContent}>{children}</group>
-				{fixedChildren}
-			</mesh>
+			<group ref={orbitFrameRef}>
+				{renderOrbit && (
+					<OrbitEllipse
+						majorX={majorX}
+						majorZ={majorZ}
+						segments={orbitSegments}
+						lineWidth={orbitThickness}
+					/>
+				)}
+				<mesh position={orbitingObjectStartPos} ref={orbitingObject}>
+					{children}
+					{fixedChildren}
+				</mesh>
+			</group>
 		</mesh>
 	);
 }

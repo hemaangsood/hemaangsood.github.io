@@ -107,37 +107,14 @@ export default function Solar({ isActive = true }: SolarProps): React.JSX.Elemen
 					/>
 
 					{solarElements.map((element, idx) => {
-						const orbitConfig = Array.isArray(element.orbit)
-							? element.orbit[0]
-							: element.orbit;
-						const moonNodes = element.planet.moons?.map(
-							(moonConfig, moonIndex) => (
-								<OrbitalObject key={`moon-${idx}-${moonIndex}`} {...moonConfig.orbit}>
-									<Planet {...moonConfig.planet} />
-								</OrbitalObject>
-							),
-						);
-						const beltNodes = element.asteroidBelts?.map((belt, beltIndex) => (
-							<AsteroidBeltLOD
-								key={`belt-${idx}-${beltIndex}`}
-								{...belt}
-								centerPosition={SUN_POINT}
-							/>
-						));
-
 						return (
 							<OrbitalObject
 								key={idx}
-								{...orbitConfig}
-								fixedChildren={
-									<>
-										{moonNodes}
-										{beltNodes}
-									</>
-								}
+								{...element.orbit}
 							>
 								<Planet
 									{...element.planet}
+									asteroidBelts={element.asteroidBelts}
 									useAtmosphere={true}
 								/>
 							</OrbitalObject>

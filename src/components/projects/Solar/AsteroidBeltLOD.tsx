@@ -4,6 +4,7 @@ import AsteroidBelt from "./AsteroidBelt";
 import type { AsteroidBeltProps } from "./types";
 import { SUN_POINT } from "./constants";
 import { useEffect, useRef, useState } from "react";
+import type { Group } from "three";
 import * as THREE from "three";
 
 interface AsteroidBeltLODProps extends AsteroidBeltProps {
@@ -20,20 +21,23 @@ export function AsteroidBeltLOD({
 	...props
 }: AsteroidBeltLODProps) {
 	const { camera } = useThree();
+	const beltRef = useRef<Group>(null);
  	const [lodCount, setLodCount] = useState(count);
  	const lodTierRef = useRef<number>(0);
  	const checkCooldownRef = useRef(0);
  	const centerRef = useRef(new THREE.Vector3(...centerPosition));
 
 	useEffect(() => {
-		centerRef.current.set(...centerPosition);
-	}, [centerPosition]);
-
-	useEffect(() => {
 		setLodCount(count);
 	}, [count]);
 
  	useFrame((_, delta) => {
+		if (centerPosition) {
+			centerRef.current.set(...centerPosition);
+		} else if (beltRef.current) {
+			beltRef.current.getWorldPosition(centerRef.current);
+		}
+
 		checkCooldownRef.current -= delta;
 		if (checkCooldownRef.current > 0) return;
 		checkCooldownRef.current = 0.25;
@@ -47,5 +51,9 @@ export function AsteroidBeltLOD({
 		setLodCount(Math.max(1, Math.floor(count * multiplier)));
 	});
 
-	return <AsteroidBelt {...props} count={lodCount} />;
+	return (
+		<group ref={beltRef}>
+			<AsteroidBelt {...props} count={lodCount} />
+		</group>
+	);
 }
