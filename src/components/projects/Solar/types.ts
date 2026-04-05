@@ -1,7 +1,7 @@
 import type * as THREE from "three";
 import type React from "react";
 
-export type OrbitConfig = Omit<SolarObjectProps, "children">;
+export type OrbitConfig = Omit<SolarObjectProps, "children" | "fixedChildren">;
 
 export interface AsteroidBeltProps {
 	orbitRadius: number;
@@ -23,6 +23,7 @@ export interface SolarObjectProps {
 	orbitOffsetPlaneRotationOffset?: number;
 	selfRotationSpeed?: number;
 	children?: React.ReactNode;
+	fixedChildren?: React.ReactNode;
 }
 
 export interface PlanetProps {

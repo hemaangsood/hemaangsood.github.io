@@ -4,7 +4,6 @@ import type { Mesh } from "three";
 import * as THREE from "three";
 import "./AtmosphereMaterial";
 import type { PlanetProps } from "./types";
-import { OrbitalObject } from "./OrbitingObject";
 
 const textureLoader = new THREE.TextureLoader();
 
@@ -16,7 +15,6 @@ export function Planet({
 	atmosphereColor,
 	atmosphereIntensity = 1.2,
 	onClick,
-	moons = [],
 }: PlanetProps) {
 	const meshRef = useRef<Mesh>(null);
 	const worldPosRef = useRef(new THREE.Vector3());
@@ -105,53 +103,55 @@ export function Planet({
 	}, [isHovered]);
 
 	return (
-		<mesh
-			ref={meshRef}
-			onPointerOver={(event) => {
-				event.stopPropagation();
-				setIsHovered(true);
-			}}
-			onPointerOut={(event) => {
-				event.stopPropagation();
-				setIsHovered(false);
-			}}
-			onClick={(event) => {
-				event.stopPropagation();
-				setIsSelected((current) => !current);
-				onClick?.();
-			}}
-		>
-			<sphereGeometry args={[size, 32, 32]} />
-			<meshStandardMaterial
-				color={resolvedSurfaceColor}
-				fog={false}
-				roughness={0.7}
-				metalness={0.0}
-				emissive={resolvedEmissiveColor}
-				emissiveIntensity={emissiveIntensity}
-				toneMapped
-				// castShadow={true}
-				map={map}
-			/>
-			{shouldRenderAtmosphere && (
-				<mesh scale={1.05}>
-					<sphereGeometry args={[size, atmosphereSegments, atmosphereSegments]} />
-					<atmosphereMaterial
-						transparent
-						depthWrite={false}
-						fog={false}
-						side={THREE.FrontSide}
-						blending={THREE.AdditiveBlending}
-						uAtmosphereColor={atmosphereColorVector}
-						uIntensity={atmosphereGlowIntensity}
-					/>
-				</mesh>
-			)}
-			{moons.map((moonConfig, index) => (
-				<OrbitalObject key={index} {...moonConfig.orbit}>
-					<Planet {...moonConfig.planet} />
-				</OrbitalObject>
-			))}
-		</mesh>
+		<group ref={meshRef}>
+			<mesh
+				onPointerOver={(event) => {
+					event.stopPropagation();
+					setIsHovered(true);
+				}}
+				onPointerOut={(event) => {
+					event.stopPropagation();
+					setIsHovered(false);
+				}}
+				onClick={(event) => {
+					event.stopPropagation();
+					setIsSelected((current) => !current);
+					onClick?.();
+				}}
+			>
+				<sphereGeometry args={[size, 32, 32]} />
+				<meshStandardMaterial
+					color={resolvedSurfaceColor}
+					fog={false}
+					roughness={0.7}
+					metalness={0.0}
+					emissive={resolvedEmissiveColor}
+					emissiveIntensity={emissiveIntensity}
+					toneMapped
+					// castShadow={true}
+					map={map}
+				/>
+				{shouldRenderAtmosphere && (
+					<mesh scale={1.05}>
+						<sphereGeometry
+							args={[
+								size,
+								atmosphereSegments,
+								atmosphereSegments,
+							]}
+						/>
+						<atmosphereMaterial
+							transparent
+							depthWrite={false}
+							fog={false}
+							side={THREE.FrontSide}
+							blending={THREE.AdditiveBlending}
+							uAtmosphereColor={atmosphereColorVector}
+							uIntensity={atmosphereGlowIntensity}
+						/>
+					</mesh>
+				)}
+			</mesh>
+		</group>
 	);
 }

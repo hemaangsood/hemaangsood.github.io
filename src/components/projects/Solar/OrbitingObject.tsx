@@ -1,5 +1,5 @@
 import { useFrame } from "@react-three/fiber";
-import type { Mesh } from "three";
+import type { Group, Mesh } from "three";
 import React, { useMemo, useRef } from "react";
 import { randFloat } from "three/src/math/MathUtils.js";
 import { PI, RADIAN, SUN_POINT } from "./constants";
@@ -17,6 +17,7 @@ export function OrbitalObject({
 	eccentricity = 0.5,
 	orbitOffsetPlaneRotationOffset = 0,
 	selfRotationSpeed = 0.3,
+	fixedChildren,
 	children,
 }: OrbitingObjectProps) {
 	const normalizedEccentricity = Math.min(eccentricity, 0.99);
@@ -33,6 +34,7 @@ export function OrbitalObject({
 	);
 	const orbitingObjectPosition = useRef({ majorX, majorZ, angle: startAngle });
 	const orbitingObject = useRef<Mesh>(null);
+	const spinningContent = useRef<Group>(null);
 	const orbitThickness = 0.5;
 
 	useFrame((_, delta) => {
@@ -44,7 +46,10 @@ export function OrbitalObject({
 		);
 		if (orbitingObject.current) {
 			orbitingObject.current.position.set(newPos[0], newPos[1], newPos[2]);
-			orbitingObject.current.rotation.y += delta * selfRotationSpeed;
+		}
+
+		if (spinningContent.current) {
+			spinningContent.current.rotation.y += delta * selfRotationSpeed;
 		}
 	});
 
@@ -68,7 +73,8 @@ export function OrbitalObject({
 				/>
 			)}
 			<mesh position={orbitingObjectStartPos} ref={orbitingObject}>
-				{children}
+				<group ref={spinningContent}>{children}</group>
+				{fixedChildren}
 			</mesh>
 		</mesh>
 	);
