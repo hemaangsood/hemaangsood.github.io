@@ -126,7 +126,7 @@ const AboutSection = () => {
 								animationSpeed={8}
 								showBorder={false}
 								yoyo={true}
-								className="text-2xl sm:text-3xl p-2 bg-transparent"
+								className="text-2xl sm:text-3xl p-2 bg-transparent backdrop-blur-none!"
 							>
 								About Me
 							</GradientText>

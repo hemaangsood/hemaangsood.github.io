@@ -1,8 +1,51 @@
 import Grainient from "../ui/Grainient";
-import { useSectionHasBeenInViewport } from "../viewport/viewportHooks";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import { Button } from "../ui/button";
+import { motion } from "motion/react";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { MdOutlineFileOpen } from "react-icons/md";
+import { FiArrowUpRight } from "react-icons/fi";
+import {
+	useIsSectionInViewport,
+	useSectionHasBeenInViewport,
+} from "../viewport/viewportHooks";
+
+type ContactAction = {
+	title: string;
+	description: string;
+	href: string;
+	icon: React.ReactNode;
+};
+
+const contactActions: ContactAction[] = [
+	{
+		title: "GitHub",
+		description: "See projects, code samples, and experiments.",
+		href: "https://github.com/hemaangsood",
+		icon: <FaGithub size={20} />,
+	},
+	{
+		title: "LinkedIn",
+		description: "Connect and reach out for collaboration.",
+		href: "https://www.linkedin.com/in/hemaang-sood-a72153b0/",
+		icon: <FaLinkedin size={20} />,
+	},
+	{
+		title: "Resume",
+		description: "Download my latest resume as a PDF.",
+		href: "/HemaangRes.pdf",
+		icon: <MdOutlineFileOpen size={22} />,
+	},
+];
 
 export default function ContactSection() {
 	const shouldMountContactGraphics = useSectionHasBeenInViewport("contact");
+	const isContactVisible = useIsSectionInViewport("contact", false, 0.08);
+
+	const openLink = (href: string) => {
+		window.open(href, "_blank", "noopener,noreferrer");
+	};
+
 	return (
 		<section
 			className="relative w-screen min-h-screen h-fit snap-start overflow-y-hidden"
@@ -40,7 +83,136 @@ export default function ContactSection() {
 					/>
 				)}
 			</div>
-			<div className="absolute" style={{ background: "#fff" }}></div>
+			<div className="absolute top-0 left-0 w-full h-full bg-black/35" />
+
+			<div className="absolute top-0 left-0 w-full min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-10 pt-20 pb-10">
+				<div
+					className="w-full max-w-6xl rounded-3xl border border-white/30 overflow-hidden"
+					style={{
+						background:
+							"linear-gradient(145deg, rgba(6,10,30,0.72), rgba(28,14,52,0.6))",
+						backdropFilter: "blur(18px)",
+					}}
+				>
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-5 p-5 sm:p-8 lg:p-10">
+						<motion.div
+							initial={{ opacity: 0, y: 40 }}
+							animate={
+								isContactVisible
+									? { opacity: 1, y: 0 }
+									: { opacity: 0, y: 40 }
+							}
+							transition={{ duration: isContactVisible ? 0.45 : 0.25 }}
+							className="flex flex-col justify-between"
+						>
+							<div>
+								<p className="text-xs sm:text-sm tracking-[0.2em] text-white/70 uppercase">
+									Contact
+								</p>
+								<h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight mt-2 text-white">
+									Let&apos;s Build Something Real
+								</h2>
+								<p className="text-white/85 text-base sm:text-lg mt-4 max-w-xl">
+									I like solving backend-heavy problems, designing reliable
+									systems, and shipping practical ML-powered tools. If your
+									team is building meaningful products, I&apos;d love to connect.
+								</p>
+							</div>
+
+							<div className="mt-8 flex flex-wrap gap-3">
+								<Button
+									onClick={() => openLink("https://github.com/hemaangsood")}
+									className="bg-white text-black hover:bg-white/90 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02]"
+								>
+									Open GitHub
+								</Button>
+								<Button
+									variant="outline"
+									onClick={() => openLink("/HemaangRes.pdf")}
+									className="border-white/80 text-white hover:bg-white/15 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02]"
+								>
+									View Resume
+								</Button>
+								<Button
+									variant="ghost"
+									onClick={() => {
+										const heroSection = document.getElementById("hero");
+										if (heroSection) {
+											heroSection.scrollIntoView({ behavior: "smooth" });
+										}
+									}}
+									className="text-white hover:bg-white/15 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02]"
+								>
+									Back To Top
+								</Button>
+							</div>
+						</motion.div>
+
+						<motion.div
+							initial={{ opacity: 0, y: 40 }}
+							animate={
+								isContactVisible
+									? { opacity: 1, y: 0 }
+									: { opacity: 0, y: 40 }
+							}
+							transition={{
+								duration: isContactVisible ? 0.45 : 0.25,
+								delay: isContactVisible ? 0.1 : 0,
+							}}
+							className="grid grid-cols-1 gap-3"
+						>
+							{contactActions.map((action, index) => (
+								<motion.div
+									key={action.title}
+									initial={{ opacity: 0, y: 24, scale: 0.98 }}
+									animate={
+										isContactVisible
+											? { opacity: 1, y: 0, scale: 1 }
+											: { opacity: 0, y: 24, scale: 0.98 }
+									}
+									transition={{
+										duration: isContactVisible ? 0.4 : 0.22,
+										delay: isContactVisible ? 0.18 + index * 0.1 : 0,
+										ease: [0.22, 1, 0.36, 1],
+									}}
+									whileHover={{ y: -4, scale: 1.01 }}
+									whileTap={{ scale: 0.995 }}
+									className="group"
+								>
+									<Card
+										className="relative border border-white/35 bg-white/10 text-white backdrop-blur-sm transition-colors duration-300 group-hover:border-white/60 group-hover:bg-white/15"
+									>
+										<div className="pointer-events-none absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+										<CardHeader className="pb-3 relative">
+											<CardTitle className="flex items-center justify-between text-xl">
+												<span className="flex items-center gap-2">
+													<span className="transition-transform duration-300 group-hover:scale-110">
+														{action.icon}
+													</span>
+													{action.title}
+												</span>
+												<FiArrowUpRight className="opacity-80 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+											</CardTitle>
+											<CardDescription className="text-white/75">
+												{action.description}
+											</CardDescription>
+										</CardHeader>
+										<CardContent className="pt-0 relative">
+											<Button
+												variant="outline"
+												onClick={() => openLink(action.href)}
+												className="w-full border-white/70 text-white hover:bg-white/15 transition-all duration-300 hover:-translate-y-0.5"
+											>
+												Open {action.title}
+											</Button>
+										</CardContent>
+									</Card>
+								</motion.div>
+							))}
+						</motion.div>
+					</div>
+				</div>
+			</div>
 		</section>
 	);
 };
