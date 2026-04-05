@@ -5,9 +5,9 @@ import { randFloat } from "three/src/math/MathUtils.js";
 import { PI, RADIAN, SUN_POINT } from "./constants";
 import { OrbitEllipse } from "./OrbitEllipse";
 import { getPosition } from "./orbit";
-import type { SolarObjectProps } from "./types";
+import type { SolarObjectProps as OrbitingObjectProps } from "./types";
 
-export function SolarObject({
+export function OrbitalObject({
 	centerAt = SUN_POINT,
 	renderOrbit = true,
 	orbitRadius,
@@ -18,7 +18,7 @@ export function SolarObject({
 	orbitOffsetPlaneRotationOffset = 0,
 	selfRotationSpeed = 0.3,
 	children,
-}: SolarObjectProps) {
+}: OrbitingObjectProps) {
 	const normalizedEccentricity = Math.min(eccentricity, 0.99);
 
 	const absE = Math.abs(normalizedEccentricity);

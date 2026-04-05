@@ -4,6 +4,7 @@ import type { Mesh } from "three";
 import * as THREE from "three";
 import "./AtmosphereMaterial";
 import type { PlanetProps } from "./types";
+import { OrbitalObject } from "./OrbitingObject";
 
 const textureLoader = new THREE.TextureLoader();
 
@@ -15,6 +16,7 @@ export function Planet({
 	atmosphereColor,
 	atmosphereIntensity = 1.2,
 	onClick,
+	moons = [],
 }: PlanetProps) {
 	const meshRef = useRef<Mesh>(null);
 	const worldPosRef = useRef(new THREE.Vector3());
@@ -145,6 +147,11 @@ export function Planet({
 					/>
 				</mesh>
 			)}
+			{moons.map((moonConfig, index) => (
+				<OrbitalObject key={index} {...moonConfig.orbit}>
+					<Planet {...moonConfig.planet} />
+				</OrbitalObject>
+			))}
 		</mesh>
 	);
 }

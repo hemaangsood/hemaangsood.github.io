@@ -1,6 +1,6 @@
-import type { SolarElementConfig } from "./types";
+import type { OrbitingElementConfig } from "./types";
 
-export const solarElements: SolarElementConfig[] = [
+export const solarElements: OrbitingElementConfig[] = [
 	{
 		orbit: {
 			orbitRadius: 5.4,
@@ -30,6 +30,25 @@ export const solarElements: SolarElementConfig[] = [
 			textureMap: "/projects/red-rock.jpg",
 			atmosphereColor: "#d77a63",
 			atmosphereIntensity: 1.05,
+			moons: [
+				{
+					orbit: {
+						orbitRadius: 0.5,
+						rotationSpeed: 0.2,
+						orbitSegments: 16,
+						eccentricity: 0.3,
+						orbitOffsetPlaneRotationOffset: 0,
+						selfRotationSpeed: 0.1,
+						renderOrbit: true,
+					},
+					planet: {
+						size: 0.1,
+						color: "#888888",
+						textureMap: "/projects/moon-texture.jpg",
+						useAtmosphere: false,
+					},
+				},
+			],
 		},
 	},
 	{
@@ -88,23 +107,6 @@ export const solarElements: SolarElementConfig[] = [
 	},
 	{
 		orbit: {
-			orbitRadius: 19.8,
-			rotationSpeed: 0.024,
-			orbitSegments: 96,
-			eccentricity: 0.08,
-			orbitOffsetPlaneRotationOffset: 4,
-			selfRotationSpeed: 0.19,
-		},
-		planet: {
-			size: 0.82,
-			color: "#d9c37a",
-			textureMap: "/projects/orange-details-moon-texture-concept.jpg",
-			atmosphereColor: "#f1e2a9",
-			atmosphereIntensity: 1.2,
-		},
-	},
-	{
-		orbit: {
 			orbitRadius: 18,
 			rotationSpeed: 0.015,
 			orbitSegments: 120,
@@ -118,6 +120,57 @@ export const solarElements: SolarElementConfig[] = [
 			textureMap: "/projects/gray-bubble.jpg",
 			atmosphereColor: "#b9d7ef",
 			atmosphereIntensity: 1.08,
+		},
+	},
+	{
+		orbit: {
+			orbitRadius: 19.8,
+			rotationSpeed: 0.024,
+			orbitSegments: 96,
+			eccentricity: 0.08,
+			orbitOffsetPlaneRotationOffset: 4,
+			selfRotationSpeed: 0.19,
+		},
+		planet: {
+			size: 0.82,
+			color: "#d9c37a",
+			textureMap: "/projects/orange-details-moon-texture-concept.jpg",
+			atmosphereColor: "#f1e2a9",
+			atmosphereIntensity: 1.2,
+			moons: [
+				{
+					orbit: {
+						orbitRadius: 1.7,
+						rotationSpeed: 0.18,
+						eccentricity: 0.1,
+						orbitOffsetPlaneRotationOffset: 0,
+						selfRotationSpeed: 0.12,
+						renderOrbit: true,
+					},
+					planet: {
+						size: 0.15,
+						color: "#aaaaaa",
+						textureMap: "/projects/moon-texture.jpg",
+						useAtmosphere: false,
+					},
+				},
+				{
+					orbit: {
+						orbitRadius: 1.4,
+						rotationSpeed: 0.18,
+						eccentricity: 0.1,
+						orbitOffsetPlaneRotationOffset: 90,
+						selfRotationSpeed: 0.12,
+						renderOrbit: true,
+					},
+					planet: {
+						size: 0.1,
+						color: "#aaaaaa",
+						textureMap: "/projects/moon-texture.jpg",
+						useAtmosphere: false,
+					},
+				},
+			],
 		},
 	},
 ];

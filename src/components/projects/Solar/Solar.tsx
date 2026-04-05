@@ -7,6 +7,10 @@ import { Sun } from "./Sun";
 import * as THREE from "three";
 import Stats from "stats.js";
 import { OrbitControls, useTexture } from "@react-three/drei";
+import { SUN_POINT } from "./constants";
+import { AsteroidBeltLOD } from "./AsteroidBeltLOD";
+import { OrbitalObject } from "./OrbitingObject";
+import { Planet } from "./Planet";
 
 
 function StatsPanel({ enabled }: { enabled: boolean }) {
@@ -85,6 +89,48 @@ export default function Solar({ isActive = true }: SolarProps): React.JSX.Elemen
 			<OrbitControlsComponent />
 			<fogExp2 attach="fog" args={["#0d0825", 0.004]} />
 			<Sun shouldMountHeavyEffects={shouldMountHeavyEffects} />
+			{
+				shouldMountHeavyEffects && (
+				<>
+					<AsteroidBeltLOD
+						orbitRadius={10.0}
+						count={1000}
+						centerPosition={SUN_POINT}
+					/>
+					<AsteroidBeltLOD
+						orbitRadius={22.0}
+						count={1500}
+						height={1.0}
+						size={0.15}
+						thickness={0.3}
+						centerPosition={SUN_POINT}
+					/>
+
+					{solarElements.map((element, idx) => {
+						const orbitConfig = Array.isArray(element.orbit)
+							? element.orbit[0]
+							: element.orbit;
+
+						return (
+							<OrbitalObject key={idx} {...orbitConfig}>
+								<Planet
+									{...element.planet}
+									useAtmosphere={true}
+								/>
+								{element.asteroidBelts?.map(
+									(belt, beltIndex) => (
+										<AsteroidBeltLOD
+											key={`belt-${idx}-${beltIndex}`}
+											{...belt}
+											centerPosition={SUN_POINT}
+										/>
+									),
+								)}
+							</OrbitalObject>
+						);
+					})}
+				</>)
+			}
 			<StatsPanel enabled={false} />
 			<ambientLight color="#404040" intensity={1.0} />
 			<NebulaRing />

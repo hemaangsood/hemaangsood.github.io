@@ -33,10 +33,11 @@ export interface PlanetProps {
 	atmosphereColor?: THREE.ColorRepresentation;
 	atmosphereIntensity?: number;
 	onClick?: () => void;
+	moons?: OrbitingElementConfig[];
 }
 
-export interface SolarElementConfig {
-	orbit: OrbitConfig | OrbitConfig[];
+export interface OrbitingElementConfig {
+	orbit: OrbitConfig;
 	planet: PlanetProps;
 	asteroidBelts?: AsteroidBeltProps[];
 }

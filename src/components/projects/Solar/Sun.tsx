@@ -4,10 +4,6 @@ import React, { useState } from "react";
 import { SUN_POINT } from "./constants";
 import * as THREE from "three";
 import { BackgroundStars } from "./BackgroundStars";
-import { AsteroidBeltLOD } from "./AsteroidBeltLOD";
-import { Planet } from "./Planet";
-import { solarElements } from "./solarData";
-import { SolarObject } from "./SolarObject";
 
 type SunProps = {
 	shouldMountHeavyEffects?: boolean;
@@ -131,34 +127,7 @@ void main() {
 						/>
 					</mesh>
 
-					<AsteroidBeltLOD orbitRadius={10.0} count={1000} centerPosition={SUN_POINT} />
-					<AsteroidBeltLOD
-						orbitRadius={22.0}
-						count={1500}
-						height={1.0}
-						size={0.15}
-						thickness={0.3}
-						centerPosition={SUN_POINT}
-					/>
-
-					{solarElements.map((element, idx) => {
-						const orbitConfig = Array.isArray(element.orbit)
-							? element.orbit[0]
-							: element.orbit;
-
-						return (
-							<SolarObject key={idx} {...orbitConfig}>
-								<Planet {...element.planet} useAtmosphere={true} />
-								{element.asteroidBelts?.map((belt, beltIndex) => (
-									<AsteroidBeltLOD
-										key={`belt-${idx}-${beltIndex}`}
-										{...belt}
-										centerPosition={SUN_POINT}
-									/>
-								))}
-							</SolarObject>
-						);
-					})}
+					
 					<BackgroundStars count={320} />
 					<EffectComposer multisampling={0} enableNormalPass={false}>
 						<Bloom

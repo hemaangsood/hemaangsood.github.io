@@ -1,7 +1,7 @@
 export { default } from "./Solar";
 export { default as Solar } from "./Solar";
 export { Planet } from "./Planet";
-export { SolarObject } from "./SolarObject";
+export { OrbitalObject } from "./OrbitingObject";
 export { Sun } from "./Sun";
 export { NebulaRing } from "./NebulaRing";
 export { BackgroundStars } from "./BackgroundStars";
@@ -10,4 +10,4 @@ export { OrbitEllipse } from "./OrbitEllipse";
 export { solarElements } from "./solarData";
 export { PI, RADIAN, SUN_POINT } from "./constants";
 export { getOrbitPoint, getPosition } from "./orbit";
-export type { AsteroidBeltProps, OrbitConfig, PlanetProps, SolarElementConfig, SolarObjectProps } from "./types";
+export type { AsteroidBeltProps, OrbitConfig, PlanetProps, OrbitingElementConfig as SolarElementConfig, SolarObjectProps } from "./types";
