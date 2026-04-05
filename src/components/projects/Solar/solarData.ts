@@ -8,22 +8,29 @@ export const solarElements: OrbitingElementConfig[] = [
 			orbitOffsetPlaneRotationOffset: 3,
 		},
 		planet: {
-			size: 0.44,
+			size: 0.5,
 			color: "#d9b38a",
 			textureMap: "/projects/2k_venus_surface.jpg",
 			atmosphereColor: "#edd0aa",
 			atmosphereIntensity: 1.3,
 			selfRotationSpeed: 0.45,
 			project: {
-				id: "portfolio-3d-solar",
-				name: "Solar Portfolio Engine",
+				id: "routed",
+				name: "Routed - Travel Partner Matcher",
 				description:
-					"An interactive 3D portfolio scene that maps project discovery to a planetary system with performant rendering and progressive detail.",
-				techStack: ["React", "TypeScript", "Three.js", "React Three Fiber"],
-				tags: ["3D UI", "WebGL", "Interaction Design"],
+					"Microservices-based platform that matches travelers using geospatial overlap, preferences, and behavioral signals with event-driven processing.",
+				techStack: [
+					"FastAPI",
+					"PostgreSQL",
+					"PostGIS",
+					"Kafka",
+					"MongoDB",
+					"Docker",
+					"Go",
+				],
+				tags: ["Distributed Systems", "Matching Engine", "GeoSpatial"],
 				links: [
-					{ label: "Live Demo", url: "https://hemaangsood.github.io" },
-					{ label: "Source", url: "https://github.com/hemaangsood/hemaangsood.github.io" },
+					{ label: "Source", url: "https://github.com/hemaangsood" },
 				],
 			},
 		},
@@ -43,16 +50,19 @@ export const solarElements: OrbitingElementConfig[] = [
 			atmosphereIntensity: 1.05,
 			selfRotationSpeed: 0.33,
 			project: {
-				id: "graph-signal-monitor",
-				name: "Graph Signal Monitor",
+				id: "smart-lock",
+				name: "Face + Voice Smart Lock",
 				description:
-					"A graph-driven observability dashboard that surfaces system anomalies with animated topology views and event timelines.",
-				techStack: ["React", "D3", "Node.js", "WebSocket"],
-				tags: ["Data Viz", "Monitoring", "Real-time"],
-				links: [
-					{ label: "Case Study", url: "https://hemaangsood.github.io/#projects" },
-					{ label: "Repository", url: "https://github.com/hemaangsood/hemaangsood.github.io" },
+					"Biometric authentication system combining facial recognition and speech verification using Siamese networks for robust access control.",
+				techStack: [
+					"PyTorch",
+					"OpenCV",
+					"YOLO",
+					"Raspberry Pi",
+					"REST APIs",
 				],
+				tags: ["Computer Vision", "Security", "ML"],
+				links: [],
 			},
 			moons: [
 				{
@@ -91,15 +101,19 @@ export const solarElements: OrbitingElementConfig[] = [
 			atmosphereIntensity: 1.22,
 			selfRotationSpeed: 0.22,
 			project: {
-				id: "aurora-workboard",
-				name: "Aurora Workboard",
+				id: "chat-app",
+				name: "Encrypted Chat System",
 				description:
-					"A collaborative project workspace with live status lanes, keyboard-first workflows, and intelligent planning shortcuts.",
-				techStack: ["React", "TypeScript", "PostgreSQL", "Express"],
-				tags: ["Productivity", "Collaboration", "SaaS"],
-				links: [
-					{ label: "Overview", url: "https://hemaangsood.github.io/#projects" },
+					"End-to-end encrypted chat application using AES-256 with secure authentication and real-time messaging architecture.",
+				techStack: [
+					"MongoDB",
+					"Express",
+					"React",
+					"Node.js",
+					"NextAuth",
 				],
+				tags: ["Security", "Real-time", "Full Stack"],
+				links: [],
 			},
 		},
 		asteroidBelts: [
@@ -129,15 +143,13 @@ export const solarElements: OrbitingElementConfig[] = [
 			atmosphereIntensity: 1.5,
 			selfRotationSpeed: 0.38,
 			project: {
-				id: "cloud-cost-navigator",
-				name: "Cloud Cost Navigator",
+				id: "stock-ml",
+				name: "Stock Prediction Engine",
 				description:
-					"An engineering-finance analytics tool that predicts monthly cloud burn and recommends architecture-level optimizations.",
-				techStack: ["Python", "FastAPI", "React", "Azure"],
-				tags: ["FinOps", "Cloud", "Forecasting"],
-				links: [
-					{ label: "Architecture Notes", url: "https://hemaangsood.github.io/#projects" },
-				],
+					"Hybrid time-series prediction system combining LSTM, GRU, and CNN models with macroeconomic indicators for market trend analysis.",
+				techStack: ["PyTorch", "Python", "AWS", "Pandas"],
+				tags: ["Machine Learning", "Time Series", "Forecasting"],
+				links: [],
 			},
 		},
 		asteroidBelts: [
@@ -167,15 +179,13 @@ export const solarElements: OrbitingElementConfig[] = [
 			atmosphereIntensity: 1.08,
 			selfRotationSpeed: 0.16,
 			project: {
-				id: "interview-prism",
-				name: "Interview Prism",
+				id: "rl-snake",
+				name: "RL Snake Agent",
 				description:
-					"A preparation platform that simulates technical interviews, scores responses, and builds personalized practice loops.",
-				techStack: ["Next.js", "OpenAI", "Prisma", "Tailwind"],
-				tags: ["EdTech", "AI", "Assessment"],
-				links: [
-					{ label: "Product Brief", url: "https://hemaangsood.github.io/#projects" },
-				],
+					"Deep Q-learning agent using convolutional neural networks that learns to autonomously solve the Snake game.",
+				techStack: ["TensorFlow", "OpenAI Gym", "Python"],
+				tags: ["Reinforcement Learning", "AI"],
+				links: [],
 			},
 		},
 	},
@@ -195,15 +205,13 @@ export const solarElements: OrbitingElementConfig[] = [
 			atmosphereIntensity: 1.2,
 			selfRotationSpeed: 0.19,
 			project: {
-				id: "promptops-studio",
-				name: "PromptOps Studio",
+				id: "smart-wheelchair",
+				name: "Gesture-Controlled Wheelchair",
 				description:
-					"A prompt lifecycle workspace with versioning, evaluation runs, and deployment guardrails for production LLM features.",
-				techStack: ["TypeScript", "React", "Node.js", "Redis"],
-				tags: ["LLM", "Developer Tools", "MLOps"],
-				links: [
-					{ label: "Walkthrough", url: "https://hemaangsood.github.io/#projects" },
-				],
+					"BLE-controlled omni-directional wheelchair using real-time hand gesture recognition with MediaPipe and OpenCV.",
+				techStack: ["OpenCV", "MediaPipe", "Arduino", "Python", "BLE"],
+				tags: ["IoT", "Computer Vision", "Embedded Systems"],
+				links: [],
 			},
 			moons: [
 				{
