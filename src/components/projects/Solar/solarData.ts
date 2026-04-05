@@ -43,7 +43,7 @@ export const solarElements: OrbitingElementConfig[] = [
 			orbitOffsetPlaneRotationOffset: -2,
 		},
 		planet: {
-			size: 0.24,
+			size: 0.6,
 			color: "#b85f44",
 			textureMap: "/projects/red-rock.jpg",
 			atmosphereColor: "#d77a63",
