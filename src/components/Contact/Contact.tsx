@@ -94,7 +94,7 @@ export default function ContactSection() {
 						backdropFilter: "blur(18px)",
 					}}
 				>
-					<div className="grid grid-cols-1 lg:grid-cols-2 gap-5 p-5 sm:p-8 lg:p-10">
+					<div className="grid grid-cols-1 overflow-y-scroll lg:overflow-y-hidden gap-5 p-5 sm:p-8 lg:p-10">
 						<motion.div
 							initial={{ opacity: 0, y: 40 }}
 							animate={

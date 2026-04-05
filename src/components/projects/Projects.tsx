@@ -40,7 +40,7 @@ const ProjectsSection = () => {
 					↑
 				</div>
 				<div
-					className="absolute bottom-4 left-19/20 transform -translate-x-1/2 cursor-pointer text-4xl animate-bounce"
+					className="absolute bottom-25 lg:bottom-6 left-19/20 transform -translate-x-1/2 cursor-pointer text-4xl animate-bounce"
 					onClick={() => {
 						const destSection =
 							document.getElementById("experience");

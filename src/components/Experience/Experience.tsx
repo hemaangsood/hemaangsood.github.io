@@ -77,7 +77,7 @@ export default function ExperienceSection() {
 							: { opacity: 0, y: 28 }
 					}
 					transition={{ duration: isExperienceVisible ? 0.45 : 0.25 }}
-					className="flex flex-col gap-4 m-auto pt-2 pb-3 sm:py-6 px-4 sm:px-6 items-stretch w-[92vw] max-w-350 min-h-[50%] lg:min-h-[76vh]"
+					className="flex flex-col overflow-y-scroll lg:overflow-y-hidden gap-4 m-auto pt-2 pb-3 sm:py-6 px-4 sm:px-6 items-stretch w-[92vw] max-w-350 min-h-[50%] lg:min-h-[76vh]"
 					style={{
 						background: "rgba(100, 100,100, 0.1)",
 						backdropFilter: "blur(5px)",
@@ -94,20 +94,21 @@ export default function ExperienceSection() {
 						transition={{
 							duration: isExperienceVisible ? 0.45 : 0.25,
 						}}
+						
 					>
 						<GradientText
 							colors={["#5227FF", "#fcba03", "#7cff67", "#fff"]}
 							animationSpeed={8}
 							showBorder={false}
 							yoyo={true}
-							className="text-2xl sm:text-3xl mx-auto backdrop-blur-none! cursor-text!"
+							className="text-2xl pb-4 lg:pb-0 sm:text-3xl mx-auto backdrop-blur-none! cursor-text!"
 						>
 							Experience
 						</GradientText>
 					</motion.div>
 
 					<div
-						className="mt-2 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 overflow-hidden thin-scrollbar"
+						className="mt-2 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 overflow-y-scroll xl:overflow-y-hidden thin-scrollbar"
 						style={{
 							alignItems: "stretch",
 						}}
