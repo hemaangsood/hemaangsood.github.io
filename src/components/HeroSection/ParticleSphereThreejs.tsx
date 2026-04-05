@@ -78,8 +78,8 @@ export default function ParticleSphere({
 		mount.innerHTML = "";
 		mount.appendChild(renderer.domElement);
 
-		const particleCount = 9000;
-		const radius = 2;
+		const particleCount = 15000;
+		const radius = 2.5;
 
 		const geometry = new THREE.BufferGeometry();
 		const positions = new Float32Array(particleCount * 3);
@@ -104,12 +104,12 @@ export default function ParticleSphere({
 		);
 
 		const material = new THREE.PointsMaterial({
-			size: 0.02,
+			size: 0.035,
 			vertexColors: true,
 			transparent: true,
 			opacity: 0.9,
 			blending: THREE.AdditiveBlending,
-			depthWrite: false,
+			depthWrite: true,
 		});
 
 		const points = new THREE.Points(geometry, material);
@@ -206,7 +206,7 @@ export default function ParticleSphere({
 
 			points.rotation.x = currentX;
 			points.rotation.y = currentY + time * 0.15;
-
+			renderer.outputColorSpace = THREE.SRGBColorSpace;
 			renderer.render(scene, camera);
 		}
 
