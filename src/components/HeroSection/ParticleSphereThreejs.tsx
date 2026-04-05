@@ -2,62 +2,100 @@ import type React from "react";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
+let globalRenderer: THREE.WebGLRenderer | null = null;
+
+type ParticleSphereProps = {
+	parentRef: React.RefObject<HTMLDivElement | null>;
+	brightness?: number;
+	contrast?: number;
+};
+
+const clamp01 = (value: number): number => Math.min(1, Math.max(0, value));
+
+function applyBrightnessContrast(
+	value: number,
+	brightness: number,
+	contrast: number,
+): number {
+	const brightened = value * brightness;
+	return clamp01((brightened - 0.5) * contrast + 0.5);
+}
+
 export default function ParticleSphere({
 	parentRef,
-}: {
-	parentRef: React.RefObject<HTMLDivElement | null>;
-}): React.JSX.Element {
+	brightness = 1.5,
+	contrast = 1.4,
+}: ParticleSphereProps): React.JSX.Element {
 	const mountRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		if (!parentRef.current) {
-			console.warn("Parent reference is not available for ParticleSphere");
-			return;
-		}
-		const localMountRef = mountRef.current;
-		const localParentRef = parentRef.current;
-		if (!localMountRef) {
-			return;
+		if (!parentRef.current || !mountRef.current) return;
+
+		const parent = parentRef.current;
+		const mount = mountRef.current;
+
+		if (parent.offsetHeight === 0) parent.style.height = "500px";
+
+		const width = parent.offsetWidth;
+		const height = parent.offsetHeight;
+		if (width === 0 || height === 0) return;
+
+		if (globalRenderer) {
+			try {
+				globalRenderer.forceContextLoss();
+				globalRenderer.dispose();
+			} catch {
+				console.warn("Failed to dispose existing global renderer");
+			}
+			globalRenderer = null;
 		}
 
 		const scene = new THREE.Scene();
+
 		const camera = new THREE.PerspectiveCamera(
 			75,
-			(localParentRef?.offsetWidth || window.innerWidth) /
-				(localParentRef?.offsetHeight || window.innerHeight),
+			width / height,
 			0.1,
 			1000,
 		);
-		camera.position.z = 4;
+		camera.position.z = 4.1;
 
 		const renderer = new THREE.WebGLRenderer({
 			antialias: true,
 			alpha: true,
 			powerPreference: "high-performance",
 		});
-		renderer.setClearColor(0x000000, 0);
-		renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
-		renderer.setSize(
-			localParentRef?.offsetWidth || window.innerWidth,
-			localParentRef?.offsetHeight || window.innerHeight,
-		);
-		localMountRef.appendChild(renderer.domElement);
 
-		// Make sphere geometry
-		const particleCount = 2500;
-		const radius = 1.5;
+		globalRenderer = renderer;
+
+		renderer.setClearColor(0x000000, 0);
+		renderer.setPixelRatio(1);
+		renderer.setSize(width, height, false);
+
+		renderer.domElement.style.width = "100%";
+		renderer.domElement.style.height = "100%";
+
+		mount.innerHTML = "";
+		mount.appendChild(renderer.domElement);
+
+		const particleCount = 9000;
+		const radius = 2;
 
 		const geometry = new THREE.BufferGeometry();
-
 		const positions = new Float32Array(particleCount * 3);
+		const colors = new Float32Array(particleCount * 3);
 
+		// Fibonacci sphere
+		const phi = Math.PI * (3 - Math.sqrt(5));
 		for (let i = 0; i < particleCount; i++) {
-			const phi = Math.acos(1 - 2 * Math.random());
-			const theta = 2 * Math.PI * Math.random();
-			const x = radius * Math.sin(phi) * Math.cos(theta);
-			const y = radius * Math.sin(phi) * Math.sin(theta);
-			const z = radius * Math.cos(phi);
-			positions.set([x, y, z], i * 3);
+			const y = 1 - (i / (particleCount - 1)) * 2;
+			const r = Math.sqrt(1 - y * y);
+			const theta = phi * i;
+
+			const x = Math.cos(theta) * r * radius;
+			const z = Math.sin(theta) * r * radius;
+
+			positions.set([x, y * radius, z], i * 3);
 		}
 
 		geometry.setAttribute(
@@ -66,67 +104,105 @@ export default function ParticleSphere({
 		);
 
 		const material = new THREE.PointsMaterial({
-			color: 0xffffff,
 			size: 0.02,
+			vertexColors: true,
 			transparent: true,
-			opacity: 0.8,
+			opacity: 0.9,
 			blending: THREE.AdditiveBlending,
 			depthWrite: false,
 		});
+
 		const points = new THREE.Points(geometry, material);
 		scene.add(points);
 
-		let mouseX = 0;
-		let mouseY = 0;
+		// TEXTURE SAMPLING (SAFE)
+		const loader = new THREE.TextureLoader();
+		const texture = loader.load("/earth.jpg", (tex) => {
+			const img = tex.image as HTMLImageElement;
+
+			const canvas = document.createElement("canvas");
+			const ctx = canvas.getContext("2d");
+			if (!ctx) return;
+
+			canvas.width = img.width;
+			canvas.height = img.height;
+			ctx.drawImage(img, 0, 0);
+
+			const imageData = ctx.getImageData(
+				0,
+				0,
+				canvas.width,
+				canvas.height,
+			);
+
+			for (let i = 0; i < particleCount; i++) {
+				const x = positions[i * 3];
+				const y = positions[i * 3 + 1];
+				const z = positions[i * 3 + 2];
+
+				const len = Math.sqrt(x * x + y * y + z * z);
+				const nx = x / len;
+				const ny = y / len;
+				const nz = z / len;
+
+				const u = 0.5 + Math.atan2(nz, nx) / (2 * Math.PI);
+				const v = 0.5 - Math.asin(ny) / Math.PI;
+
+				const px = Math.min(canvas.width - 1, Math.floor(u * canvas.width));
+				const py = Math.min(canvas.height - 1, Math.floor(v * canvas.height));
+				const idx = (py * canvas.width + px) * 4;
+
+				const red = imageData.data[idx] / 255;
+				const green = imageData.data[idx + 1] / 255;
+				const blue = imageData.data[idx + 2] / 255;
+
+				colors[i * 3] = applyBrightnessContrast(red, brightness, contrast);
+				colors[i * 3 + 1] = applyBrightnessContrast(
+					green,
+					brightness,
+					contrast,
+				);
+				colors[i * 3 + 2] = applyBrightnessContrast(blue, brightness, contrast);
+			}
+
+			geometry.setAttribute(
+				"color",
+				new THREE.BufferAttribute(colors, 3),
+			);
+		});
 
 		let targetX = 0;
 		let targetY = 0;
-
 		let currentX = 0;
 		let currentY = 0;
 
-		function handleMouseMove(event: MouseEvent) {
-			if (!localParentRef) {
-				console.warn(
-					"Parent reference is not available for mouse move handling",
-				);
-				return;
-			}
+		function handleMouseMove(e: MouseEvent) {
+			const rect = parent.getBoundingClientRect();
+			const x = (e.clientX - rect.left) / rect.width;
+			const y = (e.clientY - rect.top) / rect.height;
 
-			const rect = localParentRef.getBoundingClientRect();
-
-			const x = (event.clientX - rect.left) / rect.width;
-			const y = (event.clientY - rect.top) / rect.height;
-
-			mouseX = x * 2 - 1;
-			mouseY = y * 2 - 1;
-
-			targetY = mouseX * 0.8;
-			targetX = mouseY * 0.4;
+			targetY = (x * 2 - 1) * 0.8;
+			targetX = (y * 2 - 1) * 0.4;
 		}
 
-		localParentRef.addEventListener("mousemove", handleMouseMove);
-		const startTime = performance.now();
-		let animationFrameId = 0;
-		let isVisible = true;
+		parent.addEventListener("mousemove", handleMouseMove);
 
-		const io = new IntersectionObserver(
-			([entry]) => {
-				isVisible = entry.isIntersecting;
-			},
-			{ threshold: 0.01 },
-		);
-
-		io.observe(localParentRef);
+		let animationId = 0;
+		let lastTime = performance.now();
 
 		function animate() {
-			animationFrameId = requestAnimationFrame(animate);
-			if (!isVisible) return;
-			const time = (performance.now() - startTime) * 0.001;
-			points.scale.setScalar(1 + Math.sin(time * 1.5) * 0.01);
+			animationId = requestAnimationFrame(animate);
 
-			currentX += (targetX - currentX) * 0.06;
-			currentY += (targetY - currentY) * 0.06;
+			const now = performance.now();
+			const delta = (now - lastTime) / 1000;
+			lastTime = now;
+
+			const lerp = 1 - Math.pow(0.001, delta);
+
+			currentX += (targetX - currentX) * lerp;
+			currentY += (targetY - currentY) * lerp;
+
+			const time = now * 0.001;
 
 			points.rotation.x = currentX;
 			points.rotation.y = currentY + time * 0.15;
@@ -137,33 +213,40 @@ export default function ParticleSphere({
 		animate();
 
 		function handleResize() {
-			camera.aspect =
-				(localParentRef?.offsetWidth || window.innerWidth) /
-				(localParentRef?.offsetHeight || window.innerHeight);
+			const w = parent.offsetWidth;
+			const h = parent.offsetHeight;
+			if (w === 0 || h === 0) return;
+
+			camera.aspect = w / h;
 			camera.updateProjectionMatrix();
-			renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
-			renderer.setSize(
-				localParentRef?.offsetWidth || window.innerWidth,
-				localParentRef?.offsetHeight || window.innerHeight,
-			);
+			renderer.setSize(w, h, false);
 		}
+
 		window.addEventListener("resize", handleResize);
 
 		return () => {
-			cancelAnimationFrame(animationFrameId);
-			io.disconnect();
+			cancelAnimationFrame(animationId);
 			window.removeEventListener("resize", handleResize);
-			localParentRef.removeEventListener("mousemove", handleMouseMove);
-
-			if (localMountRef.contains(renderer.domElement)) {
-				localMountRef.removeChild(renderer.domElement);
-			}
+			parent.removeEventListener("mousemove", handleMouseMove);
 
 			geometry.dispose();
 			material.dispose();
-			renderer.dispose();
-		};
-	}, [parentRef]);
+			texture.dispose();
 
-	return <div ref={mountRef} style={{ width: "100%", height: "100%" }}></div>;
+			try {
+				renderer.forceContextLoss();
+				renderer.dispose();
+			} catch {
+				console.warn("Failed to dispose renderer");
+			}
+
+			if (mount.contains(renderer.domElement)) {
+				mount.removeChild(renderer.domElement);
+			}
+
+			if (globalRenderer === renderer) globalRenderer = null;
+		};
+	}, [parentRef, brightness, contrast]);
+
+	return <div ref={mountRef} style={{ width: "100%", height: "100%" }} />;
 }

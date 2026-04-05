@@ -2,9 +2,10 @@ import { useRef } from "react";
 import LightPillar from "../ui/LightPillar";
 import { TextAnimate } from "../ui/text-animate";
 import { TypingAnimation } from "../ui/typing-animation";
-import ParticleSphere from "./ParticleSphereThreejs";
+// import ParticleSphere from "./ParticleSphereThreejs";
 import { motion } from "motion/react";
 import { useSectionHasBeenInViewport } from "../viewport/viewportHooks";
+import ParticleSphere from "./ParticleSphereThreejs";
 
 function HeroSectionButton({ text, section,link,style,className="" }: { text: string;section?:string; link?: string; style?: React.CSSProperties,className?: string }) {
 	const handleClick = () => {
@@ -41,6 +42,8 @@ const HeroSection = () => {
 		"Expert Google Searcher",
 	]
 	const sphereRef = useRef<HTMLDivElement>(null);
+	const particleSphereBrightness = 1.2;
+	const particleSphereContrast = 1.2;
 	return (
 		<section
 			className="relative w-screen min-h-screen h-fit snap-start overflow-y-hidden"
@@ -133,7 +136,11 @@ const HeroSection = () => {
 						ref={sphereRef}
 					>
 						{shouldMountHeroGraphics && (
-							<ParticleSphere parentRef={sphereRef} />
+							<ParticleSphere
+								parentRef={sphereRef}
+								brightness={particleSphereBrightness}
+								contrast={particleSphereContrast}
+							/>
 						)}
 					</div>
 				</div>
