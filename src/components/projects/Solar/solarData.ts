@@ -14,6 +14,18 @@ export const solarElements: OrbitingElementConfig[] = [
 			atmosphereColor: "#edd0aa",
 			atmosphereIntensity: 1.3,
 			selfRotationSpeed: 0.45,
+			project: {
+				id: "portfolio-3d-solar",
+				name: "Solar Portfolio Engine",
+				description:
+					"An interactive 3D portfolio scene that maps project discovery to a planetary system with performant rendering and progressive detail.",
+				techStack: ["React", "TypeScript", "Three.js", "React Three Fiber"],
+				tags: ["3D UI", "WebGL", "Interaction Design"],
+				links: [
+					{ label: "Live Demo", url: "https://hemaangsood.github.io" },
+					{ label: "Source", url: "https://github.com/hemaangsood/hemaangsood.github.io" },
+				],
+			},
 		},
 	},
 	{
@@ -30,6 +42,18 @@ export const solarElements: OrbitingElementConfig[] = [
 			atmosphereColor: "#d77a63",
 			atmosphereIntensity: 1.05,
 			selfRotationSpeed: 0.33,
+			project: {
+				id: "graph-signal-monitor",
+				name: "Graph Signal Monitor",
+				description:
+					"A graph-driven observability dashboard that surfaces system anomalies with animated topology views and event timelines.",
+				techStack: ["React", "D3", "Node.js", "WebSocket"],
+				tags: ["Data Viz", "Monitoring", "Real-time"],
+				links: [
+					{ label: "Case Study", url: "https://hemaangsood.github.io/#projects" },
+					{ label: "Repository", url: "https://github.com/hemaangsood/hemaangsood.github.io" },
+				],
+			},
 			moons: [
 				{
 					orbit: {
@@ -66,6 +90,17 @@ export const solarElements: OrbitingElementConfig[] = [
 			atmosphereColor: "#89c9ff",
 			atmosphereIntensity: 1.22,
 			selfRotationSpeed: 0.22,
+			project: {
+				id: "aurora-workboard",
+				name: "Aurora Workboard",
+				description:
+					"A collaborative project workspace with live status lanes, keyboard-first workflows, and intelligent planning shortcuts.",
+				techStack: ["React", "TypeScript", "PostgreSQL", "Express"],
+				tags: ["Productivity", "Collaboration", "SaaS"],
+				links: [
+					{ label: "Overview", url: "https://hemaangsood.github.io/#projects" },
+				],
+			},
 		},
 		asteroidBelts: [
 			{
@@ -93,6 +128,17 @@ export const solarElements: OrbitingElementConfig[] = [
 			atmosphereColor: "#e6c49f",
 			atmosphereIntensity: 1.5,
 			selfRotationSpeed: 0.38,
+			project: {
+				id: "cloud-cost-navigator",
+				name: "Cloud Cost Navigator",
+				description:
+					"An engineering-finance analytics tool that predicts monthly cloud burn and recommends architecture-level optimizations.",
+				techStack: ["Python", "FastAPI", "React", "Azure"],
+				tags: ["FinOps", "Cloud", "Forecasting"],
+				links: [
+					{ label: "Architecture Notes", url: "https://hemaangsood.github.io/#projects" },
+				],
+			},
 		},
 		asteroidBelts: [
 			{
@@ -120,6 +166,17 @@ export const solarElements: OrbitingElementConfig[] = [
 			atmosphereColor: "#b9d7ef",
 			atmosphereIntensity: 1.08,
 			selfRotationSpeed: 0.16,
+			project: {
+				id: "interview-prism",
+				name: "Interview Prism",
+				description:
+					"A preparation platform that simulates technical interviews, scores responses, and builds personalized practice loops.",
+				techStack: ["Next.js", "OpenAI", "Prisma", "Tailwind"],
+				tags: ["EdTech", "AI", "Assessment"],
+				links: [
+					{ label: "Product Brief", url: "https://hemaangsood.github.io/#projects" },
+				],
+			},
 		},
 	},
 	{
@@ -137,6 +194,17 @@ export const solarElements: OrbitingElementConfig[] = [
 			atmosphereColor: "#f1e2a9",
 			atmosphereIntensity: 1.2,
 			selfRotationSpeed: 0.19,
+			project: {
+				id: "promptops-studio",
+				name: "PromptOps Studio",
+				description:
+					"A prompt lifecycle workspace with versioning, evaluation runs, and deployment guardrails for production LLM features.",
+				techStack: ["TypeScript", "React", "Node.js", "Redis"],
+				tags: ["LLM", "Developer Tools", "MLOps"],
+				links: [
+					{ label: "Walkthrough", url: "https://hemaangsood.github.io/#projects" },
+				],
+			},
 			moons: [
 				{
 					orbit: {

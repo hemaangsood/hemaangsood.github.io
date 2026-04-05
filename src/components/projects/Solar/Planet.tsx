@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
+import { Html } from "@react-three/drei";
 import type { Group, Mesh } from "three";
 import * as THREE from "three";
 import "./AtmosphereMaterial";
@@ -17,23 +18,35 @@ export function Planet({
 	atmosphereColor,
 	atmosphereIntensity = 1.2,
 	selfRotationSpeed = 0.3,
+	project,
+	selectedProjectId,
+	onProjectSelect,
+	onProjectHover,
+	onProjectPositionUpdate,
 	onClick,
 	moons,
 	asteroidBelts,
 }: PlanetProps) {
 	const planetGroupRef = useRef<Group>(null);
 	const planetMeshRef = useRef<Mesh>(null);
+	const selectWorldPosRef = useRef(new THREE.Vector3());
 	const worldPosRef = useRef(new THREE.Vector3());
 	const lodTierRef = useRef<number>(1);
 	const checkCooldownRef = useRef(0);
 	const { camera } = useThree();
 	const [isHovered, setIsHovered] = useState(false);
-	const [isSelected, setIsSelected] = useState(false);
 	const [atmosphereSegments, setAtmosphereSegments] = useState(32);
+	const [labelScale, setLabelScale] = useState(1);
+	const isSelectedProject = Boolean(project && selectedProjectId === project.id);
 
 	useFrame((_, delta) => {
 		if (planetMeshRef.current) {
 			planetMeshRef.current.rotation.y += delta * selfRotationSpeed;
+		}
+
+		if (isSelectedProject && onProjectPositionUpdate && planetGroupRef.current && project) {
+			planetGroupRef.current.getWorldPosition(worldPosRef.current);
+			onProjectPositionUpdate(project.id, worldPosRef.current);
 		}
 
 		checkCooldownRef.current -= delta;
@@ -43,6 +56,13 @@ export function Planet({
 		if (!planetGroupRef.current) return;
 		planetGroupRef.current.getWorldPosition(worldPosRef.current);
 		const distance = camera.position.distanceTo(worldPosRef.current);
+
+		if (project) {
+			const nextLabelScale = THREE.MathUtils.clamp(0.9 + distance * 0.04, 1, 2.6);
+			setLabelScale((current) =>
+				Math.abs(current - nextLabelScale) < 0.04 ? current : nextLabelScale,
+			);
+		}
 
 		const nextTier = distance > 32 ? 2 : distance > 16 ? 1 : 0;
 		if (nextTier === lodTierRef.current) return;
@@ -77,7 +97,7 @@ export function Planet({
 	const resolvedEmissiveColor = hasTexture ? "#4c79c9" : resolvedSurfaceColor;
 	const shouldRenderAtmosphere =
 		useAtmosphere &&
-		(!hasTexture || atmosphereColor !== undefined || color !== undefined || isHovered || isSelected);
+		(!hasTexture || atmosphereColor !== undefined || color !== undefined || isHovered || isSelectedProject);
 
 	const resolvedAtmosphereColor =
 		atmosphereColor ?? (color ?? (hasTexture ? "#9ac7ff" : "blue"));
@@ -91,16 +111,16 @@ export function Planet({
 	const emissiveIntensity = hasTexture
 		? isHovered
 			? 0.5
-			: isSelected
+			: isSelectedProject
 				? 0.25
 				: 0
 		: isHovered
 			? 7
-			: isSelected
+			: isSelectedProject
 				? 2.5
 				: 0.1;
 	const atmosphereGlowIntensity =
-		atmosphereIntensity * (isHovered ? 3.5 : isSelected ? 1.7 : 1);
+		atmosphereIntensity * (isHovered ? 3.5 : isSelectedProject ? 1.7 : 1);
 
 	useEffect(() => {
 		const body = typeof document !== "undefined" ? document.body : null;
@@ -119,14 +139,23 @@ export function Planet({
 				onPointerOver={(event) => {
 					event.stopPropagation();
 					setIsHovered(true);
+					if (project) {
+						onProjectHover?.(project);
+					}
 				}}
 				onPointerOut={(event) => {
 					event.stopPropagation();
 					setIsHovered(false);
+					if (project) {
+						onProjectHover?.(null);
+					}
 				}}
 				onClick={(event) => {
 					event.stopPropagation();
-					setIsSelected((current) => !current);
+					if (project && planetGroupRef.current) {
+						planetGroupRef.current.getWorldPosition(selectWorldPosRef.current);
+						onProjectSelect?.(project, selectWorldPosRef.current);
+					}
 					onClick?.();
 				}}
 			>
@@ -163,6 +192,21 @@ export function Planet({
 					</mesh>
 				)}
 			</mesh>
+			{project && (
+				<Html
+					position={[0, size + 0.5, 0]}
+					center
+					sprite
+					distanceFactor={12}
+				>
+					<div
+						className="pointer-events-none rounded border border-white/30 bg-black/60 px-2 py-0.5 text-[11px] font-medium tracking-wide text-white shadow-lg backdrop-blur-sm"
+						style={{ transform: `scale(${labelScale})`, transformOrigin: "center" }}
+					>
+						{project.name}
+					</div>
+				</Html>
+			)}
 			{moons?.map((moonConfig, moonIndex) => (
 				<OrbitalObject
 					key={`moon-${moonIndex}`}
@@ -171,6 +215,10 @@ export function Planet({
 					<Planet
 						{...moonConfig.planet}
 						asteroidBelts={moonConfig.asteroidBelts}
+						selectedProjectId={selectedProjectId}
+						onProjectSelect={onProjectSelect}
+						onProjectHover={onProjectHover}
+						onProjectPositionUpdate={onProjectPositionUpdate}
 						selfRotationSpeed={
 							moonConfig.moonSelfRotationSpeed
 							?? moonConfig.planet.selfRotationSpeed
