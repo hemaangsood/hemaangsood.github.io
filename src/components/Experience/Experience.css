@@ -165,6 +165,15 @@
 		border-radius: 1.35rem;
 	}
 
+	.experience-grid {
+		max-height: min(58vh, 34rem);
+		overflow-y: auto;
+		overflow-x: hidden;
+		padding-right: 0.25rem;
+		overscroll-behavior: contain;
+		-webkit-overflow-scrolling: touch;
+	}
+
 	.experience-title {
 		max-width: 100%;
 	}

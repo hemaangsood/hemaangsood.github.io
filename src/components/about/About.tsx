@@ -67,7 +67,7 @@ const AboutSection = () => {
 
 	return (
 		<section
-			className="about-section relative w-screen min-h-screen h-fit snap-start overflow-x-hidden overflow-y-hidden"
+			className="about-section relative w-screen min-h-screen h-fit snap-start overflow-x-hidden"
 			id="about"
 		>
 			<div className="absolute top-0 left-0 w-full h-full">
@@ -76,9 +76,9 @@ const AboutSection = () => {
 			<div className="about-orb about-orb--left" aria-hidden="true" />
 			<div className="about-orb about-orb--right" aria-hidden="true" />
 
-			<div className="z-10 flex flex-col absolute top-0 left-0 w-full h-full items-center overflow-x-hidden pt-20 xl:pt-18">
+			<div className="relative z-10 flex flex-col w-full min-h-screen items-center overflow-x-hidden pt-20 xl:pt-18 pb-8">
 				<div
-					className="about-shell grid grid-cols-1 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] gap-4 md:gap-6 m-auto py-4 sm:py-6 px-3 sm:px-6 items-stretch w-[96vw] max-w-350 min-h-[58%] lg:min-h-[82vh]"
+					className="about-shell grid grid-cols-1 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] gap-4 md:gap-6 mx-auto my-0 lg:my-auto py-4 sm:py-6 px-3 sm:px-6 items-stretch w-[96vw] max-w-350 min-h-[58%] lg:min-h-[82vh]"
 				>
 					<div
 						className="about-terminal-panel w-full mt-1 sm:mt-2 flex overflow-y-auto overflow-x-hidden thin-scrollbar min-h-0 flex-col mr-0 p-2 min-w-0"
@@ -116,7 +116,7 @@ const AboutSection = () => {
 							})}
 						</div>
 					</div>
-					<div className="about-content-panel w-full h-full min-h-0 min-w-0 overflow-visible p-2 sm:p-3">
+					<div className="about-content-panel w-full min-h-0 min-w-0 overflow-visible p-2 sm:p-3">
 						<motion.div
 							initial={{ y: 16, opacity: 0 }}
 							whileInView={{ y: 0, opacity: 1 }}
@@ -144,7 +144,7 @@ const AboutSection = () => {
 							whileInView={{ y: 0, opacity: 1 }}
 							viewport={{ once: true, amount: 0.2 }}
 							transition={{ duration: 0.55, delay: 0.2 }}
-							className="grid grid-cols-1 sm:grid-cols-2 w-full max-w-full gap-3 sm:gap-4 mt-2 sm:mt-4 p-1 overflow-visible"
+							className="about-cards-grid thin-scrollbar grid grid-cols-1 sm:grid-cols-2 w-full max-w-full gap-3 sm:gap-4 mt-2 sm:mt-4 p-1 overflow-visible"
 						>
 							<AboutSectionCard
 								className=""

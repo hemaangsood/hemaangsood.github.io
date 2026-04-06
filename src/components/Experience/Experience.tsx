@@ -54,7 +54,7 @@ export default function ExperienceSection() {
 
 	return (
 		<section
-			className="experience-section relative w-screen min-h-screen h-fit snap-start overflow-x-hidden overflow-y-hidden"
+			className="experience-section relative w-screen min-h-screen h-fit snap-start overflow-x-hidden"
 			id="experience"
 		>
 			<div
@@ -73,7 +73,7 @@ export default function ExperienceSection() {
 			<div className="experience-glow experience-glow--left" aria-hidden="true" />
 			<div className="experience-glow experience-glow--right" aria-hidden="true" />
 
-			<div className="flex flex-col absolute top-0 left-0 w-full h-full items-center overflow-x-hidden pt-20 xl:pt-18 pb-8">
+			<div className="relative z-10 flex flex-col w-full min-h-screen items-center overflow-x-hidden pt-20 xl:pt-18 pb-8">
 				<motion.div
 					initial={{ opacity: 0, y: 28 }}
 					animate={
@@ -82,7 +82,7 @@ export default function ExperienceSection() {
 							: { opacity: 0, y: 28 }
 					}
 					transition={{ duration: isExperienceVisible ? 0.45 : 0.25 }}
-					className="experience-shell flex flex-col gap-4 m-auto pt-2 pb-3 sm:py-6 px-3 sm:px-6 items-stretch w-[96vw] max-w-350 min-h-[58%]"
+					className="experience-shell flex flex-col gap-4 mx-auto my-0 lg:my-auto pt-2 pb-3 sm:py-6 px-3 sm:px-6 items-stretch w-[96vw] max-w-350 min-h-[58%]"
 				>
 					<motion.div
 						initial={{ opacity: 0, y: 30 }}
@@ -104,7 +104,7 @@ export default function ExperienceSection() {
 					</motion.div>
 
 					<div
-						className="experience-grid mt-2 h-full grid grid-cols-1 xl:grid-cols-2 gap-3 sm:gap-4 overflow-visible thin-scrollbar"
+						className="experience-grid mt-2 grid grid-cols-1 xl:grid-cols-2 gap-3 sm:gap-4 overflow-visible thin-scrollbar"
 					>
 						{professionalExperience.map((entry, index) => (
 							<motion.div

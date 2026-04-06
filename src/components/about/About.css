@@ -222,6 +222,15 @@
 		border-radius: 1.4rem;
 	}
 
+	.about-cards-grid {
+		max-height: min(50vh, 30rem);
+		overflow-y: auto;
+		overflow-x: hidden;
+		padding-right: 0.25rem;
+		overscroll-behavior: contain;
+		-webkit-overflow-scrolling: touch;
+	}
+
 	.about-title {
 		max-width: 100%;
 	}
