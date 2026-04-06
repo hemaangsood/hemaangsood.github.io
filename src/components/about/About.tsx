@@ -39,6 +39,7 @@ function AboutSectionCard({
 }) {
 	return (
 		<Card
+			size="sm"
 			className={
 				"about-card w-full transition-all duration-300 ease-in-out " +
 				(className ?? "")
@@ -88,7 +89,7 @@ const AboutSection = () => {
 						{shouldRunAboutGraphics && (
 							<TerminalGimmick
 								state={terminalState}
-								className="w-full mx-auto mt-2 h-[90%]"
+								className="w-full mx-auto mt-2 h-[90%] max-h-[60vh]"
 							/>
 						)}
 						<div
