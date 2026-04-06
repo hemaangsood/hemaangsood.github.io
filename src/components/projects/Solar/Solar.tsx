@@ -8,7 +8,7 @@ import * as THREE from "three";
 import Stats from "stats.js";
 import { OrbitControls, useTexture } from "@react-three/drei";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
-import { SUN_POINT } from "./constants";
+import { CAMERA_DISTANCE_MAX, CAMERA_DISTANCE_MIN, SUN_POINT } from "./constants";
 import { AsteroidBeltLOD } from "./AsteroidBeltLOD";
 import { OrbitalObject } from "./OrbitingObject";
 import { Planet } from "./Planet";
@@ -45,23 +45,26 @@ function StatsPanel({ enabled }: { enabled: boolean }) {
 type OrbitControlsComponentProps = {
 	controlsRef: React.RefObject<OrbitControlsImpl | null>;
 	selectionLocked: boolean;
+	onCameraDistanceChange: () => void;
 };
 
 function OrbitControlsComponent({
 	controlsRef,
 	selectionLocked,
+	onCameraDistanceChange,
 }: OrbitControlsComponentProps) {
 	return (
 		<OrbitControls
 			ref={controlsRef}
 			enabled={!selectionLocked}
+			onChange={onCameraDistanceChange}
 			enableDamping={true}
 			dampingFactor={0.08}
 			enableRotate={true}
 			enablePan={true}
 			enableZoom={true}
-			maxDistance={50}
-			minDistance={5}
+			maxDistance={CAMERA_DISTANCE_MAX}
+			minDistance={CAMERA_DISTANCE_MIN}
 		/>
 	);
 }
@@ -78,12 +81,44 @@ type SolarProps = {
 	isActive?: boolean;
 };
 
+const OVERLAY_SCALE_MIN = 1;
+const OVERLAY_SCALE_MAX = 20;
+const OVERLAY_SCALE_CURVE_EXPONENT = 4;
+const OVERLAY_SCALE_EPSILON = 0.01;
+
 export default function Solar({ isActive = true }: SolarProps): React.JSX.Element {
 	const [shouldMountHeavyEffects, setShouldMountHeavyEffects] = useState(false);
 	const [selectedProject, setSelectedProject] = useState<SelectedProject>(null);
 	const [isResettingCamera, setIsResettingCamera] = useState(false);
+	const [overlayTextScale, setOverlayTextScale] = useState(1);
 	const controlsRef = useRef<OrbitControlsImpl | null>(null);
 	const selectedProjectPositionRef = useRef<THREE.Vector3 | null>(null);
+
+	const handleCameraDistanceChange = useCallback(() => {
+		const controls = controlsRef.current;
+		if (!controls) return;
+
+		const cameraDistance = controls.object.position.distanceTo(controls.target);
+		const normalized = THREE.MathUtils.clamp(
+			(cameraDistance - CAMERA_DISTANCE_MIN) / (CAMERA_DISTANCE_MAX - CAMERA_DISTANCE_MIN),
+			0,
+			1,
+		);
+		const curvedNormalized = Math.pow(normalized, OVERLAY_SCALE_CURVE_EXPONENT);
+		const nextScale = THREE.MathUtils.lerp(
+			OVERLAY_SCALE_MIN,
+			OVERLAY_SCALE_MAX,
+			curvedNormalized,
+		);
+
+		setOverlayTextScale((previousScale) => {
+			if (Math.abs(previousScale - nextScale) < OVERLAY_SCALE_EPSILON) {
+				return previousScale;
+			}
+
+			return nextScale;
+		});
+	}, []);
 
 	const handleProjectSelect = useCallback(
 		(project: ProjectMetadata, worldPosition: THREE.Vector3) => {
@@ -130,10 +165,11 @@ export default function Solar({ isActive = true }: SolarProps): React.JSX.Elemen
 	useEffect(() => {
 		const frame = window.requestAnimationFrame(() => {
 			setShouldMountHeavyEffects(true);
+			handleCameraDistanceChange();
 		});
 
 		return () => window.cancelAnimationFrame(frame);
-	}, []);
+	}, [handleCameraDistanceChange]);
 
 	return (
 		<div className="relative h-full w-full">
@@ -155,6 +191,7 @@ export default function Solar({ isActive = true }: SolarProps): React.JSX.Elemen
 				<OrbitControlsComponent
 					controlsRef={controlsRef}
 					selectionLocked={Boolean(selectedProject) || isResettingCamera}
+					onCameraDistanceChange={handleCameraDistanceChange}
 				/>
 				<SelectionCameraController
 					controlsRef={controlsRef}
@@ -203,6 +240,7 @@ export default function Solar({ isActive = true }: SolarProps): React.JSX.Elemen
 			<ProjectDetailsOverlay
 				project={selectedProject}
 				onClose={handleProjectDeselect}
+				textScale={overlayTextScale}
 			/>
 		</div>
 	);

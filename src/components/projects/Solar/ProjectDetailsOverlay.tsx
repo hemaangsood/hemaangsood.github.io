@@ -4,35 +4,40 @@ import type { SelectedProject } from "./types";
 type ProjectDetailsOverlayProps = {
 	project: SelectedProject;
 	onClose: () => void;
+	textScale?: number;
 };
 
 export function ProjectDetailsOverlay({
 	project,
 	onClose,
+	textScale = 1,
 }: ProjectDetailsOverlayProps) {
 	if (!project) return null;
 
 	return (
 		<div className="pointer-events-none absolute bottom-4 left-4 right-4 z-20 flex justify-center sm:left-auto sm:right-4 sm:w-md">
-			<aside className="pointer-events-auto w-full rounded-xl border border-white/20 bg-black/70 p-4 text-white shadow-2xl backdrop-blur-md">
+			<aside
+				className="pointer-events-auto origin-bottom w-full rounded-xl border border-white/20 bg-black/70 p-4 text-white shadow-2xl backdrop-blur-md transition-transform duration-200 sm:origin-bottom-right"
+				style={{ transform: `scale(${textScale})` }}
+			>
 				<div className="mb-3 flex items-start justify-between gap-4">
 					<div>
-						<h3 className="text-lg font-semibold leading-tight">{project.name}</h3>
-						<p className="mt-1 text-sm text-white/75">{project.id}</p>
+						<h3 className="text-xl font-semibold leading-tight sm:text-2xl">{project.name}</h3>
+						<p className="mt-1 text-base text-white/75 sm:text-lg">{project.id}</p>
 					</div>
 					<button
 						type="button"
 						onClick={onClose}
-						className="rounded border border-white/30 px-2 py-1 text-xs font-medium transition hover:bg-white/10 active:scale-[0.98]"
+						className="rounded border border-white/30 px-2 py-1 text-sm font-medium transition hover:bg-white/10 active:scale-[0.98]"
 					>
 						Close
 					</button>
 				</div>
 
-				<p className="text-sm leading-relaxed text-white/90">{project.description}</p>
+				<p className="text-base leading-relaxed text-white/90 sm:text-lg">{project.description}</p>
 
 				{project.techStack && project.techStack.length > 0 && (
-					<p className="mt-3 text-xs text-white/80">
+					<p className="mt-3 text-sm text-white/80 sm:text-base">
 						<span className="font-semibold text-white">Tech:</span>{" "}
 						{project.techStack.join(" • ")}
 					</p>
@@ -43,7 +48,7 @@ export function ProjectDetailsOverlay({
 						{project.tags.map((tag) => (
 							<span
 								key={tag}
-								className="rounded-full border border-white/25 bg-white/10 px-2 py-0.5 text-[11px] text-white/90"
+								className="rounded-full border border-white/25 bg-white/10 px-2 py-0.5 text-xs text-white/90 sm:text-sm"
 							>
 								{tag}
 							</span>
@@ -59,7 +64,7 @@ export function ProjectDetailsOverlay({
 								href={link.url}
 								target="_blank"
 								rel="noreferrer"
-								className="rounded border border-cyan-300/40 bg-cyan-300/10 px-2 py-1 text-xs font-medium text-cyan-100 transition hover:bg-cyan-300/20"
+								className="rounded border border-cyan-300/40 bg-cyan-300/10 px-2 py-1 text-sm font-medium text-cyan-100 transition hover:bg-cyan-300/20"
 							>
 								{link.label}
 							</a>
