@@ -77,7 +77,7 @@ export default function ExperienceSection() {
 							: { opacity: 0, y: 28 }
 					}
 					transition={{ duration: isExperienceVisible ? 0.45 : 0.25 }}
-					className="flex flex-col overflow-y-scroll lg:overflow-y-hidden gap-4 m-auto pt-2 pb-3 sm:py-6 px-4 sm:px-6 items-stretch w-[92vw] max-w-350 min-h-[50%] lg:min-h-[76vh]"
+					className="flex flex-col overflow-y-scroll lg:overflow-y-hidden gap-4 m-auto pt-2 pb-3 sm:py-6 px-4 sm:px-6 items-stretch w-[92vw] max-w-350 min-h-[50%]"
 					style={{
 						background: "rgba(100, 100,100, 0.1)",
 						backdropFilter: "blur(5px)",
@@ -108,7 +108,7 @@ export default function ExperienceSection() {
 					</motion.div>
 
 					<div
-						className="mt-2 grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 overflow-y-scroll xl:overflow-y-hidden thin-scrollbar"
+						className="mt-2 h-full grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 overflow-y-scroll xl:overflow-y-hidden thin-scrollbar"
 						style={{
 							alignItems: "stretch",
 						}}
