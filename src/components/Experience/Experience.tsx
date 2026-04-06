@@ -101,7 +101,7 @@ export default function ExperienceSection() {
 							animationSpeed={8}
 							showBorder={false}
 							yoyo={true}
-							className="text-2xl pb-4 lg:pb-0 sm:text-3xl mx-auto backdrop-blur-none! cursor-text!"
+							className="text-2xl pb-4 lg:pb-0 sm:text-4xl mx-auto backdrop-blur-none! cursor-text!"
 						>
 							Experience
 						</GradientText>
@@ -133,7 +133,7 @@ export default function ExperienceSection() {
 								<Card
 									className="w-full h-full hover:scale-[1.01] transition-transform duration-300 ease-in-out border-2 border-gray-300 backdrop-blur-sm text-white"
 									style={{
-										background: "rgb(255,255,255,0.2)",
+										background: "rgb(120,120,120,0.2)",
 									}}
 								>
 									<CardHeader>

@@ -85,16 +85,16 @@ export default function ContactSection() {
 			</div>
 			<div className="absolute top-0 left-0 w-full h-full bg-black/35" />
 
-			<div className="absolute top-0 left-0 w-full min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-10 pt-20 pb-10">
+			<div className="absolute top-0 left-0 w-full h-full overflow-y-auto flex items-start lg:items-center justify-center px-4 sm:px-6 md:px-10 pt-20 pb-10">
 				<div
-					className="w-full max-w-6xl rounded-3xl border border-white/30 overflow-hidden"
+					className="w-full max-w-6xl rounded-3xl border border-white/30 overflow-hidden my-auto"
 					style={{
 						background:
 							"linear-gradient(145deg, rgba(6,10,30,0.72), rgba(28,14,52,0.6))",
 						backdropFilter: "blur(18px)",
 					}}
 				>
-					<div className="grid grid-cols-1 overflow-y-scroll lg:overflow-y-hidden gap-5 p-5 sm:p-8 lg:p-10">
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-5 p-5 sm:p-8 lg:p-10">
 						<motion.div
 							initial={{ opacity: 0, y: 40 }}
 							animate={
