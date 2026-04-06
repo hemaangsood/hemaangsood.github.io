@@ -2,10 +2,12 @@ import { useRef } from "react";
 import LightPillar from "../ui/LightPillar";
 import { TextAnimate } from "../ui/text-animate";
 import { TypingAnimation } from "../ui/typing-animation";
+import GradientText from "../ui/GradientText";
 // import ParticleSphere from "./ParticleSphereThreejs";
 import { motion } from "motion/react";
 import { useSectionHasBeenInViewport } from "../viewport/viewportHooks";
 import ParticleSphere from "./ParticleSphereThreejs";
+import "./Hero.css";
 
 function HeroSectionButton({ text, section,link,style,className="" }: { text: string;section?:string; link?: string; style?: React.CSSProperties,className?: string }) {
 	const handleClick = () => {
@@ -46,18 +48,20 @@ const HeroSection = () => {
 	const particleSphereContrast = 1.2;
 	return (
 		<section
-			className="relative w-screen min-h-screen h-fit snap-start overflow-y-hidden"
-			style={{
-				opacity: "50%",
-				backgroundBlendMode: "color-burn",
-			}}
+			className="hero-section relative w-screen min-h-screen h-fit snap-start overflow-y-hidden"
 			id="hero"
 		>
+			<div className="hero-bg-veil absolute top-0 left-0 w-full h-full z-0" />
 			<div className="absolute top-0 left-0 w-full h-full z-10">
 				{shouldMountHeroGraphics && (
 					<LightPillar
-						topColor="#00ff00"
-						bottomColor="#c210ef"
+						colors={[
+							"#5227FF",
+							"#dbdb07",
+							"#7cff67",
+							"#8fdcff",
+							"#5227FF",
+						]}
 						intensity={1}
 						rotationSpeed={2}
 						interactive={false}
@@ -69,16 +73,10 @@ const HeroSection = () => {
 					/>
 				)}
 			</div>
-			<div className="absolute top-0 left-0 w-full h-full z-11 flex bg-transparent">
+			<div className="hero-overlay absolute top-0 left-0 w-full h-full z-11" />
+			<div className="absolute top-0 left-0 w-full h-full z-20 flex bg-transparent">
 				{/* Content */}
-				<div
-					className="flex flex-col lg:flex-row p-4 pt-20 sm:p-8 lg:p-10 m-auto text-center font-bold text-white w-screen min-h-screen"
-					style={{
-						backdropFilter: "blur(20px)",
-						backgroundColor: "rgba(255, 255, 255, 0.1)",
-						alignItems: "center",
-					}}
-				>
+				<div className="hero-content-glass flex flex-col lg:flex-row p-4 pt-20 sm:p-8 lg:p-10 m-auto text-center font-bold text-white w-screen min-h-screen">
 					<div
 						className="flex flex-col items-start w-full lg:w-[60%] mt-6 sm:mt-10 lg:mt-0 px-2 sm:px-4 lg:pl-8"
 						style={{
@@ -86,29 +84,38 @@ const HeroSection = () => {
 							textAlign: "left",
 						}}
 					>
-						<div className="text-2xl sm:text-3xl lg:text-4xl leading-tight">
-							Hi, I'm{" "}
-							<span className="text-3xl sm:text-4xl lg:text-5xl text-yellow-300">
+						<div className="flex flex-wrap items-end gap-2 sm:gap-3 text-2xl sm:text-3xl lg:text-4xl leading-tight text-slate-100">
+							<span>Hi, I&apos;m</span>
+							<GradientText
+								colors={["#fffdf3", "#caff9a", "#ff9962"]}
+								animationSpeed={7}
+								showBorder={false}
+								yoyo={true}
+								className="hero-name-gradient mx-0! cursor-text! rounded-none! overflow-visible! backdrop-blur-none bg-transparent"
+							>
 								Hemaang
-							</span>
+							</GradientText>
 						</div>
 						<TypingAnimation
 							words={meThingsList}
-							className="text-xl sm:text-2xl lg:text-4xl mt-3"
+							className="hero-typing text-xl sm:text-2xl lg:text-4xl mt-3"
 							loop={true}
 						/>
 						<br />
-						<TextAnimate
-							animation="scaleUp"
-							className="text-lg sm:text-xl lg:text-2xl mt-2 sm:mt-4"
+						<GradientText
+							colors={["#fffdf7", "#d8ffbb", "#ffc785"]}
+							animationSpeed={8}
+							showBorder={false}
+							yoyo={true}
+							className="hero-edu-gradient mx-0! cursor-text! rounded-none! p-0! backdrop-blur-none bg-transparent text-lg sm:text-xl lg:text-2xl mt-2 sm:mt-4"
 						>
 							MEng ECE @ University of Waterloo
-						</TextAnimate>
+						</GradientText>
 						<TextAnimate
 							animation="slideLeft"
 							by="word"
 							as="p"
-							className="text-base sm:text-lg lg:text-xl mt-3 max-w-full lg:max-w-[80%]"
+							className="hero-description text-base sm:text-lg lg:text-xl mt-3 max-w-full lg:max-w-[80%]"
 						>
 							{`Software engineer focused on building reliable backend systems, machine learning applications, and clean developer-first tools.`}
 						</TextAnimate>
@@ -121,13 +128,12 @@ const HeroSection = () => {
 							<HeroSectionButton
 								text="View Projects"
 								section="projects"
-								// Hover must be light purple
-								className="w-full sm:w-auto bg-purple-800 rounded-xl transition duration-300 hover:text-yellow-400 hover:shadow-[0_0_10px_#c084fc,0_0_40px_#c084fc]"
+								className="hero-button-primary w-full sm:w-auto rounded-xl transition duration-300"
 							/>
 							<HeroSectionButton
 								text="Contact Me &rarr;"
 								section="contact"
-								className="w-full sm:w-auto bg-transparent border-purple-800 border-2 rounded-xl transition duration-300 text-white hover:text-yellow-400 hover:shadow-[0_0_10px_#c084fc,0_0_40px_#c084fc]"
+								className="hero-button-secondary w-full sm:w-auto border-2 rounded-xl transition duration-300"
 							/>
 						</motion.div>
 					</div>

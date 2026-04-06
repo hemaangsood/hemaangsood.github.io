@@ -4,6 +4,7 @@ import * as THREE from "three";
 interface LightPillarProps {
 	topColor?: string;
 	bottomColor?: string;
+	colors?: string[];
 	intensity?: number;
 	rotationSpeed?: number;
 	interactive?: boolean;
@@ -17,9 +18,38 @@ interface LightPillarProps {
 	quality?: "low" | "medium" | "high";
 }
 
+const MAX_GRADIENT_COLORS = 6;
+
+const toColorVector = (hex: string): THREE.Vector3 => {
+	const color = new THREE.Color(hex);
+	return new THREE.Vector3(color.r, color.g, color.b);
+};
+
+const buildGradientVectors = (
+	topColor: string,
+	bottomColor: string,
+	colors?: string[],
+): { vectors: THREE.Vector3[]; count: number } => {
+	const sourceStops =
+		colors && colors.length >= 2 ? colors : [bottomColor, topColor];
+	const clampedStops = sourceStops.slice(0, MAX_GRADIENT_COLORS);
+	const vectors = clampedStops.map(toColorVector);
+	const fallback = vectors[vectors.length - 1] ?? toColorVector(topColor);
+
+	while (vectors.length < MAX_GRADIENT_COLORS) {
+		vectors.push(fallback.clone());
+	}
+
+	return {
+		vectors,
+		count: Math.max(1, clampedStops.length),
+	};
+};
+
 const LightPillar: React.FC<LightPillarProps> = ({
 	topColor = "#5227FF",
 	bottomColor = "#FF9FFC",
+	colors,
 	intensity = 1.0,
 	rotationSpeed = 0.3,
 	interactive = false,
@@ -132,11 +162,10 @@ const LightPillar: React.FC<LightPillarProps> = ({
 		container.appendChild(renderer.domElement);
 		rendererRef.current = renderer;
 
-		// Convert hex colors to RGB
-		const parseColor = (hex: string): THREE.Vector3 => {
-			const color = new THREE.Color(hex);
-			return new THREE.Vector3(color.r, color.g, color.b);
-		};
+		const {
+			vectors: initialGradientColors,
+			count: initialGradientCount,
+		} = buildGradientVectors(topColor, bottomColor, colors);
 
 		// Shader material
 		const vertexShader = `
@@ -148,11 +177,12 @@ const LightPillar: React.FC<LightPillarProps> = ({
     `;
 
 		const fragmentShader = `
+#define MAX_GRADIENT_COLORS ${MAX_GRADIENT_COLORS}
       uniform float uTime;
       uniform vec2 uResolution;
       uniform vec2 uMouse;
-      uniform vec3 uTopColor;
-      uniform vec3 uBottomColor;
+		uniform vec3 uGradientColors[MAX_GRADIENT_COLORS];
+		uniform int uGradientCount;
       uniform float uIntensity;
       uniform bool uInteractive;
       uniform float uGlowAmount;
@@ -176,6 +206,27 @@ const LightPillar: React.FC<LightPillarProps> = ({
         vec2 r = (E * sin(E * coord));
         return fract(r.x * r.y * (1.0 + coord.x));
       }
+
+			vec3 sampleGradient(float t) {
+				vec3 colorOut = uGradientColors[0];
+				float segmentCount = float(uGradientCount - 1);
+				float position = clamp(t, 0.0, 1.0) * segmentCount;
+
+				for (int i = 0; i < MAX_GRADIENT_COLORS - 1; i++) {
+					if (i >= uGradientCount - 1) break;
+
+					float left = float(i);
+					float right = float(i + 1);
+
+					if (position >= left && position <= right) {
+						float localT = clamp(position - left, 0.0, 1.0);
+						colorOut = mix(uGradientColors[i], uGradientColors[i + 1], localT);
+						break;
+					}
+				}
+
+				return colorOut;
+			}
 
       void main() {
         vec2 fragCoord = vUv * uResolution;
@@ -251,7 +302,8 @@ const LightPillar: React.FC<LightPillarProps> = ({
           
           fieldDistance = abs(fieldDistance) * 0.15 + 0.01;
 
-          vec3 gradient = mix(uBottomColor, uTopColor, smoothstep(15.0, -15.0, pos.y));
+		  float gradientPosition = smoothstep(15.0, -15.0, pos.y);
+		  vec3 gradient = sampleGradient(gradientPosition);
           color += gradient / fieldDistance;
 
           if(fieldDistance < EPSILON || depth > maxDepth) break;
@@ -291,8 +343,8 @@ const LightPillar: React.FC<LightPillarProps> = ({
 				uTime: { value: 0 },
 				uResolution: { value: new THREE.Vector2(width, height) },
 				uMouse: { value: mouseRef.current },
-				uTopColor: { value: parseColor(topColor) },
-				uBottomColor: { value: parseColor(bottomColor) },
+				uGradientColors: { value: initialGradientColors },
+				uGradientCount: { value: initialGradientCount },
 				uIntensity: { value: intensity },
 				uInteractive: { value: interactive },
 				uGlowAmount: { value: glowAmount },
@@ -438,22 +490,14 @@ const LightPillar: React.FC<LightPillarProps> = ({
 
 	useEffect(() => {
 		if (!materialRef.current) return;
-		const parseColor = (hex: string) => {
-			const color = new THREE.Color(hex);
-			return new THREE.Vector3(color.r, color.g, color.b);
-		};
-		materialRef.current.uniforms.uTopColor.value = parseColor(topColor);
-	}, [topColor]);
-
-	useEffect(() => {
-		if (!materialRef.current) return;
-		const parseColor = (hex: string) => {
-			const color = new THREE.Color(hex);
-			return new THREE.Vector3(color.r, color.g, color.b);
-		};
-		materialRef.current.uniforms.uBottomColor.value =
-			parseColor(bottomColor);
-	}, [bottomColor]);
+		const { vectors, count } = buildGradientVectors(
+			topColor,
+			bottomColor,
+			colors,
+		);
+		materialRef.current.uniforms.uGradientColors.value = vectors;
+		materialRef.current.uniforms.uGradientCount.value = count;
+	}, [topColor, bottomColor, colors]);
 
 	useEffect(() => {
 		if (!materialRef.current) return;

@@ -12,7 +12,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "../ui/card";
-import GradientText from "../ui/GradientText";
+import "./Experience.css";
 
 type ExperienceEntry = {
 	company: string;
@@ -45,17 +45,16 @@ const professionalExperience: ExperienceEntry[] = [
 	},
 ];
 
+const experienceWaveColors = ["#67d9ff", "#7fa4ff", "#95ceff", "#e8f6ff"];
+
 export default function ExperienceSection() {
 	const shouldMountExperienceGraphics = useSectionHasBeenInViewport("experience");
 	const isExperienceVisible = useIsSectionInViewport("experience", false, 0.06);
 	const bgContainer = useRef<HTMLDivElement>(null);
+
 	return (
 		<section
-			className="relative w-screen min-h-screen h-fit snap-start overflow-x-hidden overflow-y-hidden"
-			style={{
-				backgroundColor: "rgba(0,0,0,0.5)",
-				backgroundBlendMode: "color-burn",
-			}}
+			className="experience-section relative w-screen min-h-screen h-fit snap-start overflow-x-hidden overflow-y-hidden"
 			id="experience"
 		>
 			<div
@@ -63,10 +62,16 @@ export default function ExperienceSection() {
 				className="absolute top-0 left-0 w-full h-full"
 			>
 				{shouldMountExperienceGraphics && (
-					<WaveGrid parentRef={bgContainer} />
+					<WaveGrid
+						parentRef={bgContainer}
+						colorStops={experienceWaveColors}
+						maxAmplitude={0.36}
+					/>
 				)}
 			</div>
-			<div className="absolute top-0 left-0 w-full h-full bg-black/45" />
+			<div className="experience-overlay absolute top-0 left-0 w-full h-full" />
+			<div className="experience-glow experience-glow--left" aria-hidden="true" />
+			<div className="experience-glow experience-glow--right" aria-hidden="true" />
 
 			<div className="flex flex-col absolute top-0 left-0 w-full h-full items-center overflow-x-hidden pt-20 xl:pt-18 pb-8">
 				<motion.div
@@ -77,12 +82,7 @@ export default function ExperienceSection() {
 							: { opacity: 0, y: 28 }
 					}
 					transition={{ duration: isExperienceVisible ? 0.45 : 0.25 }}
-					className="flex flex-col overflow-y-scroll lg:overflow-y-hidden gap-4 m-auto pt-2 pb-3 sm:py-6 px-4 sm:px-6 items-stretch w-[92vw] max-w-350 min-h-[50%]"
-					style={{
-						background: "rgba(100, 100,100, 0.1)",
-						backdropFilter: "blur(5px)",
-						borderRadius: "32px",
-					}}
+					className="experience-shell flex flex-col gap-4 m-auto pt-2 pb-3 sm:py-6 px-3 sm:px-6 items-stretch w-[96vw] max-w-350 min-h-[58%]"
 				>
 					<motion.div
 						initial={{ opacity: 0, y: 30 }}
@@ -94,24 +94,17 @@ export default function ExperienceSection() {
 						transition={{
 							duration: isExperienceVisible ? 0.45 : 0.25,
 						}}
-						
+						className="experience-header"
 					>
-						<GradientText
-							colors={["#5227FF", "#fcba03", "#7cff67", "#fff"]}
-							animationSpeed={8}
-							showBorder={false}
-							yoyo={true}
-							className="text-2xl pb-4 lg:pb-0 sm:text-4xl mx-auto backdrop-blur-none! cursor-text!"
-						>
-							Experience
-						</GradientText>
+						<div className="experience-kicker">Experience</div>
+						<h2 className="experience-title">Hands-on product and platform delivery.</h2>
+						<p className="experience-subtitle">
+							Building distributed backend systems, secure enterprise features, and practical AI workflows.
+						</p>
 					</motion.div>
 
 					<div
-						className="mt-2 h-full grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 overflow-y-scroll xl:overflow-y-hidden thin-scrollbar"
-						style={{
-							alignItems: "stretch",
-						}}
+						className="experience-grid mt-2 h-full grid grid-cols-1 xl:grid-cols-2 gap-3 sm:gap-4 overflow-visible thin-scrollbar"
 					>
 						{professionalExperience.map((entry, index) => (
 							<motion.div
@@ -128,31 +121,28 @@ export default function ExperienceSection() {
 										? index * 0.1
 										: 0,
 								}}
-								className="p-4"
+								className="experience-card-wrap p-1 sm:p-2"
 							>
 								<Card
-									className="w-full h-full hover:scale-[1.01] transition-transform duration-300 ease-in-out border-2 border-gray-300 backdrop-blur-sm text-white"
-									style={{
-										background: "rgb(120,120,120,0.2)",
-									}}
+									className="experience-card w-full h-full transition-transform duration-300 ease-in-out text-white"
 								>
 									<CardHeader>
 										<div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
 											<div>
-												<CardTitle className="text-xl sm:text-2xl font-semibold">
+												<CardTitle className="experience-company text-xl sm:text-2xl font-semibold">
 													{entry.company}
 												</CardTitle>
-												<CardDescription className="text-white/80 text-base sm:text-lg mt-0.5">
+												<CardDescription className="experience-role text-base sm:text-lg mt-0.5">
 													{entry.role}
 												</CardDescription>
 											</div>
-											<p className="text-xs sm:text-sm tracking-wide uppercase text-white/75 sm:text-right">
+											<p className="experience-period text-xs sm:text-sm tracking-wide uppercase sm:text-right">
 												{entry.period}
 											</p>
 										</div>
 									</CardHeader>
 									<CardContent>
-										<ul className="list-disc pl-5 text-white/90 space-y-2 text-sm sm:text-base leading-relaxed">
+										<ul className="experience-highlights list-disc pl-5 space-y-2 text-sm sm:text-base leading-relaxed">
 											{entry.highlights.map(
 												(highlight) => (
 													<li key={highlight}>

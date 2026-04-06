@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { ReactNode } from "react";
 import TerminalGimmick from "./TerminalComponent";
 import { TerminalState } from "./types";
 import Aurora from "../ui/Aurora";
@@ -12,10 +13,16 @@ import {
 import { MdOutlineSchool } from "react-icons/md";
 import { PiMagnifyingGlass } from "react-icons/pi";
 import { SiResearchgate } from "react-icons/si";
-import GradientText from "../ui/GradientText";
 import { GiSpectacleLenses } from "react-icons/gi";
 import { motion } from "motion/react";
 import { useIsSectionInViewport } from "../viewport/viewportHooks";
+import "./About.css";
+
+const ABOUT_TABS = [
+	{ state: TerminalState.skills, label: "Skills" },
+	{ state: TerminalState.projects, label: "Projects" },
+	{ state: TerminalState.experience, label: "Experience" },
+];
 
 function AboutSectionCard({
 	className,
@@ -27,30 +34,28 @@ function AboutSectionCard({
 	className?: string;
 	title: string;
 	description?: string;
-	content?: React.ReactNode;
-	icon?: React.ReactNode;
+	content?: ReactNode;
+	icon?: ReactNode;
 }) {
 	return (
 		<Card
 			className={
-				className +
-				" " +
-				"w-full hover:scale-[1.03] transition-transform duration-300 ease-in-out border-2 border-gray-300 backdrop-blur-sm text-white"
+				"about-card w-full transition-all duration-300 ease-in-out " +
+				(className ?? "")
 			}
-			style={{
-				background: "rgb(255,255,255,0.2)",
-			}}
 		>
-			<CardHeader>
-				<div className="flex" style={{ alignItems: "center" }}>
-					{icon && <div className="mr-2 h-full">{icon}</div>}
-					<CardTitle>{title}</CardTitle>
+			<CardHeader className="pb-2">
+				<div className="flex items-center gap-2.5">
+					{icon && <div className="about-card__icon">{icon}</div>}
+					<CardTitle className="about-card__title">{title}</CardTitle>
 				</div>
 				{description && (
-					<CardDescription>{description}</CardDescription>
+					<CardDescription className="about-card__description">
+						{description}
+					</CardDescription>
 				)}
 			</CardHeader>
-			<CardContent>{content}</CardContent>
+			<CardContent className="about-card__content">{content}</CardContent>
 		</Card>
 	);
 }
@@ -58,127 +63,117 @@ function AboutSectionCard({
 const AboutSection = () => {
 	const isAboutVisible = useIsSectionInViewport("about", false, 0.08);
 	const shouldRunAboutGraphics = isAboutVisible;
-	const [terminalState, setterminalState] = useState(TerminalState.skills);
+	const [terminalState, setTerminalState] = useState(TerminalState.skills);
+
 	return (
 		<section
-			className="relative w-screen min-h-screen h-fit snap-start overflow-x-hidden overflow-y-hidden"
-			style={{
-				backgroundColor: "rgba(0,0,0,0.5)",
-				backgroundBlendMode: "color-burn",
-			}}
+			className="about-section relative w-screen min-h-screen h-fit snap-start overflow-x-hidden overflow-y-hidden"
 			id="about"
 		>
 			<div className="absolute top-0 left-0 w-full h-full">
 				{shouldRunAboutGraphics && <Aurora amplitude={1.2} />}
 			</div>
-			<div className="flex flex-col absolute top-0 left-0 w-full h-full items-center overflow-x-hidden pt-20 xl:pt-18">
-				{/* <div className="h-25 invisible"></div> */}
+			<div className="about-orb about-orb--left" aria-hidden="true" />
+			<div className="about-orb about-orb--right" aria-hidden="true" />
+
+			<div className="z-10 flex flex-col absolute top-0 left-0 w-full h-full items-center overflow-x-hidden pt-20 xl:pt-18">
 				<div
-					className={`flex flex-col h-min 2xl:pb-10 lg:flex-row gap-6 m-auto pt-1 pb-2 sm:py-6 px-4 sm:px-6 items-stretch 
-					w-[92vw] max-w-350 min-h-[50%] lg:min-h-[76vh]`}
-					style={{
-						background: "rgba(100, 100,100, 0.1)",
-						backdropFilter: "blur(24px)",
-						borderRadius: "32px",
-					}}
+					className="about-shell grid grid-cols-1 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] gap-4 md:gap-6 m-auto py-4 sm:py-6 px-3 sm:px-6 items-stretch w-[96vw] max-w-350 min-h-[58%] lg:min-h-[82vh]"
 				>
 					<div
-						className="w-full 2xl:w-[46%] mt-2 sm:mt-4 2xl:mt-8 flex overflow-y-auto overflow-x-hidden thin-scrollbar min-h-0 flex-col mr-0 p-0 min-w-0"
+						className="about-terminal-panel w-full mt-1 sm:mt-2 flex overflow-y-auto overflow-x-hidden thin-scrollbar min-h-0 flex-col mr-0 p-2 min-w-0"
 						id="gimmick"
 					>
+						<div className="about-terminal-title">Live Career Snapshot</div>
 						{shouldRunAboutGraphics && (
 							<TerminalGimmick
 								state={terminalState}
 								className="w-full mx-auto mt-2 h-[90%]"
 							/>
 						)}
-						<div className="flex flex-wrap w-full justify-center gap-3 sm:gap-4 mx-auto mt-3 mb-2 shrink-0">
-							{[
-								TerminalState.skills,
-								TerminalState.projects,
-								TerminalState.experience,
-							].map((state) => {
+						<div
+							className="about-tab-row"
+							role="tablist"
+							aria-label="About terminal categories"
+						>
+							{ABOUT_TABS.map((tab) => {
 								return (
-									<div
-										key={state}
-										onClick={() => setterminalState(state)}
-										className={`px-3 py-2 rounded-md cursor-pointer text-sm sm:text-base ${
-											terminalState === state
-												? "bg-green-800 text-white"
-												: "bg-gray-300 text-black"
+									<button
+										type="button"
+										key={tab.state}
+										onClick={() => setTerminalState(tab.state)}
+										className={`about-tab ${
+											terminalState === tab.state
+												? "about-tab--active"
+												: ""
 										}`}
+										role="tab"
+										aria-selected={terminalState === tab.state}
 									>
-										{state === TerminalState.skills &&
-											"Skills"}
-										{state === TerminalState.projects &&
-											"Projects"}
-										{state === TerminalState.experience &&
-											"Experience"}
-									</div>
+										{tab.label}
+									</button>
 								);
 							})}
 						</div>
 					</div>
-					<div className="w-full h-full min-h-0 2xl:w-[54%] min-w-0 lg:overflow-y-auto overflow-x-hidden pr-1">
-						<div className="h-max w-max cursor-text bg-transparent">
-							<GradientText
-								colors={["#5227FF", "#FF9FFC", "#B19EEF"]}
-								animationSpeed={8}
-								showBorder={false}
-								yoyo={true}
-								className="text-2xl sm:text-3xl p-2 bg-transparent backdrop-blur-none!"
-							>
-								About Me
-							</GradientText>
-						</div>
+					<div className="about-content-panel w-full h-full min-h-0 min-w-0 overflow-visible p-2 sm:p-3">
 						<motion.div
-							className="mt-3 ml-2 sm:mt-4 text-justify text-base sm:text-lg"
+							initial={{ y: 16, opacity: 0 }}
+							whileInView={{ y: 0, opacity: 1 }}
+							viewport={{ once: true, amount: 0.2 }}
+							transition={{ duration: 0.45 }}
+						>
+							<div className="about-kicker">About</div>
+							<h2 className="about-title">
+								Building resilient systems with clarity.
+							</h2>
+						</motion.div>
+						<motion.div
+							className="about-lead mt-2 sm:mt-3"
 							initial={{ x: 100, opacity: 0 }}
 							whileInView={{ x: 0, opacity: 1 }}
 							viewport={{ once: true, amount: 0.2 }}
-							transition={{ duration: 0.5 }}
+							transition={{ duration: 0.5, delay: 0.05 }}
 						>
-							I&apos;m a software engineer focused on building scalable
-							backend systems and reliable software
-							infrastructure. My experience includes developing
-							APIs, working with distributed systems, and
-							designing efficient data-driven applications.
-							Currently, I’m pursuing a Master’s in Electrical and
-							Computer Engineering at the University of Waterloo
-							while continuing to expand my work in backend
-							architecture and intelligent systems.
+							I build scalable backend platforms and distributed APIs,
+							distributed systems, and I&apos;m currently pursuing a Master&apos;s in Electrical and
+							Computer Engineering at the University of Waterloo.
 						</motion.div>
 						<motion.div
 							initial={{ y: 100, opacity: 0 }}
 							whileInView={{ y: 0, opacity: 1 }}
 							viewport={{ once: true, amount: 0.2 }}
-							transition={{ duration: 0.5, delay: 0.2 }}
-							className="grid grid-cols-1 sm:grid-cols-2 w-full max-w-full gap-3 sm:gap-4 mt-2 sm:mt-4 overflow-x-hidden p-2"
+							transition={{ duration: 0.55, delay: 0.2 }}
+							className="grid grid-cols-1 sm:grid-cols-2 w-full max-w-full gap-3 sm:gap-4 mt-2 sm:mt-4 p-1 overflow-visible"
 						>
 							<AboutSectionCard
 								className=""
 								title="Education"
+								description="Current"
 								icon={<MdOutlineSchool size={20} />}
 								content="MEng in Electrical and Computer Engineering, University of Waterloo (2026-2027)"
 							/>
 							<AboutSectionCard
 								className=""
 								title="Focus"
+								description="Engineering"
 								icon={<PiMagnifyingGlass size={20} />}
 								content="Experienced in designing and implementing distributed architectures."
 							/>
 							<AboutSectionCard
 								className=""
 								title="Research"
+								description="Publication"
 								icon={<SiResearchgate size={18} />}
 								content="IEEE COMPSIF 2025"
 							/>
 							<AboutSectionCard
 								className=""
 								title="Experience"
+								description="Industry"
 								icon={<GiSpectacleLenses size={20} />}
 								content={
-									<ul className="list-disc pl-5">
+									<ul className="list-disc pl-5 space-y-1">
 										<li>Software Engineer at Synechron</li>
 										<li>
 											Software Intern at Bharat
