@@ -145,24 +145,39 @@ export default function ParticleSphere({
 				const ny = y / len;
 				const nz = z / len;
 
-				const u = 0.5 + Math.atan2(nz, nx) / (2 * Math.PI);
+				// const u = 0.5 + Math.atan2(nz, nx) / (2 * Math.PI);
+				const u = 1.0 - (0.5 + Math.atan2(nz, nx) / (2 * Math.PI));
 				const v = 0.5 - Math.asin(ny) / Math.PI;
 
-				const px = Math.min(canvas.width - 1, Math.floor(u * canvas.width));
-				const py = Math.min(canvas.height - 1, Math.floor(v * canvas.height));
+				const px = Math.min(
+					canvas.width - 1,
+					Math.floor(u * canvas.width),
+				);
+				const py = Math.min(
+					canvas.height - 1,
+					Math.floor(v * canvas.height),
+				);
 				const idx = (py * canvas.width + px) * 4;
 
 				const red = imageData.data[idx] / 255;
 				const green = imageData.data[idx + 1] / 255;
 				const blue = imageData.data[idx + 2] / 255;
 
-				colors[i * 3] = applyBrightnessContrast(red, brightness, contrast);
+				colors[i * 3] = applyBrightnessContrast(
+					red,
+					brightness,
+					contrast,
+				);
 				colors[i * 3 + 1] = applyBrightnessContrast(
 					green,
 					brightness,
 					contrast,
 				);
-				colors[i * 3 + 2] = applyBrightnessContrast(blue, brightness, contrast);
+				colors[i * 3 + 2] = applyBrightnessContrast(
+					blue,
+					brightness,
+					contrast,
+				);
 			}
 
 			geometry.setAttribute(
@@ -170,7 +185,6 @@ export default function ParticleSphere({
 				new THREE.BufferAttribute(colors, 3),
 			);
 		});
-
 		let targetX = 0;
 		let targetY = 0;
 		let currentX = 0;
@@ -190,6 +204,8 @@ export default function ParticleSphere({
 		let animationId = 0;
 		let lastTime = performance.now();
 
+		const pointsTilt = [Math.PI*0.1, Math.PI*0.0, Math.PI*0.0];
+
 		function animate() {
 			animationId = requestAnimationFrame(animate);
 
@@ -203,8 +219,10 @@ export default function ParticleSphere({
 			currentY += (targetY - currentY) * lerp;
 
 			const time = now * 0.001;
+			
 
-			points.rotation.x = currentX;
+
+			points.rotation.x = currentX+pointsTilt[0];
 			points.rotation.y = currentY + time * 0.15;
 			renderer.outputColorSpace = THREE.SRGBColorSpace;
 			renderer.render(scene, camera);
