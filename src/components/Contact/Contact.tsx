@@ -190,7 +190,7 @@ export default function ContactSection() {
 													<span className="transition-transform duration-300 group-hover:scale-110">
 														{action.icon}
 													</span>
-													<GradientText>{action.title}</GradientText>
+													<GradientText className="px-1">{action.title}</GradientText>
 												</span>
 												<FiArrowUpRight className="opacity-80 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
 											</CardTitle>

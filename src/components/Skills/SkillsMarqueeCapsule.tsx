@@ -44,7 +44,7 @@ export default function SkillsMarqueeCapsule({
 			<span
 				className={
 					`overflow-hidden hidden lg:block text-center text-sm lg:text-lg transition-all mx-auto duration-300 max-w-30` 
-					+ (side === "left" ? "-ml-10 lg:ml-0" : "-mr-10 lg:mr-0")
+					// + (side === "left" ? "-ml-10 lg:ml-0" : "-mr-10 lg:mr-0")
 				}
 			>
 				{isHovered ? (
