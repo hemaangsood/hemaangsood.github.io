@@ -15,9 +15,9 @@ export default function SkillsMarqueeCapsule({
 			className={`
             group
             flex items-center
-            w-16 h-16
-            hover:w-auto hover:px-4
-            gap-0 hover:gap-2
+            h-16
+            w-auto px-4
+            gap-2
             border border-white/10
             bg-white/5
             backdrop-blur-sm
@@ -33,7 +33,7 @@ export default function SkillsMarqueeCapsule({
 			<span className="flex items-center justify-center shrink-0 w-16 h-16">
 				{icon}
 			</span>
-			<span className="max-w-0 invisible group-hover:visible overflow-hidden opacity-0 transition-all duration-300 group-hover:max-w-30 group-hover:opacity-100 pr-0 group-hover:pr-0">
+			<span className="overflow-hidden transition-all mx-auto duration-300 max-w-30">
 				{text}
 			</span>
 		</div>

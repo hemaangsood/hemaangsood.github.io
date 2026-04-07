@@ -84,7 +84,7 @@ const HeroSection = () => {
 							textAlign: "left",
 						}}
 					>
-						<div className="flex flex-wrap items-end gap-2 sm:gap-3 text-2xl sm:text-3xl lg:text-4xl leading-tight text-slate-100"
+						<div className="flex flex-wrap items-end gap-2 sm:gap-3 text-2xl sm:text-3xl lg:text-4xl leading-tight text-slate-100 overflow-hidden"
 							style={{
 								alignItems:"baseline"
 							}}
