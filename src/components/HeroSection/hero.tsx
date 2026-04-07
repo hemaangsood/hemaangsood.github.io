@@ -95,7 +95,7 @@ const HeroSection = () => {
 								animationSpeed={7}
 								showBorder={false}
 								yoyo={true}
-								className="hero-name-gradient mx-0! cursor-text! rounded-none! overflow-visible! backdrop-blur-none bg-transparent"
+								className="hero-name-gradient mx-0! cursor-text! rounded-none! backdrop-blur-none bg-transparent"
 							>
 								Hemaang
 							</GradientText>
