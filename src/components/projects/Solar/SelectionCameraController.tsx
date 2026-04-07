@@ -9,6 +9,7 @@ type SelectionCameraControllerProps = {
 	controlsRef: React.RefObject<OrbitControlsImpl | null>;
 	selectedProject: SelectedProject;
 	selectedProjectPositionRef: React.RefObject<THREE.Vector3 | null>;
+	selectedProjectCameraOffsetRef: React.RefObject<THREE.Vector3>;
 	shouldRestoreDefault: boolean;
 	onRestoreDefaultComplete: () => void;
 };
@@ -17,6 +18,7 @@ export function SelectionCameraController({
 	controlsRef,
 	selectedProject,
 	selectedProjectPositionRef,
+	selectedProjectCameraOffsetRef,
 	shouldRestoreDefault,
 	onRestoreDefaultComplete,
 }: SelectionCameraControllerProps) {
@@ -26,7 +28,7 @@ export function SelectionCameraController({
 		() => new THREE.Vector3(...SUN_POINT),
 		[],
 	);
-	const cameraOffset = useMemo(() => new THREE.Vector3(3.5, 1.8, 3.5), []);
+	const fallbackCameraOffset = useMemo(() => new THREE.Vector3(3.5, 1.8, 3.5), []);
 	const desiredTargetRef = useRef(defaultTarget.clone());
 	const desiredCameraPosRef = useRef(defaultCameraPosition.clone());
 	const cameraLookVectorRef = useRef(new THREE.Vector3());
@@ -39,7 +41,9 @@ export function SelectionCameraController({
 
 		if (selectedProject && selectedPosition) {
 			desiredTargetRef.current.copy(selectedPosition);
-			desiredCameraPosRef.current.copy(selectedPosition).add(cameraOffset);
+			desiredCameraPosRef.current
+				.copy(selectedPosition)
+				.add(selectedProjectCameraOffsetRef.current ?? fallbackCameraOffset);
 		} else {
 			desiredTargetRef.current.copy(defaultTarget);
 			desiredCameraPosRef.current.copy(defaultCameraPosition);

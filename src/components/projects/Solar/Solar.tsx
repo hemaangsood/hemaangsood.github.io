@@ -81,10 +81,13 @@ type SolarProps = {
 	isActive?: boolean;
 };
 
-const OVERLAY_SCALE_MIN = 1;
-const OVERLAY_SCALE_MAX = 20;
-const OVERLAY_SCALE_CURVE_EXPONENT = 4;
+const OVERLAY_SCALE_MIN = 0.98;
+const OVERLAY_SCALE_MAX = 1.2;
+const OVERLAY_SCALE_CURVE_EXPONENT = 1.6;
 const OVERLAY_SCALE_EPSILON = 0.01;
+const SELECTION_CAMERA_MIN_DISTANCE = 4.5;
+const SELECTION_CAMERA_MAX_DISTANCE = 8.5;
+const FALLBACK_SELECTION_CAMERA_OFFSET = new THREE.Vector3(3.5, 1.8, 3.5);
 
 export default function Solar({ isActive = true }: SolarProps): React.JSX.Element {
 	const [shouldMountHeavyEffects, setShouldMountHeavyEffects] = useState(false);
@@ -93,6 +96,7 @@ export default function Solar({ isActive = true }: SolarProps): React.JSX.Elemen
 	const [overlayTextScale, setOverlayTextScale] = useState(1);
 	const controlsRef = useRef<OrbitControlsImpl | null>(null);
 	const selectedProjectPositionRef = useRef<THREE.Vector3 | null>(null);
+	const selectedProjectCameraOffsetRef = useRef(FALLBACK_SELECTION_CAMERA_OFFSET.clone());
 
 	const handleCameraDistanceChange = useCallback(() => {
 		const controls = controlsRef.current;
@@ -129,6 +133,28 @@ export default function Solar({ isActive = true }: SolarProps): React.JSX.Elemen
 				return;
 			}
 
+			const controls = controlsRef.current;
+			if (controls) {
+				selectedProjectCameraOffsetRef.current
+					.copy(controls.object.position)
+					.sub(worldPosition);
+
+				const currentDistance = selectedProjectCameraOffsetRef.current.length();
+				if (currentDistance > 0.001) {
+					selectedProjectCameraOffsetRef.current.setLength(
+						THREE.MathUtils.clamp(
+							currentDistance,
+							SELECTION_CAMERA_MIN_DISTANCE,
+							SELECTION_CAMERA_MAX_DISTANCE,
+						),
+					);
+				} else {
+					selectedProjectCameraOffsetRef.current.copy(FALLBACK_SELECTION_CAMERA_OFFSET);
+				}
+			} else {
+				selectedProjectCameraOffsetRef.current.copy(FALLBACK_SELECTION_CAMERA_OFFSET);
+			}
+
 			selectedProjectPositionRef.current = worldPosition.clone();
 			setIsResettingCamera(false);
 			setSelectedProject(project);
@@ -154,6 +180,7 @@ export default function Solar({ isActive = true }: SolarProps): React.JSX.Elemen
 		if (!selectedProject) return;
 
 		selectedProjectPositionRef.current = null;
+		selectedProjectCameraOffsetRef.current.copy(FALLBACK_SELECTION_CAMERA_OFFSET);
 		setIsResettingCamera(true);
 		setSelectedProject(null);
 	}, [selectedProject]);
@@ -197,6 +224,7 @@ export default function Solar({ isActive = true }: SolarProps): React.JSX.Elemen
 					controlsRef={controlsRef}
 					selectedProject={selectedProject}
 					selectedProjectPositionRef={selectedProjectPositionRef}
+					selectedProjectCameraOffsetRef={selectedProjectCameraOffsetRef}
 					shouldRestoreDefault={isResettingCamera}
 					onRestoreDefaultComplete={handleCameraResetComplete}
 				/>

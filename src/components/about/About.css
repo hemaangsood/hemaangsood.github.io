@@ -106,7 +106,7 @@
 .about-title {
 	font-family: "Figtree Variable", "Segoe UI", sans-serif;
 	font-size: clamp(1.45rem, 3.3vw, 2.45rem);
-	line-height: 1.08;
+	line-height: 1.4;
 	font-weight: 760;
 	letter-spacing: -0.03em;
 	background: linear-gradient(125deg, #f9fbff 0%, #9feaff 50%, #9ebdff 100%);
