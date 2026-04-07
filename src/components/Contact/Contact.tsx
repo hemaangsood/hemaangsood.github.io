@@ -9,6 +9,7 @@ import {
 	useIsSectionInViewport,
 	useSectionHasBeenInViewport,
 } from "../viewport/viewportHooks";
+import GradientText from "../ui/GradientText";
 
 type ContactAction = {
 	title: string;
@@ -109,9 +110,9 @@ export default function ContactSection() {
 								<p className="text-xs sm:text-sm tracking-[0.2em] text-white/70 uppercase">
 									Contact
 								</p>
-								<h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight mt-2 text-white">
+								<GradientText className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight mt-2 text-white">
 									Let&apos;s Build Something Real
-								</h2>
+								</GradientText>
 								<p className="text-white/85 text-base sm:text-lg mt-4 max-w-xl">
 									I like solving backend-heavy problems, designing reliable
 									systems, and shipping practical ML-powered tools. If your
@@ -189,7 +190,7 @@ export default function ContactSection() {
 													<span className="transition-transform duration-300 group-hover:scale-110">
 														{action.icon}
 													</span>
-													{action.title}
+													<GradientText>{action.title}</GradientText>
 												</span>
 												<FiArrowUpRight className="opacity-80 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
 											</CardTitle>

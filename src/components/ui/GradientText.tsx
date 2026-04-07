@@ -114,7 +114,7 @@ export default function GradientText({
 
 	return (
 		<motion.div
-			className={`relative mx-auto flex max-w-fit max-h-fit flex-row items-center justify-center rounded-[1.25rem] font-medium backdrop-blur transition-shadow duration-500 overflow-hidden cursor-pointer ${showBorder ? "py-1 px-2" : ""} ${className}`}
+			className={`relative mx-auto backdrop-blur-none flex max-w-fit max-h-fit flex-row items-center justify-center rounded-[1.25rem] font-medium transition-shadow duration-500 overflow-hidden cursor-pointer ${showBorder ? "py-1 px-2" : ""} ${className}`}
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
 		>
@@ -136,7 +136,7 @@ export default function GradientText({
 				</motion.div>
 			)}
 			<motion.div
-				className="inline-block relative z-2 text-transparent bg-clip-text overflow-auto pb-1"
+				className="inline-block relative z-2 text-transparent bg-clip-text overflow-auto pb-2"
 				style={{
 					...gradientStyle,
 					backgroundPosition,

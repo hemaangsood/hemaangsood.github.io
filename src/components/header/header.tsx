@@ -3,6 +3,7 @@ import Logo from "../Logo";
 import { RainbowButton } from "../ui/rainbow-button";
 import type { ContainerPropsElement } from "./HeaderContainer";
 import { useSectionViewport } from "../viewport/viewportHooks";
+import GradientText from "../ui/GradientText";
 
 type Props = {
 	scrollContainer: React.RefObject<HTMLDivElement>;
@@ -18,13 +19,17 @@ function HeaderSectionRedirectButton({
 	isActive?: boolean;
 }): ContainerPropsElement {
 	return {
-		children:( <div
-			className={`rounded-xl hidden lg:block py-1 px-2.5 mt-1 transition-colors duration-700 cursor-pointer ${
-				isActive
-					? "bg-white text-black"
-					: "bg-transparent text-white hover:text-black hover:bg-white"
-			}`}
-		>{text}</div>),
+		children: (
+			<div
+				className={`rounded-xl hidden lg:block py-1 px-2.5 mt-1 transition-colors duration-700 cursor-pointer ${
+					isActive
+						? "bg-white text-black"
+						: "bg-transparent text-white hover:text-black hover:bg-white"
+				}`}
+			>
+				{text}
+			</div>
+		),
 		onClick: () => {
 			const destSection = document.getElementById(sectionId);
 			if (destSection) {

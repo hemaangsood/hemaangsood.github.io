@@ -1,4 +1,6 @@
 import type React from "react";
+import { useState } from "react";
+import GradientText from "../ui/GradientText";
 export interface SkillsMarqueeCapsuleProps {
 	icon: React.ReactNode;
 	text: string;
@@ -10,9 +12,11 @@ export default function SkillsMarqueeCapsule({
 	text,
 	side="left"
 }: SkillsMarqueeCapsuleProps) {
+	const [isHovered, setIsHovered] = useState(false);
 	return (
 		<div
-			className={`
+			className={
+				`
             group
             flex items-center
             h-16
@@ -26,15 +30,28 @@ export default function SkillsMarqueeCapsule({
             whitespace-nowrap
             transition-all duration-300
             hover:bg-white/10
-            hover:shadow-[0_0_20px_rgba(168,85,247,0.5)]`+ " " + (side === "left" ? "" : "flex-row-reverse")}
+            hover:shadow-[0_0_20px_rgba(168,85,247,0.5)]` +
+				" " +
+				(side === "left" ? "" : "flex-row-reverse")
+			}
 			aria-label={`Skill: ${text}`}
-
+			onMouseEnter={() => setIsHovered(true)}
+			onMouseLeave={() => setIsHovered(false)}
 		>
 			<span className="flex items-center justify-center shrink-0 w-16 h-16">
 				{icon}
 			</span>
-			<span className="overflow-hidden transition-all mx-auto duration-300 max-w-30">
-				{text}
+			<span
+				className={
+					`overflow-hidden hidden lg:block text-center text-sm lg:text-lg transition-all mx-auto duration-300 max-w-30` 
+					+ (side === "left" ? "-ml-10 lg:ml-0" : "-mr-10 lg:mr-0")
+				}
+			>
+				{isHovered ? (
+					<GradientText className="-mb-1.5">{text}</GradientText>
+				) : (
+					text
+				)}
 			</span>
 		</div>
 	);
