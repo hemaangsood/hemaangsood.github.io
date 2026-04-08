@@ -2,7 +2,6 @@ import { useRef } from "react";
 import { motion } from "motion/react";
 import {
 	useIsSectionInViewport,
-	useSectionHasBeenInViewport,
 } from "../viewport/viewportHooks";
 import WaveGrid from "./WaveGrid";
 import {
@@ -48,8 +47,8 @@ const professionalExperience: ExperienceEntry[] = [
 const experienceWaveColors = ["#67d9ff", "#7fa4ff", "#95ceff", "#e8f6ff"];
 
 export default function ExperienceSection() {
-	const shouldMountExperienceGraphics = useSectionHasBeenInViewport("experience");
 	const isExperienceVisible = useIsSectionInViewport("experience", false, 0.06);
+	const shouldMountExperienceGraphics = isExperienceVisible;
 	const bgContainer = useRef<HTMLDivElement>(null);
 
 	return (

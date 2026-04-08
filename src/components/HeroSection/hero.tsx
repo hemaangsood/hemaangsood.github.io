@@ -5,7 +5,7 @@ import { TypingAnimation } from "../ui/typing-animation";
 import GradientText from "../ui/GradientText";
 // import ParticleSphere from "./ParticleSphereThreejs";
 import { motion } from "motion/react";
-import { useSectionHasBeenInViewport } from "../viewport/viewportHooks";
+import { useIsSectionInViewport } from "../viewport/viewportHooks";
 import ParticleSphere from "./ParticleSphereThreejs";
 import "./Hero.css";
 
@@ -33,7 +33,7 @@ function HeroSectionButton({ text, section,link,style,className="" }: { text: st
 	);}
 
 const HeroSection = () => {
-	const shouldMountHeroGraphics = useSectionHasBeenInViewport("hero", true);
+	const shouldMountHeroGraphics = useIsSectionInViewport("hero", true, 0.02);
 	const meThingsList = [
 		"Software Engineer",
 		"Full Stack Developer",

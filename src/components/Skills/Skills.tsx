@@ -25,7 +25,7 @@ import Icon from "../icon";
 import GradientText from "../ui/GradientText";
 import Aurora from "../ui/Aurora";
 import Galaxy from "../ui/Galaxy";
-import { useSectionHasBeenInViewport } from "../viewport/viewportHooks";
+import { useIsSectionInViewport } from "../viewport/viewportHooks";
 
 const iconSize = 40;
 
@@ -77,7 +77,7 @@ const rightCol: SkillsMarqueeCapsuleProps[] = [
 ];
 
 export default function SkillsSection() {
-	const shouldMountSkillsGraphics = useSectionHasBeenInViewport("skills");
+	const shouldMountSkillsGraphics = useIsSectionInViewport("skills", false, 0.04);
 	return (
 		<section
 			className="relative w-screen min-h-screen h-fit snap-start overflow-y-hidden"

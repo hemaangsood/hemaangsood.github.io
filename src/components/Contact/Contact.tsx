@@ -7,7 +7,6 @@ import { MdOutlineFileOpen } from "react-icons/md";
 import { FiArrowUpRight } from "react-icons/fi";
 import {
 	useIsSectionInViewport,
-	useSectionHasBeenInViewport,
 } from "../viewport/viewportHooks";
 import GradientText from "../ui/GradientText";
 
@@ -40,8 +39,8 @@ const contactActions: ContactAction[] = [
 ];
 
 export default function ContactSection() {
-	const shouldMountContactGraphics = useSectionHasBeenInViewport("contact");
 	const isContactVisible = useIsSectionInViewport("contact", false, 0.08);
+	const shouldMountContactGraphics = isContactVisible;
 
 	const openLink = (href: string) => {
 		window.open(href, "_blank", "noopener,noreferrer");
