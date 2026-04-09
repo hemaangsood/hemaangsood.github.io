@@ -30,6 +30,7 @@ export default function SkillsMarqueeCapsule({
             whitespace-nowrap
             transition-all duration-300
             hover:bg-white/10
+			// hover:max-h-fit
             hover:shadow-[0_0_20px_rgba(168,85,247,0.5)]` +
 				" " +
 				(side === "left" ? "" : "flex-row-reverse")
@@ -43,12 +44,15 @@ export default function SkillsMarqueeCapsule({
 			</span>
 			<span
 				className={
-					`overflow-hidden hidden lg:block text-center text-sm lg:text-lg transition-all mx-auto duration-300 max-w-30` 
+					`overflow-hidden hidden lg:block text-center text-sm lg:text-lg transition-all mx-auto duration-300 max-w-30`
 					// + (side === "left" ? "-ml-10 lg:ml-0" : "-mr-10 lg:mr-0")
 				}
+				style={{
+					lineHeight: "2",
+				}}
 			>
 				{isHovered ? (
-					<GradientText className="-mb-1.5">{text}</GradientText>
+					<GradientText>{text}</GradientText>
 				) : (
 					text
 				)}

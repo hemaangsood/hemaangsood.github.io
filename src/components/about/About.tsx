@@ -79,21 +79,22 @@ const AboutSection = () => {
 
 			<div className="relative z-10 flex flex-col w-full min-h-screen items-center overflow-x-hidden pt-20 xl:pt-18 pb-8">
 				<div
-					className="about-shell grid grid-cols-1 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] gap-4 md:gap-6 mx-auto my-0 lg:my-auto py-4 sm:py-6 px-3 sm:px-6 items-stretch w-[96vw] max-w-350 min-h-[58%] lg:min-h-[82vh]"
+					className={`about-shell grid grid-cols-1 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]
+						gap-4 md:gap-6 mx-auto my-0 lg:my-auto py-4 sm:py-6 px-3 sm:px-6 items-stretch w-[96vw] max-w-350 min-h-[58%] lg:min-h-[80vh] xl:min-h-[60vh]`}
 				>
 					<div
-						className="about-terminal-panel w-full mt-1 sm:mt-2 flex overflow-y-auto overflow-x-hidden thin-scrollbar min-h-0 flex-col mr-0 p-2 min-w-0"
+						className="about-terminal-panel w-full mt-1 sm:mt-2 flex overflow-y-auto overflow-x-hidden thin-scrollbar flex-col mr-0 p-2 min-w-0"
 						id="gimmick"
 					>
 						<div className="about-terminal-title">Live Career Snapshot</div>
 						{shouldRunAboutGraphics && (
 							<TerminalGimmick
 								state={terminalState}
-								className="w-full mx-auto mt-2 h-[90%] max-h-[60vh]"
+								className="w-full mx-auto mt-2 max-h-[60vh] lg:max-h-[70vh] xl:max-h-[85%]"
 							/>
 						)}
 						<div
-							className="about-tab-row"
+							className="about-tab-row my-auto!"
 							role="tablist"
 							aria-label="About terminal categories"
 						>
@@ -145,7 +146,7 @@ const AboutSection = () => {
 							whileInView={{ y: 0, opacity: 1 }}
 							viewport={{ once: true, amount: 0.2 }}
 							transition={{ duration: 0.55, delay: 0.2 }}
-							className="about-cards-grid thin-scrollbar grid grid-cols-1 sm:grid-cols-2 w-full max-w-full gap-3 sm:gap-4 mt-2 sm:mt-4 p-1 overflow-visible"
+							className="about-cards-grid thin-scrollbar grid grid-cols-1 sm:grid-cols-2 w-full max-w-full gap-3 sm:gap-4 pt-2 sm:pt-4 my-auto! p-1 overflow-visible"
 						>
 							<AboutSectionCard
 								className=""
