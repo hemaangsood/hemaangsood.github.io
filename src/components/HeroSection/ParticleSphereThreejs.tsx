@@ -33,12 +33,15 @@ export default function ParticleSphere({
 
 		const parent = parentRef.current;
 		const mount = mountRef.current;
+		// parentRef.current.style.minHeight="50vh";
 
-		if (parent.offsetHeight === 0) parent.style.height = "500px";
+		// if (parent.offsetHeight === 0) parent.style.height = "500px";
 
-		const width = parent.offsetWidth;
-		const height = parent.offsetHeight;
+		const width = mount.clientWidth;
+		const height = mount.clientHeight;
 		if (width === 0 || height === 0) return;
+
+		
 
 		if (globalRenderer) {
 			try {
@@ -58,13 +61,17 @@ export default function ParticleSphere({
 			0.1,
 			1000,
 		);
-		camera.position.z = 4.1;
+		camera.position.z = 4.4;
 
 		const renderer = new THREE.WebGLRenderer({
 			antialias: true,
 			alpha: true,
 			powerPreference: "high-performance",
 		});
+
+		camera.aspect = width / height;
+		camera.updateProjectionMatrix();
+		renderer.setSize(width, height);
 
 		globalRenderer = renderer;
 
@@ -78,7 +85,7 @@ export default function ParticleSphere({
 		mount.innerHTML = "";
 		mount.appendChild(renderer.domElement);
 
-		const particleCount = 15000;
+		const particleCount = 20000;
 		const radius = 2.5;
 
 		const geometry = new THREE.BufferGeometry();
@@ -266,5 +273,5 @@ export default function ParticleSphere({
 		};
 	}, [parentRef, brightness, contrast]);
 
-	return <div ref={mountRef} style={{ width: "100%", height: "100%" }} />;
+	return <div ref={mountRef} style={{ width: "100%",aspectRatio:"1/1" }} />;
 }

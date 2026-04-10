@@ -146,7 +146,8 @@ const AboutSection = () => {
 							whileInView={{ y: 0, opacity: 1 }}
 							viewport={{ once: true, amount: 0.2 }}
 							transition={{ duration: 0.55, delay: 0.2 }}
-							className="about-cards-grid thin-scrollbar grid grid-cols-1 sm:grid-cols-2 w-full max-w-full gap-3 sm:gap-4 pt-2 sm:pt-4 my-auto! p-1 overflow-visible"
+							className={`about-cards-grid thin-scrollbar grid grid-cols-1 sm:grid-cols-2
+								w-full max-w-full gap-3 sm:gap-4 pt-2 sm:pt-4 my-auto p-1 overflow-visible`}
 						>
 							<AboutSectionCard
 								className=""
