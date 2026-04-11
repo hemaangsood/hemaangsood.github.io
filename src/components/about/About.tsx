@@ -118,7 +118,7 @@ const AboutSection = () => {
 							})}
 						</div>
 					</div>
-					<div className="about-content-panel w-full min-h-0 min-w-0 overflow-visible p-2 sm:p-3">
+					<div className="flex flex-col about-content-panel w-full min-h-0 min-w-0 overflow-visible p-2 sm:p-3">
 						<motion.div
 							initial={{ y: 16, opacity: 0 }}
 							whileInView={{ y: 0, opacity: 1 }}
@@ -147,7 +147,7 @@ const AboutSection = () => {
 							viewport={{ once: true, amount: 0.2 }}
 							transition={{ duration: 0.55, delay: 0.2 }}
 							className={`about-cards-grid thin-scrollbar grid grid-cols-1 sm:grid-cols-2
-								w-full max-w-full gap-3 sm:gap-4 pt-2 sm:pt-4 my-auto p-1 overflow-visible`}
+								w-full max-w-full gap-3 sm:gap-4 pt-2 sm:pt-4 my-auto p-1 overflow-y-visible`}
 						>
 							<AboutSectionCard
 								className=""

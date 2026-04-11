@@ -67,18 +67,19 @@ export const solarElements: OrbitingElementConfig[] = [
 			moons: [
 				{
 					orbit: {
-						orbitRadius: 0.5,
+						orbitRadius: 1.0,
 						rotationSpeed: 0.2,
-						orbitSegments: 16,
+						orbitSegments: 24,
 						eccentricity: 0.3,
 						orbitOffsetPlaneRotationOffset: 0,
 						renderOrbit: true,
+						
 					},
 					moonSelfRotationSpeed: 0.1,
 					planet: {
-						size: 0.1,
+						size: 0.2,
 						color: "#888888",
-						textureMap: "/projects/moon-texture.jpg",
+						textureMap: "/projects/moon.jpg",
 						useAtmosphere: false,
 					},
 				},
@@ -226,7 +227,7 @@ export const solarElements: OrbitingElementConfig[] = [
 					planet: {
 						size: 0.15,
 						color: "#aaaaaa",
-						textureMap: "/projects/moon-texture.jpg",
+						textureMap: "/projects/europa.jpg",
 						useAtmosphere: false,
 					},
 				},
@@ -242,7 +243,7 @@ export const solarElements: OrbitingElementConfig[] = [
 					planet: {
 						size: 0.1,
 						color: "#aaaaaa",
-						textureMap: "/projects/moon-texture.jpg",
+						textureMap: "/projects/moon.jpg",
 						useAtmosphere: false,
 					},
 				},

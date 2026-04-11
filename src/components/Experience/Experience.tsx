@@ -81,7 +81,7 @@ export default function ExperienceSection() {
 							: { opacity: 0, y: 28 }
 					}
 					transition={{ duration: isExperienceVisible ? 0.45 : 0.25 }}
-					className="experience-shell flex flex-col gap-4 mx-auto my-0 lg:my-auto pt-2 pb-3 sm:py-6 px-3 sm:px-6 items-stretch w-[96vw] max-w-350 min-h-[58%]"
+					className="experience-shell flex flex-col gap-4 mx-auto my-0 lg:my-auto pt-2 pb-3 sm:py-6 px-3 sm:px-6 items-stretch w-[90vw] 2xl:w-[70vw] min-h-[80vh] lg:min-h-[60vh]"
 				>
 					<motion.div
 						initial={{ opacity: 0, y: 30 }}
@@ -95,7 +95,7 @@ export default function ExperienceSection() {
 						}}
 						className="experience-header"
 					>
-						<div className="experience-kicker">Experience</div>
+						<div className="experience-kicker text-lg lg:text-xl">Experience</div>
 						<h2 className="experience-title">Hands-on product and platform delivery.</h2>
 						<p className="experience-subtitle">
 							Building distributed backend systems, secure enterprise features, and practical AI workflows.
@@ -103,7 +103,7 @@ export default function ExperienceSection() {
 					</motion.div>
 
 					<div
-						className="experience-grid mt-2 grid grid-cols-1 xl:grid-cols-2 gap-3 sm:gap-4 overflow-visible thin-scrollbar"
+						className="experience-grid mt-2 grid grid-cols-1 auto-rows-fr flex-1 xl:grid-cols-2 gap-3 sm:gap-4 overflow-visible thin-scrollbar"
 					>
 						{professionalExperience.map((entry, index) => (
 							<motion.div
@@ -120,18 +120,18 @@ export default function ExperienceSection() {
 										? index * 0.1
 										: 0,
 								}}
-								className="experience-card-wrap p-1 sm:p-2"
+								className="experience-card-wrap p-1 sm:p-2 h-full"
 							>
 								<Card
-									className="experience-card w-full h-full transition-transform duration-300 ease-in-out text-white"
+									className="experience-card w-full h-full transition-transform duration-300 ease-in-out text-white overflow-y-scroll"
 								>
 									<CardHeader>
 										<div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
 											<div>
-												<CardTitle className="experience-company text-xl sm:text-2xl font-semibold">
+												<CardTitle className="experience-company text-xl sm:text-3xl font-semibold">
 													{entry.company}
 												</CardTitle>
-												<CardDescription className="experience-role text-base sm:text-lg mt-0.5">
+												<CardDescription className="experience-role text-base sm:text-xl mt-0.5">
 													{entry.role}
 												</CardDescription>
 											</div>
@@ -141,7 +141,7 @@ export default function ExperienceSection() {
 										</div>
 									</CardHeader>
 									<CardContent>
-										<ul className="experience-highlights list-disc pl-5 space-y-2 text-sm sm:text-base leading-relaxed">
+										<ul className="experience-highlights list-disc pl-5 space-y-2 text-sm sm:text-base lg:text-xl leading-relaxed">
 											{entry.highlights.map(
 												(highlight) => (
 													<li key={highlight}>

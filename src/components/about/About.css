@@ -139,6 +139,7 @@
 		0 10px 30px rgba(0, 0, 0, 0.22);
 	color: #e7f3fa;
 	min-height: 100%;
+	overflow: visible;
 	transform-origin: center;
 	will-change: transform;
 }
@@ -223,7 +224,7 @@
 	}
 
 	.about-cards-grid {
-		max-height: min(50vh, 30rem);
+		max-height: none;
 		overflow-y: auto;
 		overflow-x: hidden;
 		padding-right: 0.25rem;
@@ -238,5 +239,12 @@
 	.about-terminal-panel,
 	.about-content-panel {
 		border-radius: 1.1rem;
+	}
+}
+
+@media (max-width: 640px) {
+	.about-cards-grid {
+		overflow: visible;
+		padding-right: 0;
 	}
 }
