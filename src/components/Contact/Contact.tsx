@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui
 import { Button } from "../ui/button";
 import { motion } from "motion/react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { MdOutlineFileOpen } from "react-icons/md";
+import { MdOutlineEmail, MdOutlineFileOpen } from "react-icons/md";
 import { FiArrowUpRight } from "react-icons/fi";
 import {
 	useIsSectionInViewport,
@@ -35,6 +35,12 @@ const contactActions: ContactAction[] = [
 		description: "Download my latest resume as a PDF.",
 		href: "/HemaangRes.pdf",
 		icon: <MdOutlineFileOpen size={22} />,
+	},
+	{
+		title: "Email",
+		description: "Reach out directly for opportunities or questions.",
+		href: "mailto:hemaangsood@gmail.com",
+		icon: <MdOutlineEmail size={22} />,
 	},
 ];
 
@@ -106,13 +112,13 @@ export default function ContactSection() {
 							className="flex flex-col justify-between"
 						>
 							<div>
-								<p className="text-xs sm:text-sm tracking-[0.2em] text-white/70 uppercase">
+									<p className="text-lg lg:text-xl font-bold tracking-[0.24em] text-white/70 uppercase">
 									Contact
 								</p>
-								<GradientText className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight mt-2 text-white">
+									<GradientText className="mx-0! mt-2 block max-w-[24ch] text-[1.55rem] sm:text-4xl lg:text-[2.6rem] font-extrabold leading-[1.4] tracking-[-0.02em] text-white">
 									Let&apos;s Build Something Real
 								</GradientText>
-								<p className="text-white/85 text-base sm:text-lg mt-4 max-w-xl">
+									<p className="mt-4 max-w-[68ch] text-sm sm:text-base lg:text-[1.05rem] leading-[1.55] text-white/85">
 									I like solving backend-heavy problems, designing reliable
 									systems, and shipping practical ML-powered tools. If your
 									team is building meaningful products, I&apos;d love to connect.
@@ -159,7 +165,7 @@ export default function ContactSection() {
 								duration: isContactVisible ? 0.45 : 0.25,
 								delay: isContactVisible ? 0.1 : 0,
 							}}
-							className="grid grid-cols-1 gap-3"
+							className="grid grid-cols-1 lg:grid-cols-2 auto-rows-fr gap-3"
 						>
 							{contactActions.map((action, index) => (
 								<motion.div
@@ -180,11 +186,11 @@ export default function ContactSection() {
 									className="group"
 								>
 									<Card
-										className="relative border border-white/35 bg-white/10 text-white backdrop-blur-sm transition-colors duration-300 group-hover:border-white/60 group-hover:bg-white/15"
+										className="relative border h-full border-white/35 bg-white/10 text-white backdrop-blur-sm transition-colors duration-300 group-hover:border-white/60 group-hover:bg-white/15"
 									>
 										<div className="pointer-events-none absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 										<CardHeader className="pb-3 relative">
-											<CardTitle className="flex items-center justify-between text-xl">
+											<CardTitle className="flex items-center justify-between text-xl sm:text-3xl font-semibold">
 												<span className="flex items-center gap-2">
 													<span className="transition-transform duration-300 group-hover:scale-110">
 														{action.icon}
@@ -193,11 +199,11 @@ export default function ContactSection() {
 												</span>
 												<FiArrowUpRight className="opacity-80 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
 											</CardTitle>
-											<CardDescription className="text-white/75">
+											<CardDescription className="text-white/75 text-base sm:text-xl mt-0.5">
 												{action.description}
 											</CardDescription>
 										</CardHeader>
-										<CardContent className="pt-0 relative">
+										<CardContent className="pt-0 mt-auto mb-1 relative">
 											<Button
 												variant="outline"
 												onClick={() => openLink(action.href)}

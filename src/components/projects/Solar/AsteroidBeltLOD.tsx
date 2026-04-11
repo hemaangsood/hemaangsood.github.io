@@ -16,7 +16,7 @@ interface AsteroidBeltLODProps extends AsteroidBeltProps {
  * Automatically reduces asteroid count based on camera distance
  */
 export function AsteroidBeltLOD({
-	centerPosition = SUN_POINT,
+	centerPosition,
 	count = 1000,
 	...props
 }: AsteroidBeltLODProps) {
@@ -25,14 +25,14 @@ export function AsteroidBeltLOD({
  	const [lodCount, setLodCount] = useState(count);
  	const lodTierRef = useRef<number>(0);
  	const checkCooldownRef = useRef(0);
- 	const centerRef = useRef(new THREE.Vector3(...centerPosition));
+	const centerRef = useRef(new THREE.Vector3(...(centerPosition ?? SUN_POINT)));
 
 	useEffect(() => {
 		setLodCount(count);
 	}, [count]);
 
  	useFrame((_, delta) => {
-		if (centerPosition) {
+		if (centerPosition !== undefined) {
 			centerRef.current.set(...centerPosition);
 		} else if (beltRef.current) {
 			beltRef.current.getWorldPosition(centerRef.current);

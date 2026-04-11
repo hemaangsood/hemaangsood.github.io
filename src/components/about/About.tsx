@@ -68,7 +68,7 @@ const AboutSection = () => {
 
 	return (
 		<section
-			className="about-section relative w-screen min-h-screen h-fit snap-start overflow-x-hidden"
+			className="about-section relative w-screen h-screen snap-start overflow-x-hidden"
 			id="about"
 		>
 			<div className="absolute top-0 left-0 w-full h-full">
@@ -77,7 +77,7 @@ const AboutSection = () => {
 			<div className="about-orb about-orb--left" aria-hidden="true" />
 			<div className="about-orb about-orb--right" aria-hidden="true" />
 
-			<div className="relative z-10 flex flex-col w-full min-h-screen items-center overflow-x-hidden pt-20 xl:pt-18 pb-8">
+			<div className="relative z-10 flex flex-col w-full min-h-screen items-center overflow-x-hidden overflow-y-scroll pt-20 xl:pt-18 pb-8">
 				<div
 					className={`about-shell grid grid-cols-1 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]
 						gap-4 md:gap-6 mx-auto my-0 lg:my-auto py-4 sm:py-6 px-3 sm:px-6 items-stretch w-[96vw] max-w-350 min-h-[58%] lg:min-h-[80vh] xl:min-h-[60vh]`}
@@ -86,7 +86,9 @@ const AboutSection = () => {
 						className="about-terminal-panel w-full mt-1 sm:mt-2 flex overflow-y-auto overflow-x-hidden thin-scrollbar flex-col mr-0 p-2 min-w-0"
 						id="gimmick"
 					>
-						<div className="about-terminal-title">Live Career Snapshot</div>
+						<div className="about-terminal-title">
+							Live Career Snapshot
+						</div>
 						{shouldRunAboutGraphics && (
 							<TerminalGimmick
 								state={terminalState}
@@ -103,14 +105,18 @@ const AboutSection = () => {
 									<button
 										type="button"
 										key={tab.state}
-										onClick={() => setTerminalState(tab.state)}
+										onClick={() =>
+											setTerminalState(tab.state)
+										}
 										className={`about-tab ${
 											terminalState === tab.state
 												? "about-tab--active"
 												: ""
 										}`}
 										role="tab"
-										aria-selected={terminalState === tab.state}
+										aria-selected={
+											terminalState === tab.state
+										}
 									>
 										{tab.label}
 									</button>
@@ -118,7 +124,7 @@ const AboutSection = () => {
 							})}
 						</div>
 					</div>
-					<div className="flex flex-col about-content-panel w-full min-h-0 min-w-0 overflow-visible p-2 sm:p-3">
+					<div className="flex flex-col about-content-panel w-full min-h-0 min-w-0 overflow-y-scroll p-2 sm:p-3">
 						<motion.div
 							initial={{ y: 16, opacity: 0 }}
 							whileInView={{ y: 0, opacity: 1 }}
@@ -126,7 +132,7 @@ const AboutSection = () => {
 							transition={{ duration: 0.45 }}
 						>
 							<div className="about-kicker">About</div>
-							<h2 className="about-title">
+							<h2 className="about-title mt-0">
 								Building resilient systems with clarity.
 							</h2>
 						</motion.div>
@@ -137,9 +143,10 @@ const AboutSection = () => {
 							viewport={{ once: true, amount: 0.2 }}
 							transition={{ duration: 0.5, delay: 0.05 }}
 						>
-							I build scalable backend platforms and distributed APIs,
-							distributed systems, and I&apos;m currently pursuing a Master&apos;s in Electrical and
-							Computer Engineering at the University of Waterloo.
+							I build scalable backend platforms and distributed
+							APIs, distributed systems, and I&apos;m currently
+							pursuing a Master&apos;s in Electrical and Computer
+							Engineering at the University of Waterloo.
 						</motion.div>
 						<motion.div
 							initial={{ y: 100, opacity: 0 }}
@@ -147,7 +154,7 @@ const AboutSection = () => {
 							viewport={{ once: true, amount: 0.2 }}
 							transition={{ duration: 0.55, delay: 0.2 }}
 							className={`about-cards-grid thin-scrollbar grid grid-cols-1 sm:grid-cols-2
-								w-full max-w-full gap-3 sm:gap-4 pt-2 sm:pt-4 my-auto p-1 overflow-y-visible`}
+								w-full max-w-full gap-3 sm:gap-4 pt-2 sm:pt-4 my-auto p-1 overflow-y-scroll`}
 						>
 							<AboutSectionCard
 								className=""
