@@ -56,7 +56,7 @@ function AboutSectionCard({
 					</CardDescription>
 				)}
 			</CardHeader>
-			<CardContent className="about-card__content">{content}</CardContent>
+			<CardContent className="about-card__content pb-1">{content}</CardContent>
 		</Card>
 	);
 }
