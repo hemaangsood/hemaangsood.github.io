@@ -10,21 +10,68 @@ type ParticleSphereProps = {
 	contrast?: number;
 };
 
-const clamp01 = (value: number): number => Math.min(1, Math.max(0, value));
+const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 
-function applyBrightnessContrast(
-	value: number,
-	brightness: number,
-	contrast: number,
-): number {
-	const brightened = value * brightness;
-	return clamp01((brightened - 0.5) * contrast + 0.5);
+function applyGamma(v: number, gamma = 0.8) {
+	return Math.pow(v, gamma);
+}
+
+function applyBC(v: number, brightness: number, contrast: number) {
+	const x = v * brightness;
+	const c = (x - 0.5) * contrast + 0.5;
+	return c / (1 + Math.abs(c));
+}
+
+function saturate(r: number, g: number, b: number, f = 1.3) {
+	const gray = (r + g + b) / 3;
+	return [
+		clamp01(gray + (r - gray) * f),
+		clamp01(gray + (g - gray) * f),
+		clamp01(gray + (b - gray) * f),
+	];
+}
+
+// RGB -> HSV (only hue needed mainly)
+function rgbToHsv(r: number, g: number, b: number) {
+	const max = Math.max(r, g, b);
+	const min = Math.min(r, g, b);
+	const d = max - min;
+
+	let h = 0;
+	if (d !== 0) {
+		switch (max) {
+			case r:
+				h = ((g - b) / d) % 6;
+				break;
+			case g:
+				h = (b - r) / d + 2;
+				break;
+			case b:
+				h = (r - g) / d + 4;
+				break;
+		}
+		h /= 6;
+		if (h < 0) h += 1;
+	}
+
+	return { h, s: max === 0 ? 0 : d / max, v: max };
+}
+
+// Threshold + Hue hybrid classification
+function isOcean(r: number, g: number, b: number) {
+	const { h, s } = rgbToHsv(r, g, b);
+
+	// blue hue range + saturation + dominance
+	const isBlueHue = h > 0.5 && h < 0.75;
+	const dominantBlue = b > r && b > g;
+
+	return isBlueHue && dominantBlue && s > 0.2;
 }
 
 export default function ParticleSphere({
 	parentRef,
-	brightness = 1.5,
-	contrast = 1.4,
+	brightness = 1.4,
+	contrast = 1.5,
 }: ParticleSphereProps): React.JSX.Element {
 	const mountRef = useRef<HTMLDivElement>(null);
 
@@ -33,22 +80,17 @@ export default function ParticleSphere({
 
 		const parent = parentRef.current;
 		const mount = mountRef.current;
-		// parentRef.current.style.minHeight="50vh";
-
-		// if (parent.offsetHeight === 0) parent.style.height = "500px";
 
 		const width = mount.clientWidth;
 		const height = mount.clientHeight;
 		if (width === 0 || height === 0) return;
 
-		
-
 		if (globalRenderer) {
 			try {
 				globalRenderer.forceContextLoss();
 				globalRenderer.dispose();
-			} catch {
-				console.warn("Failed to dispose existing global renderer");
+			} catch (error) {
+				console.warn('Failed to clean up global renderer context:', error);
 			}
 			globalRenderer = null;
 		}
@@ -69,30 +111,23 @@ export default function ParticleSphere({
 			powerPreference: "high-performance",
 		});
 
-		camera.aspect = width / height;
-		camera.updateProjectionMatrix();
 		renderer.setSize(width, height);
-
-		globalRenderer = renderer;
-
 		renderer.setClearColor(0x000000, 0);
 		renderer.setPixelRatio(1);
-		renderer.setSize(width, height, false);
-
-		renderer.domElement.style.width = "100%";
-		renderer.domElement.style.height = "100%";
+		renderer.outputColorSpace = THREE.SRGBColorSpace;
 
 		mount.innerHTML = "";
 		mount.appendChild(renderer.domElement);
 
-		const particleCount = 20000;
+		globalRenderer = renderer;
+
+		const particleCount = 12000;
 		const radius = 2.5;
 
 		const geometry = new THREE.BufferGeometry();
 		const positions = new Float32Array(particleCount * 3);
 		const colors = new Float32Array(particleCount * 3);
 
-		// Fibonacci sphere
 		const phi = Math.PI * (3 - Math.sqrt(5));
 		for (let i = 0; i < particleCount; i++) {
 			const y = 1 - (i / (particleCount - 1)) * 2;
@@ -122,7 +157,6 @@ export default function ParticleSphere({
 		const points = new THREE.Points(geometry, material);
 		scene.add(points);
 
-		// TEXTURE SAMPLING (SAFE)
 		const loader = new THREE.TextureLoader();
 		const texture = loader.load("/earth.jpg", (tex) => {
 			const img = tex.image as HTMLImageElement;
@@ -152,7 +186,6 @@ export default function ParticleSphere({
 				const ny = y / len;
 				const nz = z / len;
 
-				// const u = 0.5 + Math.atan2(nz, nx) / (2 * Math.PI);
 				const u = 1.0 - (0.5 + Math.atan2(nz, nx) / (2 * Math.PI));
 				const v = 0.5 - Math.asin(ny) / Math.PI;
 
@@ -166,25 +199,33 @@ export default function ParticleSphere({
 				);
 				const idx = (py * canvas.width + px) * 4;
 
-				const red = imageData.data[idx] / 255;
-				const green = imageData.data[idx + 1] / 255;
-				const blue = imageData.data[idx + 2] / 255;
+				let rCol = imageData.data[idx] / 255;
+				let gCol = imageData.data[idx + 1] / 255;
+				let bCol = imageData.data[idx + 2] / 255;
 
-				colors[i * 3] = applyBrightnessContrast(
-					red,
-					brightness,
-					contrast,
-				);
-				colors[i * 3 + 1] = applyBrightnessContrast(
-					green,
-					brightness,
-					contrast,
-				);
-				colors[i * 3 + 2] = applyBrightnessContrast(
-					blue,
-					brightness,
-					contrast,
-				);
+				// pipeline
+				rCol = applyGamma(rCol);
+				gCol = applyGamma(gCol);
+				bCol = applyGamma(bCol);
+
+				rCol = applyBC(rCol, brightness, contrast);
+				gCol = applyBC(gCol, brightness, contrast);
+				bCol = applyBC(bCol, brightness, contrast);
+
+				[rCol, gCol, bCol] = saturate(rCol, gCol, bCol);
+
+				// CLASSIFICATION
+				if (isOcean(rCol, gCol, bCol)) {
+					// ocean (darker, uniform blue)
+					colors[i * 3] = 0.05;
+					colors[i * 3 + 1] = 0.25;
+					colors[i * 3 + 2] = 0.75;
+				} else {
+					// land (boosted contrast + warmth)
+					colors[i * 3] = clamp01(rCol * 1.2 + 0.1);
+					colors[i * 3 + 1] = clamp01(gCol * 1.3 + 0.1);
+					colors[i * 3 + 2] = clamp01(bCol * 0.7);
+				}
 			}
 
 			geometry.setAttribute(
@@ -192,6 +233,7 @@ export default function ParticleSphere({
 				new THREE.BufferAttribute(colors, 3),
 			);
 		});
+
 		let targetX = 0;
 		let targetY = 0;
 		let currentX = 0;
@@ -211,7 +253,7 @@ export default function ParticleSphere({
 		let animationId = 0;
 		let lastTime = performance.now();
 
-		const pointsTilt = [Math.PI*0.1, Math.PI*0.0, Math.PI*0.0];
+		const pointsTilt = [Math.PI * 0.1, 0, 0];
 
 		function animate() {
 			animationId = requestAnimationFrame(animate);
@@ -226,12 +268,10 @@ export default function ParticleSphere({
 			currentY += (targetY - currentY) * lerp;
 
 			const time = now * 0.001;
-			
 
-
-			points.rotation.x = currentX+pointsTilt[0];
+			points.rotation.x = currentX + pointsTilt[0];
 			points.rotation.y = currentY + time * 0.15;
-			renderer.outputColorSpace = THREE.SRGBColorSpace;
+
 			renderer.render(scene, camera);
 		}
 
@@ -261,8 +301,8 @@ export default function ParticleSphere({
 			try {
 				renderer.forceContextLoss();
 				renderer.dispose();
-			} catch {
-				console.warn("Failed to dispose renderer");
+			} catch (error) {
+				console.warn('Failed to clean up renderer context:', error);
 			}
 
 			if (mount.contains(renderer.domElement)) {
@@ -273,5 +313,5 @@ export default function ParticleSphere({
 		};
 	}, [parentRef, brightness, contrast]);
 
-	return <div ref={mountRef} style={{ width: "100%",aspectRatio:"1/1" }} />;
+	return <div ref={mountRef} style={{ width: "100%", aspectRatio: "1/1" }} />;
 }
