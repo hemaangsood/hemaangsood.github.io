@@ -53,7 +53,7 @@ export default function ExperienceSection() {
 
 	return (
 		<section
-			className="experience-section relative w-screen min-h-screen h-fit snap-start overflow-x-hidden"
+			className="experience-section relative w-full max-w-full min-h-screen h-fit snap-start overflow-hidden"
 			id="experience"
 		>
 			<div
@@ -69,10 +69,16 @@ export default function ExperienceSection() {
 				)}
 			</div>
 			<div className="experience-overlay absolute top-0 left-0 w-full h-full" />
-			<div className="experience-glow experience-glow--left" aria-hidden="true" />
-			<div className="experience-glow experience-glow--right" aria-hidden="true" />
+			<div
+				className="experience-glow experience-glow--left"
+				aria-hidden="true"
+			/>
+			<div
+				className="experience-glow experience-glow--right"
+				aria-hidden="true"
+			/>
 
-			<div className="relative z-10 flex flex-col w-full min-h-screen items-center overflow-x-hidden pt-20 xl:pt-18 pb-8">
+			<div className="relative z-10 flex flex-col w-full max-w-full min-h-screen lg:h-screen! items-center overflow-hidden pt-20 xl:pt-18 pb-8">
 				<motion.div
 					initial={{ opacity: 0, y: 28 }}
 					animate={
@@ -81,7 +87,7 @@ export default function ExperienceSection() {
 							: { opacity: 0, y: 28 }
 					}
 					transition={{ duration: isExperienceVisible ? 0.45 : 0.25 }}
-					className="experience-shell flex flex-col gap-4 mx-auto my-0 lg:my-auto pt-2 pb-3 sm:py-6 px-3 sm:px-6 items-stretch w-[90vw] 2xl:w-[70vw] min-h-[80vh] lg:min-h-[60vh]"
+					className="experience-shell flex flex-col gap-4 mx-auto my-0 lg:my-auto pt-2 pb-3 sm:py-6 px-3 sm:px-6 items-stretch w-full max-w-[90vw] 2xl:max-w-[70vw] min-w-0 min-h-[80vh] lg:min-h-[60vh]"
 				>
 					<motion.div
 						initial={{ opacity: 0, y: 30 }}
@@ -95,16 +101,19 @@ export default function ExperienceSection() {
 						}}
 						className="experience-header"
 					>
-						<div className="experience-kicker text-lg lg:text-xl">Experience</div>
-						<h2 className="experience-title">Hands-on product and platform delivery.</h2>
+						<div className="experience-kicker text-lg lg:text-xl">
+							Experience
+						</div>
+						<h2 className="experience-title">
+							Hands-on product and platform delivery.
+						</h2>
 						<p className="experience-subtitle">
-							Building distributed backend systems, secure enterprise features, and practical AI workflows.
+							Building distributed backend systems, secure
+							enterprise features, and practical AI workflows.
 						</p>
 					</motion.div>
 
-					<div
-						className="experience-grid mt-2 grid grid-cols-1 auto-rows-fr flex-1 xl:grid-cols-2 gap-3 sm:gap-4 overflow-visible thin-scrollbar"
-					>
+					<div className="experience-grid mt-2 grid grid-cols-1 auto-rows-fr flex-1 xl:grid-cols-2 gap-3 sm:gap-4 min-w-0 max-w-full overflow-hidden thin-scrollbar">
 						{professionalExperience.map((entry, index) => (
 							<motion.div
 								key={entry.company}
@@ -120,28 +129,26 @@ export default function ExperienceSection() {
 										? index * 0.1
 										: 0,
 								}}
-								className="experience-card-wrap p-1 sm:p-2 h-full"
+								className="experience-card-wrap p-1 sm:p-2 h-full min-w-0 max-w-full"
 							>
-								<Card
-									className="experience-card w-full h-full transition-transform duration-300 ease-in-out text-white overflow-y-scroll"
-								>
-									<CardHeader>
-										<div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-											<div>
-												<CardTitle className="experience-company text-xl sm:text-3xl font-semibold">
+								<Card className="experience-card w-full h-full min-w-0 max-w-full transition-transform duration-300 ease-in-out text-white overflow-hidden">
+									<CardHeader className="shrink-0">
+										<div className="flex min-w-0 flex-col flex-wrap gap-2 sm:flex-row sm:items-start sm:justify-between">
+											<div className="min-w-0">
+												<CardTitle className="experience-company text-xl sm:text-3xl font-semibold wrap-break-word leading-tight">
 													{entry.company}
 												</CardTitle>
-												<CardDescription className="experience-role text-base sm:text-xl mt-0.5">
+												<CardDescription className="experience-role text-base sm:text-xl mt-0.5 wrap-break-word">
 													{entry.role}
 												</CardDescription>
 											</div>
-											<p className="experience-period text-xs sm:text-sm tracking-wide uppercase sm:text-right">
+											<p className="experience-period text-xs sm:text-sm tracking-wide uppercase wrap-break-word whitespace-normal sm:max-w-[50%] sm:text-right">
 												{entry.period}
 											</p>
 										</div>
 									</CardHeader>
-									<CardContent>
-										<ul className="experience-highlights list-disc pl-5 space-y-2 text-sm sm:text-base lg:text-xl leading-relaxed">
+									<CardContent className="min-h-0 flex-1 overflow-y-auto">
+										<ul className="experience-highlights list-disc pl-5 space-y-2 text-sm sm:text-base 2xl:text-lg leading-relaxed wrap-anywhere">
 											{entry.highlights.map(
 												(highlight) => (
 													<li key={highlight}>

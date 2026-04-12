@@ -54,7 +54,7 @@ export default function ContactSection() {
 
 	return (
 		<section
-			className="relative w-screen min-h-screen h-fit snap-start overflow-y-hidden"
+			className="relative w-full max-w-full min-h-screen h-fit snap-start overflow-hidden"
 			style={{
 				opacity: "50%",
 				backgroundBlendMode: "color-burn",
@@ -91,16 +91,16 @@ export default function ContactSection() {
 			</div>
 			<div className="absolute top-0 left-0 w-full h-full bg-black/35" />
 
-			<div className="absolute top-0 left-0 w-full h-full overflow-y-auto flex items-start lg:items-center justify-center px-4 sm:px-6 md:px-10 pt-20 pb-10">
+			<div className="absolute top-0 left-0 w-full h-full max-w-full overflow-y-auto overflow-x-hidden flex items-start lg:items-center justify-center px-4 sm:px-6 md:px-10 pt-20 pb-10">
 				<div
-					className="w-full max-w-6xl rounded-3xl border border-white/30 overflow-hidden my-auto"
+					className="w-full max-w-[90vw] min-w-0 rounded-3xl border border-white/30 overflow-hidden my-auto"
 					style={{
 						background:
 							"linear-gradient(145deg, rgba(6,10,30,0.72), rgba(28,14,52,0.6))",
 						backdropFilter: "blur(18px)",
 					}}
 				>
-					<div className="grid grid-cols-1 lg:grid-cols-2 gap-5 p-5 sm:p-8 lg:p-10">
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-5 p-5 sm:p-8 lg:p-10 min-w-0 max-w-full overflow-hidden">
 						<motion.div
 							initial={{ opacity: 0, y: 40 }}
 							animate={
@@ -109,33 +109,33 @@ export default function ContactSection() {
 									: { opacity: 0, y: 40 }
 							}
 							transition={{ duration: isContactVisible ? 0.45 : 0.25 }}
-							className="flex flex-col justify-between"
+							className="flex min-w-0 max-w-full flex-col justify-between overflow-hidden"
 						>
-							<div>
-									<p className="text-lg lg:text-xl font-bold tracking-[0.24em] text-white/70 uppercase">
+							<div className="min-w-0 max-w-full">
+									<p className="text-lg lg:text-xl font-bold tracking-[0.24em] text-white/70 uppercase wrap-anywhere">
 									Contact
 								</p>
-									<GradientText className="mx-0! mt-2 block max-w-[24ch] text-[1.55rem] sm:text-4xl lg:text-[2.6rem] font-extrabold leading-[1.4] tracking-[-0.02em] text-white">
+									<GradientText className="mx-0! mt-2 block max-w-[24ch] text-[1.55rem] sm:text-4xl lg:text-[2.6rem] font-extrabold leading-[1.4] tracking-[-0.02em] text-white wrap-anywhere">
 									Let&apos;s Build Something Real
 								</GradientText>
-									<p className="mt-4 max-w-[68ch] text-sm sm:text-base lg:text-[1.05rem] leading-[1.55] text-white/85">
+									<p className="mt-4 max-w-[68ch] text-sm sm:text-base lg:text-[1.05rem] leading-[1.55] text-white/85 wrap-anywhere">
 									I like solving backend-heavy problems, designing reliable
 									systems, and shipping practical ML-powered tools. If your
 									team is building meaningful products, I&apos;d love to connect.
 								</p>
 							</div>
 
-							<div className="mt-8 flex flex-wrap gap-3">
+							<div className="mt-8 flex min-w-0 max-w-full flex-wrap gap-3">
 								<Button
 									onClick={() => openLink("https://github.com/hemaangsood")}
-									className="bg-white text-black hover:bg-white/90 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02]"
+									className="bg-white text-black hover:bg-white/90 transition-all duration-300 hover:-translate-y-0.5"
 								>
 									Open GitHub
 								</Button>
 								<Button
 									variant="outline"
 									onClick={() => openLink("/HemaangRes.pdf")}
-									className="border-white/80 text-white hover:bg-white/15 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02]"
+									className="border-white/80 text-white hover:bg-white/15 transition-all duration-300 hover:-translate-y-0.5"
 								>
 									View Resume
 								</Button>
@@ -147,7 +147,7 @@ export default function ContactSection() {
 											heroSection.scrollIntoView({ behavior: "smooth" });
 										}
 									}}
-									className="text-white hover:bg-white/15 transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02]"
+									className="text-white hover:bg-white/15 transition-all duration-300 hover:-translate-y-0.5"
 								>
 									Back To Top
 								</Button>
@@ -165,7 +165,7 @@ export default function ContactSection() {
 								duration: isContactVisible ? 0.45 : 0.25,
 								delay: isContactVisible ? 0.1 : 0,
 							}}
-							className="grid grid-cols-1 lg:grid-cols-2 auto-rows-fr gap-3"
+							className="grid grid-cols-1 lg:grid-cols-2 auto-rows-fr gap-3 min-w-0 max-w-full"
 						>
 							{contactActions.map((action, index) => (
 								<motion.div
@@ -181,25 +181,27 @@ export default function ContactSection() {
 										delay: isContactVisible ? 0.18 + index * 0.1 : 0,
 										ease: [0.22, 1, 0.36, 1],
 									}}
-									whileHover={{ y: -4, scale: 1.01 }}
+									whileHover={{ y: -2 }}
 									whileTap={{ scale: 0.995 }}
-									className="group"
+									className="group min-w-0 max-w-full overflow-hidden"
 								>
 									<Card
-										className="relative border h-full border-white/35 bg-white/10 text-white backdrop-blur-sm transition-colors duration-300 group-hover:border-white/60 group-hover:bg-white/15"
+										className="relative border h-full min-w-0 max-w-full overflow-hidden border-white/35 bg-white/10 text-white backdrop-blur-sm transition-colors duration-300 group-hover:border-white/60 group-hover:bg-white/15"
 									>
 										<div className="pointer-events-none absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-										<CardHeader className="pb-3 relative">
-											<CardTitle className="flex items-center justify-between text-xl sm:text-3xl font-semibold">
-												<span className="flex items-center gap-2">
+										<CardHeader className="pb-3 relative min-w-0">
+											<CardTitle className="flex min-w-0 items-center justify-between gap-2 text-xl sm:text-3xl font-semibold wrap-anywhere">
+												<span className="flex min-w-0 items-center gap-2">
 													<span className="transition-transform duration-300 group-hover:scale-110">
 														{action.icon}
 													</span>
-													<GradientText className="px-1">{action.title}</GradientText>
+													<GradientText className="px-1 min-w-0 wrap-anywhere">
+														{action.title}
+													</GradientText>
 												</span>
 												<FiArrowUpRight className="opacity-80 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
 											</CardTitle>
-											<CardDescription className="text-white/75 text-base sm:text-xl mt-0.5">
+											<CardDescription className="text-white/75 text-base sm:text-xl mt-0.5 wrap-anywhere">
 												{action.description}
 											</CardDescription>
 										</CardHeader>
