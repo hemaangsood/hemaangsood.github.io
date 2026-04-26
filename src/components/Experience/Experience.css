@@ -122,7 +122,8 @@
 
 .experience-period {
 	color: rgba(198, 231, 249, 0.84);
-	padding: 0.3rem 0.62rem;
+	padding: 0.3rem 0.62rem 0.3rem 0.4rem;
+	margin-left: 0;
 	border-radius: 9999px;
 	border: 1px solid rgba(161, 227, 255, 0.36);
 	background: rgba(36, 66, 94, 0.38);
@@ -135,7 +136,9 @@
 }
 
 .experience-card-content {
-	overflow: visible;
+	flex: 1 1 auto;
+	min-height: 0;
+	overflow: hidden;
 }
 
 .experience-highlights li::marker {
@@ -195,10 +198,19 @@
 	}
 }
 
-@media (max-width: 640px) {
-	.experience-grid {
+@media (min-width: 1025px) {
+	.experience-card-wrap {
+		display: flex;
+	}
+
+	.experience-card {
+		height: clamp(20rem, 44vh, 25rem);
+	}
+
+	.experience-highlights {
+		height: 100%;
 		max-height: none;
-		overflow: visible;
-		padding-right: 0;
+		overflow-y: auto;
+		padding-right: 0.25rem;
 	}
 }
