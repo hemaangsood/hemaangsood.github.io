@@ -134,6 +134,10 @@
 	word-break: break-word;
 }
 
+.experience-card-content {
+	overflow: visible;
+}
+
 .experience-highlights li::marker {
 	color: rgba(143, 222, 255, 0.95);
 }
@@ -188,5 +192,13 @@
 
 	.experience-title {
 		max-width: 100%;
+	}
+}
+
+@media (max-width: 640px) {
+	.experience-grid {
+		max-height: none;
+		overflow: visible;
+		padding-right: 0;
 	}
 }

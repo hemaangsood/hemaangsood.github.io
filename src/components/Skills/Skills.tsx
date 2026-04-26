@@ -24,8 +24,10 @@ import { DiNodejs } from "react-icons/di";
 import Icon from "../icon";
 import GradientText from "../ui/GradientText";
 import Aurora from "../ui/Aurora";
-import Galaxy from "../ui/Galaxy";
-import { useIsSectionInViewport } from "../viewport/viewportHooks";
+import {
+	useIsSectionInViewport,
+	useSectionHasBeenInViewport,
+} from "../viewport/viewportHooks";
 
 const iconSize = 40;
 
@@ -76,18 +78,23 @@ const rightCol: SkillsMarqueeCapsuleProps[] = [
 	{ text: "GitLab CI/CD", icon: <FaGitlab size={iconSize} /> },
 ];
 
+const mobileCol: SkillsMarqueeCapsuleProps[] = [...leftCol, ...rightCol];
+
 export default function SkillsSection() {
-	const shouldMountSkillsGraphics = useIsSectionInViewport("skills", false, 0.04);
+	const isSkillsSectionInViewport = useIsSectionInViewport("skills", false, 0.04);
+	const hasSkillsSectionBeenSeen = useSectionHasBeenInViewport("skills", false);
+	const shouldMountSkillsGraphics =
+		isSkillsSectionInViewport || hasSkillsSectionBeenSeen;
 	return (
 		<section
-			className="relative w-screen min-h-screen h-fit snap-start overflow-y-hidden"
+			className="relative w-screen min-h-screen h-fit snap-start overflow-hidden"
 			id="skills"
 		>
 			<div className="pointer-events-none absolute inset-0 z-0 bg-linear-to-b from-[#120a24] via-[#090515] to-[#05020d]" />
-			<div className="absolute top-0 left-0 w-screen h-screen z-10 pointer-events-none">
+			<div className="absolute inset-0 z-10 pointer-events-none">
 				{shouldMountSkillsGraphics && (
 					<>
-						<div className="absolute inset-0 opacity-16 h-[20vh]">
+						<div className="absolute inset-0 h-[22vh] opacity-24 lg:h-[20vh] lg:opacity-16">
 							<Aurora
 								amplitude={0.4}
 								blend={0.9}
@@ -95,7 +102,7 @@ export default function SkillsSection() {
 								speed={0.25}
 							/>
 						</div>
-						<div className="absolute inset-0 opacity-42">
+						<div className="absolute inset-0 opacity-20 lg:opacity-42">
 							<LaserFlow
 								color="#8000ff"
 								wispDensity={2}
@@ -115,7 +122,7 @@ export default function SkillsSection() {
 					</>
 				)}
 			</div>
-			<div className="relative z-30 w-full bg-transparent text-center mt-30 text-5xl font-bold">
+			<div className="relative z-30 w-full bg-transparent pt-14 text-center sm:pt-18 lg:pt-20">
 				<GradientText
 					colors={["#dff6ff", "#9ae6ff", "#a6b4ff", "#dff6ff"]}
 					animationSpeed={6}
@@ -123,34 +130,38 @@ export default function SkillsSection() {
 					direction="horizontal"
 					pauseOnHover={true}
 					yoyo={true}
-					className="cursor-text! rounded-none! backdrop-blur-none bg-transparent text-5xl font-extrabold tracking-[0.18em]"
+					className="cursor-text! rounded-none! bg-transparent text-3xl font-extrabold tracking-[0.15em] backdrop-blur-none sm:text-4xl lg:text-5xl lg:tracking-[0.18em]"
 				>
 					SKILLS
 				</GradientText>
 			</div>
 			<div
-				className="absolute z-30 flex top-25 lg:top-10 xl:top-0 left-0 w-screen h-screen overflow-hidden px-10 pt-10"
+				className="relative z-30 mx-auto mt-8 flex w-full max-w-7xl flex-col gap-4 overflow-hidden px-4 pb-2 sm:mt-10 sm:gap-6 sm:px-6 sm:pb-4 lg:mt-6 lg:h-[75vh] lg:flex-row lg:items-center lg:justify-between lg:px-10 lg:pb-12"
 				style={{
-					alignItems: "center",
-					justifyContent: "space-between",
+					alignItems: "stretch",
 				}}
 			>
-				<div className="overflow-hidden w-[48%] h-[75vh] rounded-xl">
-					{shouldMountSkillsGraphics && (
-						<SkillsMarquee
-							items={leftCol}
-							idPrefix="skills-marquee-left"
-						/>
-					)}
+				<div className="h-[70vh] w-full overflow-hidden rounded-2xl sm:h-[74vh] lg:hidden">
+					{shouldMountSkillsGraphics && <SkillsMarquee items={mobileCol} idPrefix="skills-marquee-mobile" />}
 				</div>
-				<div className="w-[48%] h-[75vh] rounded-xl overflow-hidden">
-					{shouldMountSkillsGraphics && (
-						<SkillsMarquee
-							items={rightCol}
-							direction="up"
-							idPrefix="skills-marquee-right"
-						/>
-					)}
+				<div className="hidden h-full w-full gap-6 lg:flex lg:items-center lg:justify-between">
+					<div className="h-full w-[48%] overflow-hidden rounded-xl">
+						{shouldMountSkillsGraphics && (
+							<SkillsMarquee
+								items={leftCol}
+								idPrefix="skills-marquee-left"
+							/>
+						)}
+					</div>
+					<div className="h-full w-[48%] overflow-hidden rounded-xl">
+						{shouldMountSkillsGraphics && (
+							<SkillsMarquee
+								items={rightCol}
+								direction="up"
+								idPrefix="skills-marquee-right"
+							/>
+						)}
+					</div>
 				</div>
 			</div>
 		</section>

@@ -10,7 +10,7 @@ export interface SkillsMarqueeCapsuleProps {
 export default function SkillsMarqueeCapsule({
 	icon,
 	text,
-	side="left"
+	side = "left",
 }: SkillsMarqueeCapsuleProps) {
 	const [isHovered, setIsHovered] = useState(false);
 	return (
@@ -19,9 +19,9 @@ export default function SkillsMarqueeCapsule({
 				`
             group
             flex items-center
-            h-16
-            w-auto px-4
-            gap-2
+		h-14 sm:h-16 lg:h-18
+		w-auto px-5 sm:px-6
+		gap-3 sm:gap-4
             border border-white/10
             bg-white/5
             backdrop-blur-sm
@@ -30,7 +30,6 @@ export default function SkillsMarqueeCapsule({
             whitespace-nowrap
             transition-all duration-300
             hover:bg-white/10
-			// hover:max-h-fit
             hover:shadow-[0_0_20px_rgba(168,85,247,0.5)]` +
 				" " +
 				(side === "left" ? "" : "flex-row-reverse")
@@ -39,17 +38,13 @@ export default function SkillsMarqueeCapsule({
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
 		>
-			<span className="flex items-center justify-center shrink-0 w-16 h-16">
+			<span className="flex h-12 w-12 shrink-0 items-center justify-center sm:h-14 sm:w-14 lg:h-16 lg:w-16">
 				{icon}
 			</span>
 			<span
 				className={
-					`overflow-hidden hidden lg:block text-center text-sm lg:text-lg transition-all mx-auto duration-300 max-w-30`
-					// + (side === "left" ? "-ml-10 lg:ml-0" : "-mr-10 lg:mr-0")
+					"mx-auto block max-w-44 overflow-hidden text-center text-base leading-tight transition-all duration-300 sm:max-w-48 sm:text-lg lg:max-w-48 lg:text-lg"
 				}
-				style={{
-					lineHeight: "2",
-				}}
 			>
 				{isHovered ? (
 					<GradientText>{text}</GradientText>

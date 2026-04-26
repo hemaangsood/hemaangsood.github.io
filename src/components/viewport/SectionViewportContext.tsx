@@ -43,10 +43,10 @@ export function SectionViewportProvider({
 				return;
 			}
 
-		const syncViewportStateFromLayout = () => {
+			const syncViewportStateFromLayout = () => {
 			const rootRect = root.getBoundingClientRect();
 			const nextRatios: Record<string, number> = {};
-			const nextSeen: Record<string, boolean> = {};
+			const currentlyVisibleSections: Record<string, boolean> = {};
 			let bestId: string | null = null;
 			let bestRatio = 0;
 
@@ -59,7 +59,7 @@ export function SectionViewportProvider({
 					rect.height > 0 ? Math.min(1, overlapHeight / rect.height) : 0;
 
 				nextRatios[section.id] = ratio;
-				nextSeen[section.id] = ratio > 0;
+				currentlyVisibleSections[section.id] = ratio > 0;
 
 				if (ratio > bestRatio) {
 					bestRatio = ratio;
@@ -68,7 +68,19 @@ export function SectionViewportProvider({
 			}
 
 			setSectionRatios(nextRatios);
-			setSeenSections((prevSeen) => ({ ...prevSeen, ...nextSeen }));
+			setSeenSections((prevSeen) => {
+				const nextSeen = { ...prevSeen };
+				let changed = false;
+
+				for (const id of sectionIds) {
+					if (currentlyVisibleSections[id] && !nextSeen[id]) {
+						nextSeen[id] = true;
+						changed = true;
+					}
+				}
+
+				return changed ? nextSeen : prevSeen;
+			});
 
 			const nextActiveSection = bestRatio > 0 ? bestId : null;
 			activeSectionRef.current = nextActiveSection;

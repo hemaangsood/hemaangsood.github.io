@@ -113,7 +113,7 @@ export default function ExperienceSection() {
 						</p>
 					</motion.div>
 
-					<div className="experience-grid mt-2 grid grid-cols-1 auto-rows-fr flex-1 xl:grid-cols-2 gap-3 sm:gap-4 min-w-0 max-w-full overflow-hidden thin-scrollbar">
+					<div className="experience-grid mt-2 grid grid-cols-1 xl:grid-cols-2 gap-3 sm:gap-4 min-w-0 max-w-full thin-scrollbar">
 						{professionalExperience.map((entry, index) => (
 							<motion.div
 								key={entry.company}
@@ -129,9 +129,9 @@ export default function ExperienceSection() {
 										? index * 0.1
 										: 0,
 								}}
-								className="experience-card-wrap p-1 sm:p-2 h-full min-w-0 max-w-full"
+								className="experience-card-wrap p-1 sm:p-2 min-w-0 max-w-full"
 							>
-								<Card className="experience-card w-full h-full min-w-0 max-w-full transition-transform duration-300 ease-in-out text-white overflow-hidden">
+								<Card className="experience-card w-full min-w-0 max-w-full transition-transform duration-300 ease-in-out text-white overflow-hidden">
 									<CardHeader className="shrink-0">
 										<div className="flex min-w-0 flex-col flex-wrap gap-2 sm:flex-row sm:items-start sm:justify-between">
 											<div className="min-w-0">
@@ -147,7 +147,7 @@ export default function ExperienceSection() {
 											</p>
 										</div>
 									</CardHeader>
-									<CardContent className="min-h-0 flex-1 overflow-y-auto">
+									<CardContent className="experience-card-content">
 										<ul className="experience-highlights list-disc pl-5 space-y-2 text-sm sm:text-base 2xl:text-lg leading-relaxed wrap-anywhere">
 											{entry.highlights.map(
 												(highlight) => (
