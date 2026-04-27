@@ -134,7 +134,7 @@ const AboutSection = () => {
 						>
 							<div className="about-kicker">About</div>
 							<h2 className="about-title mt-0">
-								Building resilient systems with clarity.
+								Software engineer.
 							</h2>
 						</motion.div>
 						<motion.div
@@ -144,10 +144,10 @@ const AboutSection = () => {
 							viewport={{ once: true, amount: 0.2 }}
 							transition={{ duration: 0.5, delay: 0.05 }}
 						>
-							I build scalable backend platforms and distributed
-							APIs, distributed systems, and I&apos;m currently
-							pursuing a Master&apos;s in Electrical and Computer
-							Engineering at the University of Waterloo.
+							Worked on backend systems and APIs. Now exploring
+							machine learning, systems, and applied engineering
+							problems at Waterloo. I like understanding how
+							things break and how to build them better.
 						</motion.div>
 						<motion.div
 							initial={{ y: 100, opacity: 0 }}
