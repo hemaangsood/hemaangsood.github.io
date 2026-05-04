@@ -65,6 +65,10 @@ const rightCol: SkillsMarqueeCapsuleProps[] = [
 		text: "OpenAI Gym",
 		icon: <Icon size={iconSize} imagePath="/icons/gymnasium_white.svg" />,
 	},
+	{
+		text: "OpenAI API",
+		icon: <Icon size={iconSize} imagePath="/icons/openai.png" />,
+	},
 	{ text: "PostgreSQL", icon: <SiPostgresql size={iconSize} /> },
 	{ text: "MongoDB", icon: <SiMongodb size={iconSize} /> },
 	{ text: "Redis", icon: <SiRedis size={iconSize} /> },

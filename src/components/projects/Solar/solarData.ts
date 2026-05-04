@@ -180,12 +180,11 @@ export const solarElements: OrbitingElementConfig[] = [
 			atmosphereIntensity: 1.08,
 			selfRotationSpeed: 0.16,
 			project: {
-				id: "rl-snake",
-				name: "RL Snake Agent",
+				id: "resume-builder",
+				name: "Resume Builder",
 				description:
-					"Deep Q-learning agent using convolutional neural networks that learns to autonomously solve the Snake game.",
-				techStack: ["TensorFlow", "OpenAI Gym", "Python"],
-				tags: ["Reinforcement Learning", "AI"],
+					"Built an AI-powered resume optimization tool that parses LaTeX resumes, tailors content to job descriptions, and generates polished, job-specific resume output.",
+				tags: ["OpenAI API", "Python","LaTeX"],
 				links: [],
 			},
 		},
