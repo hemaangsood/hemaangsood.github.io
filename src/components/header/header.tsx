@@ -90,12 +90,14 @@ export default function Header({ scrollContainer }: Props) {
 						}),
 						{
 							children: (
-								<RainbowButton
-									speed={10}
-									className="hover:scale-110"
-								>
-									<p className="rainbow-text">Resume</p>
-								</RainbowButton>
+								<>
+									<RainbowButton
+										speed={10}
+										className="hover:scale-110"
+									>
+										<p className="font-bold text-blue-300">Resume</p>
+									</RainbowButton>
+								</>
 							),
 							onClick: () => {
 								window.open("/HemaangRes.pdf", "_blank");
