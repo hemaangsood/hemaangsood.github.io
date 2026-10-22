@@ -9,24 +9,30 @@ import "./Experience.css";
 
 const professionalExperience: ExperienceEntry[] = [
 	{
+		company: "University of Waterloo",
+		role: "ECE 699 Research - Multi-Agent LLM Optimization with DSPy and GEPA",
+		period: "Sept 2026 - Present",
+		highlights: [
+			"Research project optimizing multi-agent LLM coordination by evolving agent prompts with GEPA on DSPy, benchmarked on Hanabi, SciBench, and maze navigation.",
+			"Built a 16-GPU AMD Instinct MI50 (ROCm) cluster serving vLLM tensor-parallel models behind a Ray Serve router; delivered a 4-12x speed-up and 6x more evaluations on the same hardware without starvation.",
+		],
+	},
+	{
 		company: "Synechron",
 		role: "Jr Associate",
-		period: "June 2025 - November 2025",
+		period: "May 2025 - Nov 2025",
 		highlights: [
-			"Completed intensive training across Java full stack, MERN, AWS, and Python machine learning with practical backend and frontend work.",
-			"Learned fundamentals of capital markets and commodities through introductory domain sessions.",
-			"Built an Amusement Park Management System with MERN, Vite, and Tailwind CSS, focused on modular UI, API integration, and data connectivity.",
-			"Built a Spring Boot backend for an Insurance Management System, emphasizing scalability, security, and modular service design.",
+			"Built a full-stack Amusement Park Management System using MERN with Vite.js and Tailwind CSS, focusing on modular UI design, API integration, and database connectivity.",
+			"Built a backend server for an Insurance Management System using Spring Boot, focusing on scalability, security, and modularity.",
 		],
 	},
 	{
 		company: "Bharat Electronics Limited (BEL)",
 		role: "Intern",
-		period: "February 2025 - June 2025",
+		period: "Apr 2024 - Nov 2024",
 		highlights: [
-			"Developed an authentication and authorization module for DRDO in a secure intranet web platform.",
-			"Built an LLM interface to process and extract insights from sensitive documents using a RAG workflow.",
-			"Integrated a Vosk-based voice input pipeline that transcribed speech to query text for improved accessibility.",
+			"Developed an Authentication and Authorization module for a secure DRDO intranet website.",
+			"Built an LLM interface using RAG to process and extract insights from sensitive documents; integrated a Vosk voice-input pipeline to transcribe speech into queries.",
 		],
 	},
 ];

@@ -27,7 +27,7 @@ const contactActions: ContactAction[] = [
 	{
 		title: "LinkedIn",
 		description: "Connect and reach out for collaboration.",
-		href: "https://www.linkedin.com/in/hemaang-sood-a72153b0/",
+		href: "https://www.linkedin.com/in/hemaang-sood",
 		icon: <FaLinkedin size={20} />,
 	},
 	{

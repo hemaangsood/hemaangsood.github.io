@@ -6,9 +6,9 @@ import type { CSSProperties } from "react";
 
 const marqueeEdgeFadeStyle: CSSProperties = {
 	WebkitMaskImage:
-		"linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
+		"linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%)",
 	maskImage:
-		"linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
+		"linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%)",
 	WebkitMaskRepeat: "no-repeat",
 	maskRepeat: "no-repeat",
 	WebkitMaskSize: "100% 100%",
@@ -27,12 +27,14 @@ export default function SkillsMarquee({
 	idPrefix,
 }: SkillsMarqueeProps) {
 	const debugIdPrefix = idPrefix ?? `skills-marquee-${direction}`;
+	// Keep scroll speed consistent even when the two columns have different lengths.
+	const marqueeDuration = `${Math.round(items.length * 1.6)}s`;
 
 	return (
 		<div
 			id={`${debugIdPrefix}-wrapper`}
 			data-debug-id={`${debugIdPrefix}-wrapper`}
-			className="relative flex h-full w-full flex-row items-center justify-center overflow-hidden"
+			className="relative flex h-full w-full flex-row items-center justify-center overflow-hidden bg-transparent"
 			style={marqueeEdgeFadeStyle}
 		>
 			<Marquee
@@ -41,20 +43,11 @@ export default function SkillsMarquee({
 				pauseOnHover={true}
 				reverse={direction === "down"}
 				vertical={true}
-				className="h-full [--duration:25s]"
+				className="h-full"
+				style={{ "--duration": marqueeDuration } as CSSProperties}
 			>
 				{items.map((item, index) => (<SkillsMarqueeCapsule key={index} {...item} side={direction==="up"?"right":"left"} />))}
 			</Marquee>
-			<div
-				id={`${debugIdPrefix}-fade-top`}
-				data-debug-id={`${debugIdPrefix}-fade-top`}
-				className="pointer-events-none absolute inset-x-0 top-0 h-12 z-10 bg-linear-to-b from-[#0a0715]/95 to-transparent"
-			/>
-			<div
-				id={`${debugIdPrefix}-fade-bottom`}
-				data-debug-id={`${debugIdPrefix}-fade-bottom`}
-				className="pointer-events-none absolute inset-x-0 bottom-0 h-12 z-10 bg-linear-to-t from-[#0a0715]/95 to-transparent"
-			/>
 		</div>
 	);
 }

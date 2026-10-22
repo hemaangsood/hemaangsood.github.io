@@ -1,7 +1,14 @@
 import { LaserFlow } from "../ui/LaserFlow";
 import SkillsMarquee from "./SkillsMarquee";
 import type { SkillsMarqueeCapsuleProps } from "./SkillsMarqueeCapsule";
-import { TbBrandTypescript, TbBrandNextjs } from "react-icons/tb";
+import {
+	TbBrandTypescript,
+	TbBrandNextjs,
+	TbDatabase,
+	TbDatabaseSearch,
+	TbPrompt,
+	TbServerBolt,
+} from "react-icons/tb";
 import { RiJavascriptLine, RiTailwindCssLine } from "react-icons/ri";
 import {
 	SiPython,
@@ -13,13 +20,17 @@ import {
 	SiTensorflow,
 	SiOpencv,
 	SiHuggingface,
+	SiLangchain,
+	SiKotlin,
+	SiNginx,
 	SiPostgresql,
 	SiMongodb,
 	SiRedis,
 	SiDocker,
+	SiRay,
 } from "react-icons/si";
 import { FaCss, FaGolang, FaHtml5 } from "react-icons/fa6";
-import { FaGitlab, FaJava, FaReact, FaGit, FaAws } from "react-icons/fa";
+import { FaGitlab, FaJava, FaReact, FaGit, FaGithub, FaAws } from "react-icons/fa";
 import { DiNodejs } from "react-icons/di";
 import Icon from "../icon";
 import GradientText from "../ui/GradientText";
@@ -36,6 +47,7 @@ const leftCol: SkillsMarqueeCapsuleProps[] = [
 	{ text: "JavaScript", icon: <RiJavascriptLine size={iconSize} /> },
 	{ text: "Python", icon: <SiPython size={iconSize} /> },
 	{ text: "Go", icon: <FaGolang size={iconSize} /> },
+	{ text: "Kotlin", icon: <SiKotlin size={iconSize} /> },
 	{ text: "Java", icon: <FaJava size={iconSize} /> },
 	{ text: "React", icon: <FaReact size={iconSize} /> },
 	{ text: "Next.js", icon: <TbBrandNextjs size={iconSize} /> },
@@ -57,6 +69,11 @@ const rightCol: SkillsMarqueeCapsuleProps[] = [
 		text: "HuggingFace",
 		icon: <SiHuggingface size={iconSize} />,
 	},
+	{ text: "LangChain", icon: <SiLangchain size={iconSize} /> },
+	{ text: "DSPy", icon: <TbPrompt size={iconSize} /> },
+	{ text: "vLLM", icon: <TbServerBolt size={iconSize} /> },
+	{ text: "Ray Serve", icon: <SiRay size={iconSize} /> },
+	{ text: "RAG", icon: <TbDatabaseSearch size={iconSize} /> },
 	{
 		text: "XGBoost",
 		icon: <Icon size={iconSize} imagePath="/icons/xgboost-logo.png" />,
@@ -69,6 +86,7 @@ const rightCol: SkillsMarqueeCapsuleProps[] = [
 		text: "OpenAI API",
 		icon: <Icon size={iconSize} imagePath="/icons/openai.png" />,
 	},
+	{ text: "SQL", icon: <TbDatabase size={iconSize} /> },
 	{ text: "PostgreSQL", icon: <SiPostgresql size={iconSize} /> },
 	{ text: "MongoDB", icon: <SiMongodb size={iconSize} /> },
 	{ text: "Redis", icon: <SiRedis size={iconSize} /> },
@@ -78,7 +96,9 @@ const rightCol: SkillsMarqueeCapsuleProps[] = [
 	},
 	{ text: "Docker", icon: <SiDocker size={iconSize} /> },
 	{ text: "AWS", icon: <FaAws size={iconSize} /> },
+	{ text: "Nginx", icon: <SiNginx size={iconSize} /> },
 	{ text: "Git", icon: <FaGit size={iconSize} /> },
+	{ text: "GitHub", icon: <FaGithub size={iconSize} /> },
 	{ text: "GitLab CI/CD", icon: <FaGitlab size={iconSize} /> },
 ];
 
@@ -148,8 +168,8 @@ export default function SkillsSection() {
 				<div className="h-[70vh] w-full overflow-hidden rounded-2xl sm:h-[74vh] lg:hidden">
 					{shouldMountSkillsGraphics && <SkillsMarquee items={mobileCol} idPrefix="skills-marquee-mobile" />}
 				</div>
-				<div className="hidden h-full w-full gap-6 lg:flex lg:items-center lg:justify-between">
-					<div className="h-full w-[48%] overflow-hidden rounded-xl">
+				<div className="hidden h-full w-full lg:grid lg:grid-cols-2 lg:items-center lg:gap-x-20">
+					<div className="h-full w-full overflow-hidden rounded-xl">
 						{shouldMountSkillsGraphics && (
 							<SkillsMarquee
 								items={leftCol}
@@ -157,7 +177,7 @@ export default function SkillsSection() {
 							/>
 						)}
 					</div>
-					<div className="h-full w-[48%] overflow-hidden rounded-xl">
+					<div className="h-full w-full overflow-hidden rounded-xl">
 						{shouldMountSkillsGraphics && (
 							<SkillsMarquee
 								items={rightCol}

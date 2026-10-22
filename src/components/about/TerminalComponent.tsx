@@ -15,7 +15,13 @@ const SkillsTerminal = React.memo(function SkillsTerminal({ className }: { class
 			<AnimatedSpan> ├─ Python</AnimatedSpan>
 			<AnimatedSpan> ├─ Go</AnimatedSpan>
 			<AnimatedSpan> ├─ JavaScript / TypeScript</AnimatedSpan>
-			<AnimatedSpan> └─ Java</AnimatedSpan>
+			<AnimatedSpan> └─ Java / Kotlin</AnimatedSpan>
+
+			<AnimatedSpan>✔ AI / LLM</AnimatedSpan>
+			<AnimatedSpan> ├─ PyTorch</AnimatedSpan>
+			<AnimatedSpan> ├─ LangChain / RAG</AnimatedSpan>
+			<AnimatedSpan> ├─ DSPy</AnimatedSpan>
+			<AnimatedSpan> └─ vLLM / Ray Serve</AnimatedSpan>
 
 			<AnimatedSpan>✔ Backend & APIs</AnimatedSpan>
 			<AnimatedSpan> ├─ FastAPI</AnimatedSpan>
@@ -26,14 +32,12 @@ const SkillsTerminal = React.memo(function SkillsTerminal({ className }: { class
 			<AnimatedSpan>✔ Databases</AnimatedSpan>
 			<AnimatedSpan> ├─ PostgreSQL</AnimatedSpan>
 			<AnimatedSpan> ├─ MongoDB</AnimatedSpan>
-			<AnimatedSpan> ├─ Redis</AnimatedSpan>
-			<AnimatedSpan> └─ FAISS / Qdrant</AnimatedSpan>
+			<AnimatedSpan> └─ Redis / Qdrant</AnimatedSpan>
 
 			<AnimatedSpan>✔ DevOps & Cloud</AnimatedSpan>
-			<AnimatedSpan> ├─ AWS (EC2, S3)</AnimatedSpan>
-			<AnimatedSpan> ├─ Docker</AnimatedSpan>
-			<AnimatedSpan> ├─ Git / GitHub</AnimatedSpan>
-			<AnimatedSpan> └─ GitLab CI/CD</AnimatedSpan>
+			<AnimatedSpan> ├─ AWS (EC2)</AnimatedSpan>
+			<AnimatedSpan> ├─ Docker / Nginx</AnimatedSpan>
+			<AnimatedSpan> └─ Git / GitHub</AnimatedSpan>
 
 			<TypingAnimation>
 				Loaded engineering stack successfully.
@@ -94,8 +98,17 @@ const ExperienceTerminal = React.memo(function ExperienceTerminal({ className }:
 				hemaang@portfolio:~$ experience --timeline
 			</TypingAnimation>
 
-			<AnimatedSpan>▶ Software Engineer — Synechron</AnimatedSpan>
-			<AnimatedSpan> └─ Java full stack + AWS training</AnimatedSpan>
+			<AnimatedSpan>▶ ECE 699 Research — University of Waterloo</AnimatedSpan>
+			<AnimatedSpan>
+				{" "}
+				└─ Multi-agent LLM optimization with DSPy + GEPA
+			</AnimatedSpan>
+			<AnimatedSpan>
+				{" "}
+				└─ 16-GPU MI50 cluster serving vLLM via Ray Serve
+			</AnimatedSpan>
+
+			<AnimatedSpan>▶ Jr Associate — Synechron</AnimatedSpan>
 			<AnimatedSpan>
 				{" "}
 				└─ Built amusement park management system (MERN)
@@ -105,16 +118,15 @@ const ExperienceTerminal = React.memo(function ExperienceTerminal({ className }:
 				└─ Developed scalable insurance backend using Spring Boot
 			</AnimatedSpan>
 
-			<AnimatedSpan>▶ Research / Development Intern — BEL</AnimatedSpan>
+			<AnimatedSpan>▶ Intern — Bharat Electronics Limited</AnimatedSpan>
 			<AnimatedSpan>
 				{" "}
 				└─ Authentication & authorization system for DRDO intranet
 			</AnimatedSpan>
 			<AnimatedSpan>
 				{" "}
-				└─ LLM document analysis interface with RAG
+				└─ LLM document analysis with RAG + Vosk voice queries
 			</AnimatedSpan>
-			<AnimatedSpan> └─ Voice query pipeline using Vosk</AnimatedSpan>
 
 			<TypingAnimation>Query completed.</TypingAnimation>
 		</Terminal>

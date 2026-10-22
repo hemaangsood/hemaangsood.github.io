@@ -181,14 +181,15 @@ const AboutSection = () => {
 							<AboutSectionCard
 								className=""
 								title="Experience"
-								description="Industry"
+								description="Research & Industry"
 								icon={<GiSpectacleLenses size={20} />}
 								content={
 									<ul className="list-disc pl-5 space-y-1">
-										<li>Software Engineer at Synechron</li>
+										<li>ECE 699 Research at University of Waterloo</li>
+										<li>Jr Associate at Synechron</li>
 										<li>
-											Software Intern at Bharat
-											Electronics Limited
+											Intern at Bharat Electronics
+											Limited
 										</li>
 									</ul>
 								}

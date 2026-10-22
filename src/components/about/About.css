@@ -58,6 +58,11 @@
 	padding: 0.5rem 0.3rem 0.1rem;
 }
 
+/* Tighten the terminal line rhythm so the longer skill list stays visible. */
+.about-terminal-panel pre code {
+	row-gap: 0.1rem;
+}
+
 .about-tab-row {
 	display: flex;
 	flex-wrap: wrap;
